@@ -19,11 +19,17 @@ export default function GetStarted () {
       </div>
       <div className='w-full md:w-1/2 flex items-center'>
         <img
+          src='../robot2.png'
+          loading='lazy'
+          alt='Robot'
+          className='mx-auto md:ml-[80px] md:h-auto h-[300px]'
+        />
+        {/* <img
           src='../sitting_astronaut.png'
           loading='lazy'
           alt='Sitting Astronaut'
           className='mx-auto md:ml-[80px] md:h-auto h-[300px]'
-        />
+        /> */}
       </div>
     </section>
   )

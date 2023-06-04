@@ -14,66 +14,67 @@ import ChefBetters from '../../../../assets/brands/chefbetters_logo.png'
 import Aimly from '../../../../assets/brands/aimly_logo.png'
 import DJSmoothHoly from '../../../../assets/brands/djsmoothholy_logo.png'
 import SocialRing from '../../../../assets/brands/socialring_logo.png'
+import Meta from '../../../../assets/brands/meta_logo.png'
 import Marquee from 'react-fast-marquee'
 import Image from 'next/image'
 
 export default function Slider () {
   const brandsLogos = [
-    {
-      id: 1,
-      brand: 'Stability',
-      logo: Stability
-    },
-    {
-      id: 2,
-      brand: 'Hugging Face',
-      logo: HuggingFace
-    },
-    {
-      id: 3,
-      brand: 'Human Loop',
-      logo: HumanLoop
-    },
-    {
-      id: 4,
-      brand: 'Preamble',
-      logo: Preamble
-    },
-    {
-      id: 5,
-      brand: 'VoiceFlow',
-      logo: VoiceFlow
-    },
-    {
-      id: 6,
-      brand: 'Arthur',
-      logo: Arthur
-    },
-    {
-      id: 7,
-      brand: 'Snorkel',
-      logo: Snorkel
-    },
-    {
-      id: 8,
-      brand: 'Towards',
-      logo: Towards
-    },
-    {
-      id: 9,
-      brand: 'Trustible',
-      logo: Trustible
-    },
-    {
-      id: 10,
-      brand: 'FiscalNote',
-      logo: FiscalNote
-    },
-    {
-      id: 11,
-      brand: 'Scale',
-      logo: Scale
-    },
+    // {
+    //   id: 1,
+    //   brand: 'Stability',
+    //   logo: Stability
+    // },
+    // {
+    //   id: 2,
+    //   brand: 'Hugging Face',
+    //   logo: HuggingFace
+    // },
+    // {
+    //   id: 3,
+    //   brand: 'Human Loop',
+    //   logo: HumanLoop
+    // },
+    // {
+    //   id: 4,
+    //   brand: 'Preamble',
+    //   logo: Preamble
+    // },
+    // {
+    //   id: 5,
+    //   brand: 'VoiceFlow',
+    //   logo: VoiceFlow
+    // },
+    // {
+    //   id: 6,
+    //   brand: 'Arthur',
+    //   logo: Arthur
+    // },
+    // {
+    //   id: 7,
+    //   brand: 'Snorkel',
+    //   logo: Snorkel
+    // },
+    // {
+    //   id: 8,
+    //   brand: 'Towards',
+    //   logo: Towards
+    // },
+    // {
+    //   id: 9,
+    //   brand: 'Trustible',
+    //   logo: Trustible
+    // },
+    // {
+    //   id: 10,
+    //   brand: 'FiscalNote',
+    //   logo: FiscalNote
+    // },
+    // {
+    //   id: 11,
+    //   brand: 'Scale',
+    //   logo: Scale
+    // },
     {
       id: 12,
       brand: 'Open AI',
@@ -98,6 +99,11 @@ export default function Slider () {
       id: 16,
       brand: 'Social Ring',
       logo: SocialRing
+    },
+    {
+      id: 17,
+      brand: 'Meta',
+      logo: Meta
     },
   ]
   return (
