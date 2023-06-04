@@ -11,3 +11,55 @@
         @apply rounded-lg p-3 mb-2 text-sm flex items-center space-x-3 hover:bg-gray-700 cursor-pointer text-white
     }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.bg-body {
+    background-color: rgb(248, 248, 250);
+}
+
+.font-vietnam {
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.custom-gray {
+    color: #4f536a;
+    text-decoration: none;
+}
+
+.banner {
+    background: linear-gradient(90.29deg, #004a41 23.74%, #009885 104.45%);
+}
+
+.btn {
+    background: linear-gradient(89.05deg, #004a41 -55.05%, #007b6c 122.01%), #004a41;
+    box-shadow: 0 4px 40px #00373129;
+}
+
+.category-shadow {
+    box-shadow: 0 4px 100px #0000001f;
+}
+
+.competition {
+    background: linear-gradient(104.84deg, #024c43 6.08%, #009e8b 111.95%, #019281 0), #fff;
+    box-shadow: 0 10px 120px #0000000f;
+}
+
+.newsletter {
+    background: linear-gradient(104.84deg, #024c43 6.08%, #009e8b 111.95%, #019281 0), #fff;
+    box-shadow: 0 10px 120px #0000000f;
+}
