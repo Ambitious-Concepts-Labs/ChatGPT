@@ -12,7 +12,7 @@ export default function Hero () {
         Start using ChatGPT and other AI tools to accomplish your goals using our free service designed for all skill levels!
       </p>
       <div className='flex items-center justify-center pt-6'>
-        <Button text='Start Learning'/>
+        <Button text='Start Prompting'/>
       </div>
       <Slider />
     </section>
