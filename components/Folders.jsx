@@ -1,11 +1,37 @@
 import React from 'react'
 import Image from 'next/image';
 import {GrDocument} from 'react-icons/gr';
+import { doc, collection, setDoc, 
+    serverTimestamp, query, orderBy } from "firebase/firestore";
+import { useSession } from "next-auth/react";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { db } from "../firebase";
+import Folder from './Folder';
+import { v4 as uuidv4 } from 'uuid';
 
-const FolderContainer = () => {
+const Folders = () => {
     const [showModal, setShowModal] = React.useState(false);
     const [warningAlert, setWarningAlert] = React.useState(false);
     const [val, setVal] = React.useState('');
+    const { data: session } = useSession();
+    
+    let [folders] = useCollection(
+    session &&
+      query(
+        collection(
+          db,
+          "users",
+          session?.user?.email,
+          "folders"
+        ),
+        orderBy("createdAt", "asc")
+      )
+    );
+
+    console.log(folders, 'folders1')
+    console.log(folders?.docs, 'docs')
+    // console.log(folders.empty)
+    // console.log(folders.size)
 
     const handleClose = () => {
         setShowModal(false);
@@ -14,12 +40,20 @@ const FolderContainer = () => {
 
     const inputRef = React.useRef();
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
 
         setVal(inputRef.current.value);
         if (val.length > 0) setShowModal(false);
         if (val.length == 0) setWarningAlert(true)
+
+        await setDoc(doc(db, "users", session?.user?.email, "folders", val),
+            {
+                name: val,
+                createdAt: serverTimestamp(),
+                id: uuidv4()
+            }
+        );
     }
 
   return (
@@ -31,25 +65,34 @@ const FolderContainer = () => {
             <div className="flex justify-between items-center mt-2 bg-black	 rounded px-3 py-1">
               <GrDocument className='text-white'/>
               &nbsp;
-              <p className='text-white'>New Folders</p>
+              <p onClick={() => setShowModal(true)} className='text-white'>New Folders</p>
             </div>
         </section>
         <section>
-            <div className="flex flex-col items-center bg-white dark:bg-night-blue p-5">
+            <div className={`flex flex-col items-center {} dark:bg-night-blue p-5`}>
                 <div  className="flex flex-col items-center  ">
-                    <Image
-                        width={600}
-                        height={600}
-                        src="/folder.jpg"
-                        alt="folders"
-                        className='object-contain py-5 text-gray-400'
-                        />
-                    <div onClick={() => setShowModal(true)} className="flex items-center mt-2 bg-white	border-gray-400 border-solid border-2 rounded px-3 py-1">
-                        <GrDocument className='text-black'/>
-                        &nbsp;
-                        <p className='text-gray-400'>New Folders</p>
-                    </div>
+                    {folders?.empty && (
+                        <>
+                            <Image
+                                width={600}
+                                height={600}
+                                src="/folder.jpg"
+                                alt="folders"
+                                className='object-contain py-5 text-gray-400'
+                                />
+                            <div onClick={() => setShowModal(true)} className="flex items-center mt-2 bg-white	border-gray-400 border-solid border-2 rounded px-3 py-1">
+                                <GrDocument className='text-black'/>
+                                &nbsp;
+                                <p className='text-gray-400'>New Folders</p>
+                            </div>
+                        </>
+                    )}
                 </div>
+                <div className="overflow-y-auto overflow-x-hidden scrollbar-hide">
+                    {folders?.docs.map((folder) => (
+                        <Folder key={folder.id} session={session} folder={folder.data()} />
+                    ))}
+                 </div>
             </div>
         
         </section>
@@ -126,4 +169,4 @@ const FolderContainer = () => {
   )
 }
 
-export default FolderContainer;
+export default Folders;

@@ -1,6 +1,6 @@
 import Layout from "../components/user/layout";
 import { DataProvider } from "../utils/DataContext";
-import FolderContainer from "../components/user/FolderContainer";
+import FolderContainer from "../components/Folders";
 
 const Folders = () => {
     return ( 
