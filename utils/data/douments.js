@@ -1,4 +1,4 @@
-export const Documents = [
+export const documents = [
     {
       id: 1,
       modified: 'Jul 9, 2023',

@@ -2,6 +2,10 @@ import React from 'react';
 import { survey } from '../utils/data/survey'
 import Image from 'next/image'
 import surveyImage from '../assets/survey.png'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useSession } from 'next-auth/react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Survey() {
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
@@ -9,6 +13,7 @@ export default function Survey() {
     const [score, setScore] = React.useState(0);
     const [showScore, setShowScore] = React.useState(false);
     const [isStarted, setIsStarted] = React.useState(false);
+    const { data: session } = useSession();
 
     const handlePrevious = () => {
         const prevQues = currentQuestion - 1;
@@ -22,19 +27,26 @@ export default function Survey() {
 
     const handleAnswerOption = (answer) => {
         setSelectedOptions([
-            (selectedOptions[currentQuestion] = { answerByUser: answer }),
+            (selectedOptions[currentQuestion] = { question: survey[currentQuestion].question, response: answer }),
         ]);
         setSelectedOptions([...selectedOptions]);
         console.log(selectedOptions);
     };
 
-    const handleSubmitButton = () => {
+    const handleSubmitButton = async () => {
+        await addDoc(collection(db, "users", session?.user?.email, "feedback"),
+            {
+                feeback: selectedOptions,
+                createdAt: serverTimestamp(),
+                id: uuidv4()
+            }
+        );
         let newScore = 0;
         for (let i = 0; i < survey.length; i++) {
             survey[i].answerOptions.map(
             (answer) =>
                 answer.isCorrect &&
-                answer.answer === selectedOptions[i]?.answerByUser &&
+                answer.answer === selectedOptions[i]?.response &&
                 (newScore += 1)
             );
         }
@@ -83,7 +95,7 @@ export default function Survey() {
                             name={answer.answer}
                             value={answer.answer}
                             checked={
-                                answer.answer === selectedOptions[currentQuestion]?.answerByUser
+                                answer.answer === selectedOptions[currentQuestion]?.response
                             }
                             onChange={(e) => handleAnswerOption(answer.answer)}
                             className="w-6 h-6 bg-black"
@@ -96,9 +108,9 @@ export default function Survey() {
                         <div className="flex items-center w-screen justify-between border-t border-gray-200">
                             <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
                                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.1665 4H12.8332" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M1.1665 4L4.49984 7.33333" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M1.1665 4.00002L4.49984 0.666687" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.1665 4H12.8332" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M1.1665 4L4.49984 7.33333" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M1.1665 4.00002L4.49984 0.666687" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                     <button className="text-sm ml-3 font-medium leading-none"
                                         onClick={handlePrevious}
@@ -127,9 +139,9 @@ export default function Survey() {
                                 }
                                 >{currentQuestion + 1 === survey.length ? "Submit" : "Next"}</button>
                                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.1665 4H12.8332" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M9.5 7.33333L12.8333 4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M9.5 0.666687L12.8333 4.00002" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.1665 4H12.8332" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M9.5 7.33333L12.8333 4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M9.5 0.666687L12.8333 4.00002" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                     
                             </div>

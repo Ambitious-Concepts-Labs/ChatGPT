@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image';
-import { Documents } from '../../utils/Data'
+import { documents } from '../utils/data/douments'
 
-const DocumentContainer = () => {
+const Documents = () => {
 
   return (
     <section>
@@ -17,7 +17,7 @@ const DocumentContainer = () => {
           <div className="col-start-5 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Status</div>
           <div className="col-start-6 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Modified</div>
 
-            {Documents.map((item, index) => (
+            {documents.map((item, index) => (
               
               <React.Fragment key={`doc-${index}`}>
                 <div className={`col-span-2`}>{item.title}</div>
@@ -47,4 +47,4 @@ const DocumentContainer = () => {
   )
 }
 
-export default DocumentContainer
+export default Documents

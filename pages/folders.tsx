@@ -1,4 +1,4 @@
-import Layout from "../components/user/layout";
+import Layout from "../components/Layout";
 import { DataProvider } from "../utils/DataContext";
 import FolderContainer from "../components/Folders";
 
@@ -6,9 +6,7 @@ const Folders = () => {
     return ( 
         <DataProvider>
             <Layout> 
-                <div>
-                    <FolderContainer/>
-                </div>
+                <FolderContainer/>
             </Layout>
         </DataProvider>
     )

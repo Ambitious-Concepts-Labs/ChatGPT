@@ -1,4 +1,4 @@
-import Layout from "../components/user/layout";
+import Layout from "../components/Layout";
 import { DataProvider } from "../utils/DataContext";
 import Survey from "../components/Survey";
 
@@ -6,9 +6,7 @@ const Feedback = () => {
     return ( 
         <DataProvider>
             <Layout> 
-                <div>
-                    <Survey/>
-                </div>
+                <Survey/>
             </Layout>
         </DataProvider>
     )
