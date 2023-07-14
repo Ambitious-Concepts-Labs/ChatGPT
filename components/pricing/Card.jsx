@@ -1,7 +1,26 @@
+import React from 'react'
 import professional from '../../assets/professional.svg'
 import Image from 'next/image';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../../firebase';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { createCheckoutSession } from '../../stripe/createCheckoutSession';
 
 export default function Card ({ plan }) {
+  const [user, userLoading] = useAuthState(auth);
+
+  React.useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const uid = user.uid;
+            console.log({ uid });
+        } else {
+            console.log("no user");
+        }
+    });
+  }, [user]);
+  console.log(user, 'user')
+
   return (
     <li className={`rounded-2xl overflow-hidden py-6 lg:py-10 px-10 lg:px-5 w-full text-black shadow-md lg:shadow-xl ${plan.id < 3 ? 'bg-[#E3E4EC]' : 'bg-white sm:col-span-2 lg:col-auto'} relative`}>
       <h3 className={`text-2xl text-center font-bold ${plan.id === 3 && 'text-[#024c43]'}`}>{plan.title}</h3>
@@ -27,7 +46,10 @@ export default function Card ({ plan }) {
           </div>
         )
       }
-      <button className='relative z-10 text-center w-4/6 left-2/4 -translate-x-2/4 lg:left-0 lg:translate-x-0 lg:w-full py-5 rounded-md text-white text-sm bg-c-green drop-shadow-md hover:underline hover:underline-offset-2 hover:shadow-lg decoration-1 decoration-white/30  tracking-[0.2px]'>
+      <button 
+      className='relative z-10 text-center w-4/6 left-2/4 -translate-x-2/4 lg:left-0 lg:translate-x-0 lg:w-full py-5 rounded-md text-white text-sm bg-c-green drop-shadow-md hover:underline hover:underline-offset-2 hover:shadow-lg decoration-1 decoration-white/30  tracking-[0.2px]'
+       onClick={() => createCheckoutSession(user?.uid, plan.id)}
+      >
         Get Started
       </button>
     </li>

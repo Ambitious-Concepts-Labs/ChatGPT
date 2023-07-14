@@ -51,7 +51,8 @@ export default function Sidebar ({ isOpen, handleCloseSidebar }) {
     },
     {
       title: 'Billing',
-      icon: <IoCardOutline />
+      icon: <IoCardOutline />,
+      src: '/billing'
     },
     {
       title: 'Invoices',
