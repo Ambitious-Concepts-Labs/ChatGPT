@@ -31,9 +31,8 @@ const Folder = ({folder}) => {
     console.log(documents?.docs, 'huh')
     return (
         <>
-            <br />
-            <div className={`text-black bg-white h-autp rounded p-8 w-72`}>
-                <div className='flex'>
+            <div className={`text-black bg-white h-auto rounded p-8 pr-20`}>
+                <div className='flex items-center'>
                     <div className='text p-3 bg-gray-200 rounded'>
                         <GrDocument className='text-black'/>
                     </div>
@@ -42,7 +41,7 @@ const Folder = ({folder}) => {
                     </div>
                 </div>
                 <br />
-                <div className='flex justify-between'>
+                <div className='flex justify-between items-center w-80	'>
                   {documents?.empty && (
                     <>
                       <p className="pt-1  text-m">0 Document</p>
@@ -56,7 +55,7 @@ const Folder = ({folder}) => {
                         </>
                   ))}
                     <img
-                        className="h-10 w-10 rounded-full md:mx-auto"
+                        className="h-5 w-5 rounded-full md:mx-auto"
                         src={session?.user?.image}
                         alt=""
                     />

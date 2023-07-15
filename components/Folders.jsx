@@ -69,6 +69,7 @@ const Folders = () => {
             </div>
         </section>
         <section>
+           
             <div className={`flex flex-col items-center {} dark:bg-night-blue p-5`}>
                 <div  className="flex flex-col items-center  ">
                     {folders?.empty && (
@@ -88,11 +89,11 @@ const Folders = () => {
                         </>
                     )}
                 </div>
-                <div className="overflow-y-auto overflow-x-hidden scrollbar-hide">
+                <div className="grid grid-cols-5 gap-x-8 gap-y-4">
                     {folders?.docs.map((folder) => (
                         <Folder key={folder.id} session={session} folder={folder.data()} />
                     ))}
-                 </div>
+                </div>
             </div>
         
         </section>
