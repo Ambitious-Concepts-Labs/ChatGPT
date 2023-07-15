@@ -21,7 +21,7 @@ import { AiTwotoneSetting } from 'react-icons/ai'
 import { signOut } from 'next-auth/react'
 import UseDarkMode from '../utils/use-dark-mode'
 
-export default function Sidebar ({ isOpen, handleCloseSidebar }) {
+export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setAskQuestion }) {
   const home = [
     {
       title: 'Dashboard',
@@ -111,10 +111,10 @@ export default function Sidebar ({ isOpen, handleCloseSidebar }) {
         </div>
       </div>
       <nav className='pt-10 grow flex flex-col gap-6'>
-        <NavList title='Home' items={home} />
-        <NavList title='Documents' items={documents} />
-        <NavList title='Account' items={account} />
-        <NavList title='Support' items={support} />
+        <NavList title='Home'setAskQuestion={setAskQuestion} askQuestion={askQuestion} items={home} />
+        <NavList title='Documents' setAskQuestion={setAskQuestion} askQuestion={askQuestion} items={documents} />
+        <NavList title='Account' setAskQuestion={setAskQuestion} askQuestion={askQuestion} items={account} />
+        <NavList title='Support' setAskQuestion={setAskQuestion} askQuestion={askQuestion} items={support} />
       </nav>
       <div className='pb-4 pt-6 border-t border-[#f8f9fb]'>
         <button className='flex items-center gap-3'>
