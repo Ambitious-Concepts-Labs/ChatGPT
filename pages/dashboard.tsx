@@ -1,18 +1,44 @@
-import Layout from '../components/user/layout'
+import Layout from '../components/Layout';
 import { DataProvider } from '../utils/DataContext'
-import Card from "../components/user/card";
+import Card from "../components/Card";
 import { BsPersonFill, BsPeopleFill } from 'react-icons/bs'
 import {GiCargoShip} from 'react-icons/gi'
 import {GrDocument} from 'react-icons/gr'
-import DocumentContainer from "../components/user/DocumentContainer";
+import DocumentContainer from "../components/Documents";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from '../firebase';
+import { useSession } from "next-auth/react";
+import { useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
 
 
-export default function Home() {
+export default function Dashboard() {
+  const [user, userLoading] = useAuthState(auth);
+  const { data: session } = useSession();
+  const router = useRouter();
 
+  // useEffect(() => {
+  //   if (!session) {
+  //     router.replace("/");
+  //   }
+  // }), [session];
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const uid = user.uid;
+            console.log({ uid });
+        } else {
+            console.log("no user");
+        }
+    });
+  }, []);
+  console.log(user)
   return (
     <DataProvider>
       <Layout> 
-        <div>
+        <>
           <section className="flex justify-between flex-wrap mt-2">
             <p className="my-1 text-slate-600 text-sm ">
               Dashboard
@@ -62,8 +88,8 @@ export default function Home() {
             />
           </section>
 
-          <DocumentContainer/>
-        </div>
+          <DocumentContainer user={user} session={session}/>
+        </>
       </Layout>
     </DataProvider>
   )

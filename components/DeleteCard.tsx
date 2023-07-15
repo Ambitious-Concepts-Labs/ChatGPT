@@ -2,7 +2,7 @@ import { LuShieldAlert } from 'react-icons/lu'
 import Toggle from './Toggle'
 import { useState } from 'react'
 
-export default function DeleteCard () {
+export default function DeleteCard ({user, session}) {
   const [canDelete, setCanDelete] = useState(false)
 
   const handleCanDelete = ({user, session}) => {

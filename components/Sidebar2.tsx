@@ -39,7 +39,8 @@ export default function Sidebar ({ isOpen, handleCloseSidebar }) {
     },
     {
       title: 'Documents',
-      icon: <TbFileDescription />
+      icon: <TbFileDescription />,
+      src: '/documents'
     }
   ]
 

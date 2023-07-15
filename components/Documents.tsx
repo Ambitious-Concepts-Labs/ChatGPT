@@ -1,49 +1,63 @@
 import React from 'react'
 import Image from 'next/image';
-import { documents } from '../utils/data/douments'
+// import { documents } from '../utils/data/douments'
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { collection, orderBy, query } from 'firebase/firestore';
+import { db } from '../firebase';
+import Document from './Document'
 
-const Documents = () => {
+const Documents = ({user, session}) => {
+  let [documents] = useCollection(
+  session &&
+    query(
+      collection(
+        db,
+        "users",
+        session?.user?.email,
+        "documents"
+      ),
+      orderBy("createdAt", "asc")
+    )
+  );
+
+  console.log(documents?.docs.map((item, index) => (console.log(item, 'yo'))))
 
   return (
-    <section>
-        <div className="flex justify-between flex-wrap items-center mt-12">
-            <div>
-                <h2 className="font-bold text-slate-800 "> Recent Documents </h2>
-            </div>
-        </div>
-        <div className="grid grid-cols-6 grid-flow-row gap-4 my-4 bg-white dark:bg-night-blue p-5">
-          <div className="col-span-2 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Title</div>
-          <div className="col-start-4 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Author</div>
-          <div className="col-start-5 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Status</div>
-          <div className="col-start-6 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Modified</div>
-
-            {documents.map((item, index) => (
-              
-              <React.Fragment key={`doc-${index}`}>
-                <div className={`col-span-2`}>{item.title}</div>
-                <div className={`col-start-4`}>
-                  <Image
-                    width={30}
-                    height={30}
-                    src={item.author}
-                    alt={`${item.author}'s doc`}
-                    className='object-contain'
+    <>
+      {documents?.empty && (
+          <>
+              <Image
+                  width={600}
+                  height={600}
+                  src="/folder.jpg"
+                  alt="folders"
+                  className='object-contain py-5 text-gray-400'
                   />
-                </div>
-                <div className={`col-start-5`}>
-                  <div className='flex items-start mb-1'>
-                    <span className={"w-4 h-4 mt-1 mr-2 rounded-full " + (item.status == 'Draft' ? 'animate-pulse' : '')}
-                      style={item.status == 'Published' ? {backgroundColor:'green'} : {backgroundColor:'gray'}}></span>
-                    &nbsp;
-                    {item.status}
-                  </div>
-                </div>
-                <div className={`col-start-6`}>{item.modified}</div>
-              </React.Fragment>
-            ))}
-      </div>
-    
-    </section>
+              {/* <div onClick={() => setShowModal(true)} className="flex items-center mt-2 bg-white	border-gray-400 border-solid border-2 rounded px-3 py-1">
+                  <GrDocument className='text-black'/>
+                  &nbsp;
+                  <p className='text-gray-400'>New Folders</p>
+              </div> */}
+          </>
+      )}
+      <section>
+          <div className="flex justify-between flex-wrap items-center mt-12">
+              <div>
+                  <h2 className="font-bold text-slate-800 "> Recent Documents </h2>
+              </div>
+          </div>
+          <div className="grid grid-cols-6 grid-flow-row gap-4 my-4 bg-white dark:bg-night-blue p-5">
+            <div className="col-span-2 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Title</div>
+            <div className="col-start-4 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Author</div>
+            <div className="col-start-5 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Status</div>
+            <div className="col-start-6 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Modified</div>
+              {documents?.docs.map((document) => (
+                <Document session={session} document={document.data()} />
+              ))}
+        </div>
+      
+      </section>
+    </>
   )
 }
 
