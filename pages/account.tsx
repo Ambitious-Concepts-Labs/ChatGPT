@@ -5,10 +5,35 @@ import ProfileCard from '../components/ProfileCard'
 import Sidebar from '../components/Sidebar2'
 import { TbFilePlus } from 'react-icons/tb'
 import { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../firebase'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
 
 export default function App () {
   const [isOpen, setIsOpen] = useState(false)
+  const [user, userLoading] = useAuthState(auth);
+  const { data: session } = useSession();
+  const router = useRouter();
 
+  // useEffect(() => {
+  //   if (!session) {
+  //     router.replace("/");
+  //   }
+  // }), [session];
+
+  React.useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const uid = user.uid;
+            console.log({ uid });
+        } else {
+            console.log("no user");
+        }
+    });
+  }, []);
   const handleOpenSidebar = () => {
     setIsOpen(true)
   }
@@ -36,9 +61,9 @@ export default function App () {
             </button>
           </div>
           <div className={`md:grid grid-cols-1 grid-rows-3 justify-self-end lg:grid-cols-2 lg:grid-rows-2 gap-5 ${isOpen ? 'hidden' : 'grid'}`}>
-            <ProfileCard />
-            <ChangePswdCard />
-            <DeleteCard />
+            <ProfileCard user={user} session={session}/>
+            <ChangePswdCard user={user} session={session}/>
+            <DeleteCard user={user} session={session}/>
           </div>
         </div>
       </div>

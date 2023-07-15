@@ -1,6 +1,6 @@
 import { BsKey } from 'react-icons/bs'
 
-export default function ChangePswdCard () {
+export default function ChangePswdCard ({user, session}) {
   return (
     <div className='bg-white py-4 px-5 rounded-sm'>
       <div>

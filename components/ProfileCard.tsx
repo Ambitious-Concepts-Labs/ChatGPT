@@ -2,7 +2,7 @@ import { AiFillPlusCircle } from 'react-icons/ai'
 import { BiUser } from 'react-icons/bi'
 import reactLogo from '../assets/react.svg'
 
-export default function ProfileCard () {
+export default function ProfileCard ({user, session}) {
   return (
     <div className='bg-white py-4 px-5 rounded-sm'>
       <div>
@@ -11,7 +11,7 @@ export default function ProfileCard () {
             <BiUser />
           </div>
           <div className='relative'>
-            <img src={reactLogo} alt='React Logo' className='h-8 w-8 rounded-full' />
+            <img src={session?.user?.image } alt='React Logo' className='h-8 w-8 rounded-full' />
             <label htmlFor='upload-image' className='absolute -bottom-2 -right-2 cursor-pointer hover:text-amber-300'>
               <AiFillPlusCircle />
             </label>
@@ -23,11 +23,11 @@ export default function ProfileCard () {
           <form className='flex flex-col gap-4 w-7/12'>
             <div className='flex flex-col gap-2 text-xs text-slate-400'>
               <label htmlFor='name' className='font-semibold'>Name</label>
-              <input type='text' id='name' className='border p-2 rounded-md' placeholder='Dominique Hosea' />
+              <input type='text' id='name' className='border p-2 rounded-md' placeholder={session?.user?.name} />
             </div>
             <div className='flex flex-col gap-2 text-xs text-slate-400'>
               <label htmlFor='email' className='font-semibold'>Email</label>
-              <input type='text' id='email' className='border p-2 rounded-md' placeholder='dhoseadesigns@gmail.com' />
+              <input type='text' id='email' className='border p-2 rounded-md' placeholder={session?.user?.email} />
             </div>
           </form>
         </div>

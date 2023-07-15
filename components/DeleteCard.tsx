@@ -5,7 +5,7 @@ import { useState } from 'react'
 export default function DeleteCard () {
   const [canDelete, setCanDelete] = useState(false)
 
-  const handleCanDelete = () => {
+  const handleCanDelete = ({user, session}) => {
     setCanDelete(prev => !prev)
   }
 
