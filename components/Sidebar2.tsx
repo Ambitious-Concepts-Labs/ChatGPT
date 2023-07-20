@@ -34,13 +34,27 @@ export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setA
     {
       title: 'Folders',
       icon: <BsFolder2 />,
-      src: '/folders'
+      src: '/dashboard/folders'
 
     },
     {
       title: 'Documents',
       icon: <TbFileDescription />,
-      src: '/documents'
+      src: '/dashboard/documents'
+    }
+  ]
+  const content = [
+    {
+      title: 'Trash',
+      icon: <BsFolder2 />,
+    },
+    {
+      title: 'Liked',
+      icon: <TbFileDescription />,
+    },
+    {
+      title: 'Disliked',
+      icon: <TbFileDescription />,
     }
   ]
 
@@ -48,32 +62,32 @@ export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setA
     {
       title: 'Usage',
       icon: <RiUploadCloud2Line />,
-      badge: '0%'
+      badge: '0%',
+      src: '/dashboard/usage'
     },
     {
       title: 'Billing',
       icon: <IoCardOutline />,
-      src: '/billing'
+      src: '/dashboard/billing'
     },
     {
       title: 'Invoices',
       icon: <LiaFileInvoiceSolid />,
-      src: '/invoices'
     },
     {
       title: 'Account',
       icon: <div className='border border-black rounded-md overflow-hidden h-4 w-4'><BiUser className='h-full w-auto relative -bottom-[0.1rem]' /></div>,
-      src: '/account'
+      src: '/dashboard/account'
     },
     {
       title: 'Rewards',
       icon: <BsTrophy />,
-      badge: 'New'
+      badge: 'New',
+      src: '/dashboard/rewards'
     },
     {
       title: 'Settings',
       icon: <AiTwotoneSetting />,
-      src: '/settings' 
     }
   ]
 
@@ -89,7 +103,7 @@ export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setA
     {
       title: 'Feedback',
       icon: <BsSuitHeart />,
-      src: '/feedback'
+      src: '/dashboard/feedback'
     }
   ]
   return (

@@ -1,6 +1,6 @@
-import Layout from "../components/Layout";
-import { DataProvider } from "../utils/DataContext";
-import Billing from "../components/Billing";
+import Billing from "../../components/Billing";
+import Layout from "../../components/Layout";
+import { DataProvider } from "../../utils/DataContext";
 
 const index = () => {
     return ( 

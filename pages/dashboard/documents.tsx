@@ -1,14 +1,14 @@
-import Layout from "../components/Layout";
-import { DataProvider } from "../utils/DataContext";
-import Documents from "../components/Documents";
+import Layout from "../../components/Layout";
+import { DataProvider } from "../../utils/DataContext";
+import Documents from "../../components/Documents";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useSession } from "next-auth/react";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { useRouter } from "next/router";
 import React from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import Filters from "../components/Filters"
-import Title from "../components/Title";
+import Filters from "../../components/Filters"
+import Title from "../../components/Title";
 
 const Feedback = () => {
     const [user, userLoading] = useAuthState(auth);
