@@ -8,6 +8,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 import Folder from './Folder';
 import { v4 as uuidv4 } from 'uuid';
+import Title from './Title'
 
 const Folders = () => {
     const [showModal, setShowModal] = React.useState(false);
@@ -58,16 +59,7 @@ const Folders = () => {
 
   return (
     <>
-        <section className="flex justify-between flex-wrap mt-2 py-5">
-            <p className="my-1 text-slate-600 text-sm ">
-              Folders
-            </p>
-            <div className="flex justify-between items-center mt-2 bg-black	 rounded px-3 py-1">
-              <GrDocument className='text-white'/>
-              &nbsp;
-              <p onClick={() => setShowModal(true)} className='text-white'>New Folders</p>
-            </div>
-        </section>
+        <Title button={"Folder"} title={"Folders"} session={session}/>
         <section>
            
             <div className={`flex flex-col items-center {} dark:bg-night-blue p-5`}>

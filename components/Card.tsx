@@ -2,11 +2,13 @@ import React from 'react'
 
 const Card = ({bgHover, textHover, heading, number, iconbg, icon}) => {
   return (
-        <div className={`relative w-72 mt-6 mx-auto md:mx-5 lg:mx-0 rounded bg-white px-6 py-5 overflow-hidden text-slate-800 transition-colors duration-500 ${bgHover} ${textHover} dark:bg-night-blue`}>
-          <p className="uppercase font-medium text-xs"> {heading} </p>
-          <p className="font-bold text-3xl my-2 uppercase"> {number} </p>
-          <div className={`absolute -bottom-20 -right-20 rounded-full w-36 h-36 ${iconbg}`}>
-            <span className='absolute top-6 left-7 flex items-center text-2xl text-white'> {icon} </span>
+        <div className={`flex w-60 rounded bg-white px-6 py-3 text-slate-800 transition-colors duration-500`}>
+          <div  className='h-3/5 bg-slate-100 text-slate-500 p-2 flex items-center justify-center rounded-md '>
+            <span className='flex items-center text-xl'> {icon} </span>
+          </div> 
+          <div className='pl-5 flex flex-col items-center flex-start'>
+            <p className="uppercase text-xs"> {heading} </p>
+            <p className="font-bold text-l my-2 uppercase"> {number} </p>
           </div>
         </div>  )
 }

@@ -70,10 +70,10 @@ export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setA
       icon: <IoCardOutline />,
       src: '/dashboard/billing'
     },
-    {
-      title: 'Invoices',
-      icon: <LiaFileInvoiceSolid />,
-    },
+    // {
+    //   title: 'Invoices',
+    //   icon: <LiaFileInvoiceSolid />,
+    // },
     {
       title: 'Account',
       icon: <div className='border border-black rounded-md overflow-hidden h-4 w-4'><BiUser className='h-full w-auto relative -bottom-[0.1rem]' /></div>,
@@ -85,10 +85,10 @@ export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setA
       badge: 'New',
       src: '/dashboard/rewards'
     },
-    {
-      title: 'Settings',
-      icon: <AiTwotoneSetting />,
-    }
+    // {
+    //   title: 'Settings',
+    //   icon: <AiTwotoneSetting />,
+    // }
   ]
 
   const support = [
@@ -96,10 +96,10 @@ export default function Sidebar ({ askQuestion, isOpen, handleCloseSidebar, setA
       title: 'Support',
       icon: <FaRegLifeRing />
     },
-    {
-      title: 'Documentation',
-      icon: <LuBook />
-    },
+    // {
+    //   title: 'Documentation',
+    //   icon: <LuBook />
+    // },
     {
       title: 'Feedback',
       icon: <BsSuitHeart />,

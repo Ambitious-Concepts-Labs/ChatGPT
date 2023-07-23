@@ -9,6 +9,8 @@ import { GrDocument } from 'react-icons/gr'
 import { auth } from '../firebase'
 import Card from './Card'
 import DocumentContainer from "./Documents";
+import { IoDocumentTextOutline } from 'react-icons/io5'
+import Title from './Title'
 
 const Dashboard = () => {
     const [user, userLoading] = useAuthState(auth);
@@ -34,17 +36,7 @@ const Dashboard = () => {
     console.log(user)
     return (
             <>
-                <section className="flex justify-between flex-wrap mt-2">
-                    <p className="my-1 text-slate-600 text-sm ">
-                    Dashboard
-                    </p>
-                    <div className="flex justify-between items-center mt-2 bg-black	 rounded px-3 py-1">
-                    <GrDocument className='text-white'/>
-                    &nbsp;
-                    <p className='text-white'>New Document</p>
-                    </div>
-                </section>
-
+                <Title button={"Document"} title={"Dashboard"} session={session}/>
                 <section className="flex justify-between flex-wrap mt-2 text-black">
                     <Card 
                     bgHover='hover:bg-blue-600 dark:hover:bg-blue-800'
@@ -52,7 +44,7 @@ const Dashboard = () => {
                     heading='Doucments'
                     number='1'
                     iconbg='bg-blue-600 dark:bg-blue-800'
-                    icon={<BsPersonFill/>} 
+                    icon={<IoDocumentTextOutline/>} 
                     />
 
                     <Card 
