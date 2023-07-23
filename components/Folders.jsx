@@ -81,7 +81,7 @@ const Folders = () => {
                         </>
                     )}
                 </div>
-                <div className="grid grid-cols-5 gap-x-8 gap-y-4">
+                <div className="flex flex-row flex-wrap w-full">
                     {folders?.docs.map((folder) => (
                         <Folder key={folder.id} session={session} folder={folder.data()} />
                     ))}

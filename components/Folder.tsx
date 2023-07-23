@@ -31,17 +31,19 @@ const Folder = ({folder}) => {
     console.log(documents?.docs, 'huh')
     return (
         <>
-            <div className={`text-black bg-white h-auto rounded p-8 pr-20`}>
+            <div className={`flex flex-col flex-start w-3/12 mr-5 text-black bg-white rounded p-8`}>
                 <div className='flex items-center'>
                     <div className='text p-3 bg-gray-200 rounded'>
                         <GrDocument className='text-black'/>
                     </div>
-                    <div className="flex space-x-5 px-5 max-w-2xl mx-auto">
-                        <p className="pt-1 text-l">{folder.name}</p>
+                    <div className="flex pr-3">
+                      <b>
+                        <p className="pl-3 pt-1 text-l">{folder.name}</p>
+                      </b>
                     </div>
                 </div>
                 <br />
-                <div className='flex justify-between items-center w-80	'>
+                <div className='flex justify-between items-center	'>
                   {documents?.empty && (
                     <>
                       <p className="pt-1  text-m">0 Document</p>
@@ -50,7 +52,7 @@ const Folder = ({folder}) => {
                   {documents?.docs.map((document) => (
                         <>
                           <p key={document.id} className="pt-1 text-m">
-                            {document} Document
+                              {document} Document
                           </p>
                         </>
                   ))}
