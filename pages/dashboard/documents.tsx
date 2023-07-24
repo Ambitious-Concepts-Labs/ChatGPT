@@ -30,7 +30,7 @@ const Feedback = () => {
         <DataProvider>
             <Layout> 
                 <div>
-                    <Title title={"Documents"} session={session}/>
+                    <Title button={"Document"} title={"Documents"} session={session}/>
                     <Filters />
                     <Documents user={user} session={session}/>
                 </div>

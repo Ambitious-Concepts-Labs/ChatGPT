@@ -4,16 +4,14 @@ import Image from 'next/image'
 import surveyImage from '../assets/survey.png'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
-import { useSession } from 'next-auth/react';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Survey() {
+export default function Survey({session}) {
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
     const [score, setScore] = React.useState(0);
     const [showScore, setShowScore] = React.useState(false);
     const [isStarted, setIsStarted] = React.useState(false);
-    const { data: session } = useSession();
 
     const handlePrevious = () => {
         const prevQues = currentQuestion - 1;
@@ -24,6 +22,10 @@ export default function Survey() {
         const nextQues = currentQuestion + 1;
         nextQues < survey.length && setCurrentQuestion(nextQues);
     };
+
+    const handlePaginationClick = (selection) => {
+        setCurrentQuestion(selection)
+    }
 
     const handleAnswerOption = (answer) => {
         setSelectedOptions([
@@ -74,7 +76,7 @@ export default function Survey() {
                 </>
             ) : (
                 <>
-                    <div className="flex flex-col items-start w-full">
+                    <div className="flex flex-col items-center w-full">
                         <h4 className="mt-10 text-xl text-black/60">
                         Question {currentQuestion + 1} of {survey.length}
                         </h4>
@@ -82,7 +84,7 @@ export default function Survey() {
                         {survey[currentQuestion].question}
                         </div>
                     </div>
-                    <hr className='w-screen p-5'/>
+                    <hr className='w-full p-5'/>
                     <div className="flex flex-col w-full">
                         {survey[currentQuestion].answerOptions.map((answer, index) => (
                         <div
@@ -105,7 +107,7 @@ export default function Survey() {
                         ))}
                     </div>
                     <div className="flex items-center justify-center w-full mt-4  py-10 lg:px-0 sm:px-6 px-4">
-                        <div className="flex items-center w-screen justify-between border-t border-gray-200">
+                        <div className="flex items-center w-full justify-between border-t border-gray-200">
                             <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
                                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.1665 4H12.8332" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
@@ -126,7 +128,9 @@ export default function Survey() {
                                     <p className={`${currentQuestion == index
                                         ? "text-sm font-medium leading-none cursor-pointer text-indigo-700 border-t border-indigo-400 pt-3 mr-4 px-2" :
                                     "text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2"}
-                                    `}>{index + 1}</p>
+                                    `}
+                                    onClick={() => handlePaginationClick(index)}
+                                    >{index + 1}</p>
                                 ))}
                             </div>
                             <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
