@@ -11,9 +11,7 @@ export default function DailyCard () {
         icon={<FaRegChartBar />}
       />
       <div>
-        <div className='w-full h-40'>
           <LineChart />
-        </div>
       </div>
     </Card>
   )

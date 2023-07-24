@@ -1,15 +1,26 @@
 import Table from '../components/pricing/Table'
 import appointment from '../assets/appointment.svg'
-import Card from '../components/pricing/Card'
+import PriceCard from '../components/PriceCard'
 import Footer from '../components/pricing/Footer'
 import Header from '../components/pricing/Header'
 import plans from '../utils/data/plans'
 import faqs from '../utils/data/faqs'
 import Image from 'next/image';
+import '../styles/loader.css'
+import React from 'react'
 
 export default function Pricing () {
+  const [loading, setLoading] = React.useState(false);
+
   return (
     <>
+      { loading &&
+        <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+          <h2 className="text-center text-white text-xl font-semibold">Loading...</h2>
+          <p className="w-1/3 text-center text-white">This may take a few seconds, please don't close this page.</p>
+        </div>
+      }
       <div className='relative '>
         <div className='bg-c-green text-white min-h-full custom-height relative'>
           <Header />
@@ -32,7 +43,7 @@ export default function Pricing () {
           <ul className='grid grid-rows-3 sm:grid-rows-2 lg:grid-rows-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-x-8 lg:gap-7 px-5 lg:px-8 absolute -top-[20%] sm:-top-1/4 lg:-top-2/4'>
             {
               plans.map(plan => (
-                <Card key={plan.id} plan={plan} />
+                <PriceCard loading={loading} setLoading={setLoading} key={plan.id} plan={plan} />
               ))
             }
           </ul>
