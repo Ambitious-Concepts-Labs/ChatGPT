@@ -1,6 +1,5 @@
 import React from "react"
-import Chatbot from "./ChatBot"
-import Chatbot2 from "./Chatbot2"
+import Chatbot from "./Chatbot"
 import Sidebar from "./Sidebar2"
 
 const Layout = ({children}) => {
@@ -22,8 +21,7 @@ const Layout = ({children}) => {
             {children}
             {
               askQuestion && 
-              // <Chatbot/>
-              <Chatbot2 />
+              <Chatbot />
             }
         </div>
       </div>

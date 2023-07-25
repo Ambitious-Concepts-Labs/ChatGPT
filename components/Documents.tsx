@@ -46,7 +46,7 @@ const Documents = ({user, session}) => {
                   <h2 className="font-bold text-slate-800 "> Recent Documents </h2>
               </div>
           </div>
-          <div className="grid grid-cols-6 grid-flow-row gap-4 my-4 bg-white dark:bg-night-blue p-5">
+          <div className="grid grid-cols-6 grid-flow-row gap-4 my-4 bg-white dark:bg-night-blue p-5 h-72">
             <div className="col-span-2 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Title</div>
             <div className="col-start-4 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Author</div>
             <div className="col-start-5 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">Status</div>
