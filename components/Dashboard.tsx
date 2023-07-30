@@ -97,7 +97,7 @@ const Dashboard = () => {
         />
       </section>
 
-      <DocumentContainer documents={documents} user={user} session={session} />
+      <DocumentContainer documents={documents} session={session} />
     </>
   );
 };
