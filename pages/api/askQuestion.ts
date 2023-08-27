@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import query from "../../utils/queryApi";
+import { messageQuery as query } from "../../utils/openAI";
 import admin from "firebase-admin";
 import { adminDb } from "../../firebaseAdmin";
 
@@ -9,7 +9,7 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data>,
 ) {
   const { prompt, chatId, model, session } = req.body;
 

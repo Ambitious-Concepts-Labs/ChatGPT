@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import query from "../../utils/queryApi";
 import admin from "firebase-admin";
 import { adminDb } from "../../firebaseAdmin";
-import queryImage from "../../utils/queryImageApi";
+import { queryImage } from "../../utils/openAI";
 
 type Data = {
   answer: string;
@@ -10,7 +9,7 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data>,
 ) {
   const { prompt, imageId, size, session } = req.body;
 

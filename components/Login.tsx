@@ -12,7 +12,12 @@ const Login = () => {
         height={300}
         alt="chatgpt logo"
       />
-      <button onClick={() => signIn("google")} className="text-white font-bold text-3xl animate-pulse">Sign In to use ChatGPT</button>
+      <button
+        onClick={() => signIn("google")}
+        className="text-white font-bold text-3xl animate-pulse"
+      >
+        Sign In to use ChatGPT
+      </button>
     </div>
   );
 };

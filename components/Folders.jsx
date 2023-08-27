@@ -8,9 +8,10 @@ import { db } from "../firebase";
 import Folder from "./Folder";
 import Title from "./Title";
 import NewModal from "./NewModal";
+import { UserAuth } from "../app/context/AuthContext";
 
 const Folders = () => {
-  const [showModal, setShowModal] = React.useState(false);
+  const { showModal, setShowModal } = UserAuth();
   const [warningAlert, setWarningAlert] = React.useState(false);
   const { data: session } = useSession();
 

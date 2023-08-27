@@ -1,18 +1,9 @@
-import {
-  addDoc,
-  collection,
-  CollectionReference,
-  doc,
-  DocumentData,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbFilePlus } from "react-icons/tb";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { setDocument } from "../utils/firebaseHelpers";
 
 export default function index({

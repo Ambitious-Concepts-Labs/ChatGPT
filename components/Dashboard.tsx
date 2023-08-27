@@ -1,30 +1,35 @@
+"use client";
 import { onAuthStateChanged } from "firebase/auth";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { BsPeopleFill, BsPersonFill } from "react-icons/bs";
+import { BsPeopleFill } from "react-icons/bs";
 import { GiCargoShip } from "react-icons/gi";
-import { GrDocument } from "react-icons/gr";
 import { auth, db } from "../firebase";
 import Card from "./Card";
 import DocumentContainer from "./Documents";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import Title from "./Title";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { UserAuth } from "../app/context/AuthContext";
 
 const Dashboard = () => {
-  const [user, userLoading] = useAuthState(auth);
-  const { data: session } = useSession();
+  const [user] = useAuthState(auth);
+  const { showModal, setShowModal } = UserAuth();
   const router = useRouter();
+  const [items, setItems] = useState([]);
+  const { data: session } = useSession();
   const [draft, setDraft] = useState(0);
 
-  // useEffect(() => {
-  //   if (!session) {
-  //     router.replace("/");
-  //   }
-  // }), [session];
+  useEffect(() => {
+    if (!session) {
+      router.replace("/");
+    }
+  }),
+    [session];
+
   let [documents] = useCollection(
     session &&
       query(
@@ -32,6 +37,26 @@ const Dashboard = () => {
         orderBy("createdAt", "asc"),
       ),
   );
+
+  // useEffect(() => {
+  //   try {
+  //     const q = query(
+  //       collection(db, "users", session?.user?.email, "documents"),
+  //       orderBy("createdAt", "asc")
+  //     );
+  //     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //       let itemsArr = [];
+
+  //       querySnapshot.forEach((doc) => {
+  //         itemsArr.push({ ...doc.data(), id: doc.id });
+  //       });
+  //       setItems(itemsArr);
+  //       return () => unsubscribe();
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -56,9 +81,16 @@ const Dashboard = () => {
     setDraft(count);
   }
 
+  console.log(items, "popopop");
   return (
     <>
-      <Title button={"Document"} title={"Dashboard"} session={session} />
+      <Title
+        setShowModal={setShowModal}
+        showModal={showModal}
+        button={"Document"}
+        title={"Dashboard"}
+        session={session}
+      />
       <section className="flex justify-between flex-wrap mt-2 text-black">
         <Card
           bgHover="hover:bg-blue-600 dark:hover:bg-blue-800"
@@ -97,7 +129,11 @@ const Dashboard = () => {
         />
       </section>
 
-      <DocumentContainer documents={documents} session={session} />
+      <DocumentContainer
+        setShowModal={setShowModal}
+        documents={documents}
+        session={session}
+      />
     </>
   );
 };

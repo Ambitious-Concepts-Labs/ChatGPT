@@ -6,11 +6,11 @@ import { useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import { db } from "../firebase";
 import toast from "react-hot-toast";
-import FormField from "./FormField"
-import Loader from './Loader';
-import { getRandomPrompt } from "../utils/generatePrompts";
-import { preview } from '../assets';
-import Image from 'next/image';
+import FormField from "./FormField";
+import Loader from "../app/loading";
+import { getRandomPrompt } from "../utils/helperFunctions";
+import { preview } from "../assets";
+import Image from "next/image";
 import { CreateImageRequestSizeEnum } from "openai";
 
 type Props = {
@@ -20,21 +20,21 @@ const ImageInput = ({ imageId }: Props) => {
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
   const [form, setForm] = useState({
-    name: '',
-    prompt: '',
-    photo: '',
+    name: "",
+    prompt: "",
+    photo: "",
   });
   const [generatingImg, setGeneratingImg] = useState(false);
 
-  const size: CreateImageRequestSizeEnum = "1024x1024"
+  const size: CreateImageRequestSizeEnum = "1024x1024";
 
-    const handleChange = (e: any) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e: any) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-     const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    alert('Please generate an image with proper details');
+    alert("Please generate an image with proper details");
   };
-
 
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
@@ -59,13 +59,13 @@ const ImageInput = ({ imageId }: Props) => {
         // const data = await response.json();
         // setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
       } catch (err) {
-        console.log(err)
+        console.log(err);
         alert(err);
       } finally {
         setGeneratingImg(false);
       }
     } else {
-      alert('Please provide proper prompt');
+      alert("Please provide proper prompt");
     }
   };
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
@@ -94,9 +94,9 @@ const ImageInput = ({ imageId }: Props) => {
         session?.user?.email!,
         "images",
         imageId,
-        "messages"
+        "messages",
       ),
-      message
+      message,
     );
 
     // Notification toast loading
@@ -146,7 +146,7 @@ const ImageInput = ({ imageId }: Props) => {
           </button>
         </div>
       </form> */}
-      {/* <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+        {/* <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
           <FormField
             labelName="Your Name"

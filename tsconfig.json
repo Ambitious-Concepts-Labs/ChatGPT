@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    // "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -17,6 +14,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    // "incremental": true,
+    // "plugins": [
+    //   {
+    //     "name": "next"
+    //   }
+    // ],
+    // "incremental": true,
+    // "strictNullChecks": true
+    "strictNullChecks": false,
     "incremental": true,
     "plugins": [
       {
@@ -28,9 +34,11 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "components/Folders.jsx",
+    "components/Cloner.jsx",
+    "components/NewDocModal.jsx",
+    "components/NewDocPromptBar.jsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
