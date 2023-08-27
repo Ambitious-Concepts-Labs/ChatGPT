@@ -4,7 +4,9 @@ module.exports = {
   images: {
     domains: [
       "links.papareact.com",
-      "www.google.com"
+      "www.google.com",
+      "www.shareicon.net",
+      "lh3.googleusercontent.com",
     ],
   },
   experimental: {
