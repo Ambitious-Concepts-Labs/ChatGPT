@@ -1,0 +1,284 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400&display=swap");
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.heading {
+  font-family: Poppins;
+}
+
+.grid-main {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.grid-child {
+  border: 2px solid whitesmoke;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.grid-child:hover {
+  background-color: whitesmoke;
+  color: #212121;
+}
+
+.grid-child h3 {
+  font-family: Poppins;
+  font-weight: 700;
+}
+
+.grid-child p {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.text-area {
+  font-size: 20px;
+  padding: 10px;
+  font-family: Poppins;
+}
+
+.action-btn {
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.result-text {
+  font-family: Poppins;
+  font-size: 25px;
+  line-height: 2.5rem;
+}
+
+/* Image Generator */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-input {
+  height: 35px;
+  margin: 20px;
+  border: 2px solid black;
+  padding: 10px;
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
+}
+.result-image {
+  margin-top: 20px;
+  width: 350px;
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+
+/* Queries */
+.app-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.react-select {
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  width: 300px;
+}
+
+.query-input {
+  width: 330px;
+  /* height: 20px; */
+  padding: 10px;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+/* CSS */
+.generate-query {
+  margin-top: 20px;
+  align-items: center;
+  background-color: #0a66c2;
+  border: 0;
+  border-radius: 100px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 20px;
+  max-width: 480px;
+  min-height: 40px;
+  min-width: 0px;
+  overflow: hidden;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  touch-action: manipulation;
+  transition:
+    background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+}
+
+.generate-query:hover,
+.generate-query:focus {
+  background-color: #16437e;
+  color: #ffffff;
+}
+
+.generate-query:active {
+  background: #09223b;
+  color: rgb(255, 255, 255, 0.7);
+}
+
+.generate-query:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.389);
+  color: rgba(224, 224, 224, 0.3);
+}
+
+/* CSS */
+.copy-btn {
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
+  box-sizing: border-box;
+  color: #0f1111;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  line-height: 29px;
+  padding: 0 10px 0 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  height: 30px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: auto;
+}
+
+.copy-btn:hover {
+  background-color: #f7fafa;
+}
+
+.copy-btn:focus {
+  border-color: #008296;
+  box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
+  outline: 0;
+}
+
+.clipboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result-text {
+  color: whitesmoke;
+  font-family: "Poppins", sans-serif;
+  min-width: 500px;
+  border: 1px solid #ffffff;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+@media only screen and (min-width: 375px) {
+  .react-select {
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+  }
+
+  .query-input {
+    min-width: 300px;
+    /* height: 20px; */
+    padding: 10px;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+
+  .result-text {
+    color: whitesmoke;
+    font-family: "Poppins", sans-serif;
+    min-width: 200px;
+    border: 1px solid #ffffff;
+    margin-top: 20px;
+    padding: 20px;
+  }
+}

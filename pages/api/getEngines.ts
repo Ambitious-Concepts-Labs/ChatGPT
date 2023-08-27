@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import openai from "../../utils/chatgpt";
+import openai from "../../utils/openAI";
 
 type Options = {
   value: string;
@@ -12,7 +12,7 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data>,
 ) {
   const models = await openai.listModels().then((res) => res.data.data);
   const modelOptions = models.map((model) => ({
