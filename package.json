@@ -6,11 +6,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@grammarly/editor-sdk-react": "^2.5.1",
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.16",
     "@stripe/stripe-js": "^2.1.0",
     "date-fns": "^2.30.0",
     "firebase": "^9.17.1",
     "firebase-admin": "^11.5.0",
+    "languagedetect": "^2.0.0",
+    "lodash": "^4.17.21",
     "next": "latest",
     "next-auth": "^4.19.2",
     "openai": "^3.1.0",
@@ -21,13 +25,16 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.10.1",
     "react-select": "^5.7.0",
+    "sentiment": "^5.0.2",
     "swr": "^2.0.4",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.197",
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
+    "@types/sentiment": "^5.0.1",
     "@types/uuid": "^9.0.2",
     "autoprefixer": "^10.4.12",
     "postcss": "^8.4.18",
