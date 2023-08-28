@@ -11,7 +11,7 @@ import { RiUploadCloud2Line } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 import { TbFileDescription } from "react-icons/tb";
 import NavList from "./NavList";
-import Toggle from "./Toogle";
+import Toggle from "./Toggle";
 import logo from "../assets/logo.svg";
 import Image from "next/image";
 // import { LiaFileInvoiceSolid } from "react-icons/lia";
