@@ -14,7 +14,7 @@ import NewModal from "./NewModal";
 import { UserAuth } from "../app/authContext";
 
 const Folders = () => {
-  const { showModal, setShowModal, session, folders } = UserAuth();
+  const { showModal, setShowModal, session, folders, id } = UserAuth();
   const [warningAlert, setWarningAlert] = React.useState(false);
 
   const handleClose = () => {
@@ -27,6 +27,7 @@ const Folders = () => {
   return (
     <>
       <Title
+        id={id}
         showModal={showModal}
         setShowModal={setShowModal}
         button={"Folder"}
@@ -36,7 +37,7 @@ const Folders = () => {
       <section>
         <div className={`flex flex-col items-center {} dark:bg-night-blue p-5`}>
           <div className="flex flex-col items-center  ">
-            {!folders && (
+            {folders.length === 0 && (
               <>
                 <Image
                   width={600}
@@ -45,20 +46,13 @@ const Folders = () => {
                   alt="folders"
                   className="object-contain py-5 text-gray-400"
                 />
-                <div
-                  onClick={() => setShowModal(true)}
-                  className="flex items-center mt-2 bg-white	border-gray-400 border-solid border-2 rounded px-3 py-1"
-                >
-                  <GrDocument className="text-black" />
-                  &nbsp;
-                  <p className="text-gray-400">New Folders</p>
-                </div>
               </>
             )}
           </div>
           <div className="flex flex-row flex-wrap w-full">
             {folders.map((folder) => (
               <Folder
+                folders={folders}
                 key={folder.id}
                 session={session}
                 folder={folder}

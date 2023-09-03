@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import billing from "../assets/billing.png";
 import Link from "next/link";
 import Title from "./Title";
-import { UserAuth } from "../app/authContext";
 import styles from '../styles/MainInvoice.module.css';
 import { HiChevronRight } from "react-icons/hi2";
 import InvoiceHeader from "./InvoiceHeader";
 import InvoiceList from "./InvoiceList";
-import VehiclesTabContent from "./VehicleTabContent";
 import { BiPlusMedical } from "react-icons/bi";
 import VehiclesTableRow from "./VehiclesTabRow";
+import { UserAuth } from "../app/authContext";
+import { elements } from "chart.js";
 
 export default function Billing(props: any) {
   const { session } = props
   const [isStarted, setIsStarted] = React.useState(false);
-  const { showModal, setShowModal } = UserAuth();
+  const { showModal, setShowModal, id, payments, subscriptions } = UserAuth();
+  const [item, setItem] = useState<any>([])
+
+  useEffect(() => {
+    if (subscriptions) {
+      let subscriptionArray: any[] = []
+      subscriptions.forEach((element: { items: any; }) => {
+        console.log("Element", element.items )
+        subscriptionArray.push(element.items[0].plan)
+      });
+      setItem(subscriptionArray)
+    }
+  }, [subscriptions])
+
   const invoices = [
       {
         id: 1,
@@ -161,6 +174,7 @@ export default function Billing(props: any) {
     return color;
   }
 
+  console.log(payments, subscriptions, item)
   return (
     <>
       <div className="bg-[#f8f9fb] grow px-8 md:px-16 pt-7 pb-10">
@@ -173,7 +187,7 @@ export default function Billing(props: any) {
         />
       </div>
       {/* <div className="flex flex-col w-4/5 h-auto px-5 my-4 py-5 bg-white justify-center items-center"> */}
-        {!isStarted ? (
+        {!isStarted && subscriptions.length === 0 && item ? (
           <>
             <Image src={billing} alt="billing" width={500} />
             <p className="mb-10 text-black/60">
@@ -188,15 +202,38 @@ export default function Billing(props: any) {
           </>
         ): 
         <div>
+          <div>
+             <h1>uo</h1>
+            {subscriptions.map((subscription: any) => (
+                <div>
+                  yo
+                  <p>{subscription?.quantity}</p>
+                  <p>{subscription?.status}</p>
+                  <p>{subscription?.items[0].plan.created}</p>
+                </div>
+            ))}
+            <h5>item</h5>
+              {item.map((subscription: any) => (
+                <div>
+                  <p>{subscription.active}</p>
+                  <p>{subscription.amount}</p>
+                  <p>{subscription.amount_decimal}</p>
+                  <p>{subscription.id}</p>
+                  <p>{subscription.interval}</p>
+                  <p>{subscription.product}</p>
+                  <p>{subscription.created}</p>
+                </div>
+            ))}
+          </div>
             {/* {invoices.map(invoice => <Invoice key={invoice.id} invoice={invoice} />)} */}
-            <InvoiceHeader numInvoices={invoices.length} />
+            <InvoiceHeader numInvoices={subscriptions .length} />
             <InvoiceList invoices={invoices} /> 
             <div className='mt-1 p-3 pb-3 bg-slate-100 dark:bg-night-black rounded-b w-full'>
-              <VehiclesTabContent index='1'>
+              <div className="TabContent">
                 <div className='overflow-x-auto whitespace-nowrap'>
                   <table className='w-full table-auto'>
                     <tbody className='overflow-x-auto'>
-                      {logData.map((data) =>{ 
+                      {item.map((data: any) =>{ 
                         return <VehiclesTableRow 
                         key={data.id} 
                         data={data} /> }
@@ -204,8 +241,9 @@ export default function Billing(props: any) {
                     </tbody>
                   </table>
                 </div>
-              </VehiclesTabContent>    
+              </div>    
             </div>
+           
         </div>
         }
       {/* </div> */}

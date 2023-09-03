@@ -10,7 +10,7 @@ import DocumentContainer from "./Documents";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import Title from "./Title";
 import { UserAuth } from "../app/authContext";
-import Login from "./Login";
+import Loading from "./Loader";
 
 const Dashboard = () => {
   const { session, documents, showModal, setShowModal, user, id } = UserAuth();
@@ -94,7 +94,7 @@ const Dashboard = () => {
 
         </>
       :
-          <Login/>
+          <Loading/>
       }
     </>
   );

@@ -25,9 +25,10 @@ const Documents = (props: any) => {
     router.push(`dashboard/document/${uid}`);
   };
 
+  console.log(documents, 'lol: )')
   return (
     <>
-      {!documents ? (
+      {!documents || documents.length === 0 ? (
         <>
           <Image
             width={600}
@@ -37,7 +38,7 @@ const Documents = (props: any) => {
             className="object-contain py-5 text-gray-400"
           />
         </>
-      ) :
+      ) : (
         <section>
           <div className="flex justify-between flex-wrap items-center mt-12">
             <div>
@@ -66,7 +67,7 @@ const Documents = (props: any) => {
             ))}
           </div>
         </section>
-      }
+      )}
     </>
   );
 };

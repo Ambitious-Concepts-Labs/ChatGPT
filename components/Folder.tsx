@@ -3,24 +3,23 @@
 
 "use client";
 
-import { collection, DocumentData, orderBy, query } from "firebase/firestore";
+import {  DocumentData } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { useCollection } from "react-firebase-hooks/firestore";
 import { GrDocument } from "react-icons/gr";
-import { db } from "../firebase";
 import { UserAuth } from "../app/authContext";
+import Link from "next/link";
 
 type Props = {
   document: DocumentData;
 };
 
 const Folder = (props: any) => {
-  const { folder } = props
+  const { folder, folders } = props
   const { getFoldersDocuments } = UserAuth();
   const { data: session } = useSession();
-
-  const documents = getFoldersDocuments(folder.name)
-
+  console.log(folder)
+  console.log(folder.documents)
+  console.log(folder.documents.length === 0)
   return (
     <>
       <div
@@ -38,18 +37,29 @@ const Folder = (props: any) => {
         </div>
         <br />
         <div className="flex justify-between items-center	">
-          {documents?.empty && (
+          {folder.documents.length === 0 ? (
             <>
+            <Link 
+            key={document.id}
+            href={`/dashboard/folder/${folder.id}`}
+            >
               <p className="pt-1  text-m">0 Document</p>
+            </Link>
             </>
-          )}
-          {documents.map((document) => (
-            <>
-              <p key={document.id} className="pt-1 text-m">
-                {document} Document
-              </p>
-            </>
-          ))}
+          ) : (
+            folder.map((document) => (
+              <>
+               <Link 
+                key={document.id}
+                href={`/dashboard/folder/${folder.id}`}
+                >
+                  <p className="pt-1 text-m">
+                    {folder.documents.length} Documents
+                  </p>
+                </Link>
+              </>
+            )))
+          }
           <img
             className="h-5 w-5 rounded-full md:mx-auto"
             src={session?.user?.image}

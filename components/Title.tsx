@@ -15,7 +15,6 @@ export default function index(props: any) {
     const uid = uuidv4();
     if (button === "Document") {
       try {
-        console.log('id', id)
         await setDoc(
           doc(db, "users", id, "documents", uid),
           {
@@ -33,7 +32,23 @@ export default function index(props: any) {
         console.log(error)
       }
     } else if (button === "Folder") {
-      // setDocument(session, "users", "folders")
+      // try {
+      //   console.log('here')
+      //   console.log(id, uid)
+      //   await setDoc(
+      //       doc(db, "users", id, "folders", uid),
+      //       {
+      //         name: "",
+      //         documents: [],
+      //         createdAt: serverTimestamp(),
+      //         lastModified: new Date(),
+      //         id: uid,
+      //       },
+      //     );
+      //     router.push(`/dashboard/folder/${uid}`);
+      // } catch (error) {
+      //   console.log(error)
+      // }
     }
   };
 
