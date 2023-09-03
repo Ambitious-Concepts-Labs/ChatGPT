@@ -11,21 +11,11 @@ import { db } from "../firebase";
 import Folder from "./Folder";
 import Title from "./Title";
 import NewModal from "./NewModal";
-// import { UserAuth } from "../app/context/AuthContext";
+import { UserAuth } from "../app/authContext";
 
 const Folders = () => {
-//   const { showModal, setShowModal } = UserAuth();
+  const { showModal, setShowModal, session, folders } = UserAuth();
   const [warningAlert, setWarningAlert] = React.useState(false);
-  const [showModal, setShowModal] = React.useState(false);
-  const { data: session } = useSession();
-
-  let [folders] = useCollection(
-    session &&
-      query(
-        collection(db, "users", session?.user?.email, "folders"),
-        orderBy("createdAt", "asc"),
-      ),
-  );
 
   const handleClose = () => {
     setShowModal(false);
@@ -46,7 +36,7 @@ const Folders = () => {
       <section>
         <div className={`flex flex-col items-center {} dark:bg-night-blue p-5`}>
           <div className="flex flex-col items-center  ">
-            {folders?.empty && (
+            {!folders && (
               <>
                 <Image
                   width={600}
@@ -67,11 +57,11 @@ const Folders = () => {
             )}
           </div>
           <div className="flex flex-row flex-wrap w-full">
-            {folders?.docs.map((folder) => (
+            {folders.map((folder) => (
               <Folder
                 key={folder.id}
                 session={session}
-                folder={folder.data()}
+                folder={folder}
               />
             ))}
           </div>

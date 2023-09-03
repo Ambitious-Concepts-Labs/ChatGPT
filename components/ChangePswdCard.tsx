@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { BsKey } from 'react-icons/bs'
+import { updateFirebaseUser } from '../utils/firebaseHelpers'
 
 export default function ChangePswdCard (props: any) {
-  const {user, session} = props
+  const [password, setPassword ] = useState('')
+
   return (
     <div className='bg-white py-4 px-5 rounded-sm'>
       <div>
@@ -11,10 +14,14 @@ export default function ChangePswdCard (props: any) {
           </div>
         </div>
         <h3 className='font-bold pb-7 text-xs'>Change Password</h3>
-        <form className='flex flex-col gap-3 w-7/12 text-xs'>
+        <form onSubmit={() => updateFirebaseUser('password', {password})} className='flex flex-col gap-3 w-7/12 text-xs'>
           <input type='text' className='p-2 border rounded-md' placeholder='Current password' />
           <input type='text' className='p-2 border rounded-md' placeholder='New password' />
-          <input type='text' className='p-2 border rounded-md' placeholder='Re-type new password' />
+          <input 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} 
+          type='text' className='p-2 border rounded-md' 
+          placeholder='Re-type new password' />
         </form>
       </div>
     </div>

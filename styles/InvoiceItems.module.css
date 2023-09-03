@@ -1,0 +1,133 @@
+.container {
+    margin-top: 4.5rem;
+    background: var(--invoice-item-box-bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.topDiv {
+    padding: 3.2rem 3.2rem 4rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.topDiv>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3.2rem;
+}
+
+.topDiv span {
+    color: var(--main-tertiary-text-color);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+}
+
+.mobileShow {
+    display: none;
+}
+
+
+div.topDiv span.title {
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    letter-spacing: -0.229167px;
+    color: var(--main-tertiary-text-color);
+    font-weight: 500;
+}
+
+.topDiv .item span,
+.topDiv .total span {
+    color: var(--main-bold-text-color);
+}
+
+.topDiv .qty {
+    text-align: center;
+}
+
+.topDiv .price,
+.topDiv .total {
+    text-align: right;
+}
+
+.bottomDiv {
+    padding: 2.4rem 3.2rem;
+    background: var(--invoice-item-total-box-bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bottomDiv span {
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    letter-spacing: -0.229167px;
+    color: #FFFFFF;
+}
+
+.bottomDiv h3 {
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+    text-align: right;
+    letter-spacing: -0.5px;
+    color: #FFFFFF;
+}
+
+@media all and (max-width:550px) {
+    .title {
+        display: none;
+    }
+
+    .topDiv {
+        padding: 2.4rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .title {
+        grid-column: 1/2;
+    }
+
+    .total {
+        grid-column: 2/3;
+        height: 100%;
+    }
+
+    .total .itemTotal {
+        height: 100%;
+        /* margin: 1.35rem 0 0; */
+        padding: 1rem 0;
+    }
+
+    .topDiv .qty,
+    .topDiv .price {
+        display: none;
+    }
+
+    .topDiv .item span.mobileShow {
+        margin-top: 0.8rem;
+        display: block;
+        color: #7E88C3;
+    }
+
+    .bottomDiv {
+        padding: 3.2rem 2.4rem;
+    }
+
+    .bottomDiv h3 {
+        font-size: 2rem;
+        line-height: 3.2rem;
+        letter-spacing: -0.42px;
+    }
+}
+
+@media all and (max-width: 380px) {
+    .bottomDiv h3 {
+        font-size: 1.7rem;
+        line-height: 2.4rem;
+        letter-spacing: -0.36px;
+    }
+}

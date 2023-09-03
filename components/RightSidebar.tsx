@@ -35,7 +35,7 @@ const RightSidebar = () => {
   const [images, loading, error] = useCollection(
     session &&
       query(
-        collection(db, "users", session?.user?.email!, "images"),
+        collection(db, "users", session?.user?.id!, "images"),
         orderBy("createdAt", "asc")
       )
   );

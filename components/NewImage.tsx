@@ -17,9 +17,9 @@ const NewImage = ({setShow} : Props) => {
       setShow(false);
     }
     const doc = await addDoc(
-      collection(db, "users", session?.user?.email!, "images"),
+      collection(db, "users", session?.user?.id!, "images"),
       {
-        userId: session?.user?.email!,
+        userId: session?.user?.id!,
         createdAt: serverTimestamp(),
         name: "New image"
       }

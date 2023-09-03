@@ -5,6 +5,8 @@ import { authOptions } from "../pages/api/auth/[...nextauth]";
 import "../styles/globals.css";
 import Head from "./head";
 import { Metadata } from "next";
+import AuthRouter from "./authRouter";
+import { AuthContextProvider } from "./authContext";
 // import { AuthContextProvider } from "./context/AuthContext";
 
 export async function getServerSideProps(context: { req: any; query: any; }) {
@@ -50,12 +52,14 @@ export default async function RootLayout({
     <html lang="en">
       <Head />
       <body>
-        {/* <AuthContextProvider> */}
-          <SessionProvider session={session}>
-            <ClientProvider />
-            <main>{children}</main>
-          </SessionProvider>
-        {/* </AuthContextProvider> */}
+        <SessionProvider session={session}>
+          <AuthContextProvider>
+            {/* <AuthRouter> */}
+              <ClientProvider />
+              <main>{children}</main>
+            {/* </AuthRouter> */}
+          </AuthContextProvider>
+        </SessionProvider>
       </body>
     </html>
   );

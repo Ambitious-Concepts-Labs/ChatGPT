@@ -1,14 +1,13 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React from "react";
 import Survey from "../../../components/Survey";
 import Title from "../../../components/Title";
-// import { UserAuth } from "../../context/AuthContext";
+import { UserAuth } from "../../../app/authContext";
 
 const Feedback = () => {
   const { data: session } = useSession();
-//   const { showModal, setShowModal } = UserAuth();
-  const [ showModal, setShowModal ] = useState(false);
+  const { showModal, setShowModal } = UserAuth();
   return (
     <>
       <Title

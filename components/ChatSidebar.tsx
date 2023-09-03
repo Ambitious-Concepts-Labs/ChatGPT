@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import NewChat from "./NewChat";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
@@ -13,6 +13,7 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { handleSignout } from "../utils/helperFunctions";
 
 const Sidebar = () => {
   const { data: session } = useSession();
@@ -37,7 +38,7 @@ const Sidebar = () => {
   const [chats, loading, error] = useCollection(
     session &&
       query(
-        collection(db, "users", session?.user?.email!, "chats"),
+        collection(db, "users", session?.user?.id!, "chats"),
         orderBy("createdAt", "asc"),
       ),
   );
@@ -95,7 +96,7 @@ const Sidebar = () => {
             alt=""
           />
           <button
-            onClick={() => signOut()}
+            onClick={() => handleSignout()}
             id="logout"
             className={`h-12 w-12 md:w-[100%] md:h-auto flex items-center justify-center gap-2  border font-bold p-2 text-gray-300 rounded-lg hover:bg-[#11A37F] transition duration-300 hover:border-transparent hover:text-white active:scale-90 ${
               window.innerWidth < 768 && "bg-[#11A37F] text-white border-none"

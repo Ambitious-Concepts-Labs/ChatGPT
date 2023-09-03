@@ -7,25 +7,31 @@ import { useRouter } from "next/navigation";
 // import { setDocument } from "../utils/firebaseHelpers";
 
 export default function index(props: any) {
-  const { title, button, session, setShowModal, showModal } = props
+  const { title, button, session, setShowModal, showModal, id } = props
   const router = useRouter();
+
   const handleOnClick = async () => {
     setShowModal(!showModal);
     const uid = uuidv4();
     if (button === "Document") {
-      const document = await setDoc(
-        doc(db, "users", session?.user?.email, "documents", uid),
-        {
-          title: "Untitled document",
-          status: "Draft",
-          folder: "",
-          response: "Sample Response",
-          createdAt: serverTimestamp(),
-          lastModified: new Date(),
-          id: uid,
-        },
-      );
-      router.push(`/document/${uid}`);
+      try {
+        console.log('id', id)
+        await setDoc(
+          doc(db, "users", id, "documents", uid),
+          {
+            title: "Untitled document",
+            status: "Draft",
+            folder: "",
+            response: "Sample Response",
+            createdAt: serverTimestamp(),
+            lastModified: new Date(),
+            id: uid,
+          },
+        );
+        router.push(`/dashboard/document/${uid}`);
+      } catch (error) {
+        console.log(error)
+      }
     } else if (button === "Folder") {
       // setDocument(session, "users", "folders")
     }

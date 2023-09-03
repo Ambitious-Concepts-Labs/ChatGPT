@@ -1,4 +1,15 @@
 import { surpriseMePrompts } from "../constants/prompts";
+import { firebaseSignOut } from "./firebaseHelpers";
+import { signOut } from "next-auth/react";
+
+export function handleSignout() {
+  firebaseSignOut()
+  signOut()
+}
+
+export async function delay (ms: number): Promise<number> {
+  return await new Promise(resolve => setTimeout(resolve, ms))
+}
 
 export function getRandomPrompt(prompt: string): any {
   const randomIndex = Math.floor(Math.random() * surpriseMePrompts.length);

@@ -3,32 +3,21 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { CgFileDocument } from "react-icons/cg";
-import { TbListSearch, TbPencilPlus } from "react-icons/tb";
+import toast from "react-hot-toast";
 import PromptBar from "../../../../components/NewDocPromptBar";
-import DropDown, { VibeType } from "../../../../components/DropDown";
+import { VibeType } from "../../../../components/DropDown";
 import { db } from "../../../../firebase";
 import { rank } from "../../../../utils/linkedin-algorithm";
 import logo from "../../../../assets/logo.svg";
 import Toogle from "../../../../components/Toggle";
 
-import {
-  addDoc,
-  collection,
-  CollectionReference,
-  doc,
-  DocumentData,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import { doc, DocumentData, getDoc } from "firebase/firestore";
 import Logo from "../../../../components/Logo";
-import CustomButton from "../../../../components/CustomButton";
 // import LoadingDots from "../../../../components/LoadingDots";
 import Popup from "../../../../components/Popup";
 import { handlePrompt } from "../../../../utils/helperFunctions";
 import Image from "next/image";
+import { RankResponse } from "../../../..";
 
 type Props = {
   params: {
@@ -55,7 +44,7 @@ const DocumentPage = ({}: Props) => {
 
   useEffect(() => {
     setIsClient(true);
-    fetchUser();
+    fetchUserDocs();
   }, []);
 
   useEffect(() => {
@@ -63,11 +52,12 @@ const DocumentPage = ({}: Props) => {
     setRanking(rankResponse);
   }, [post, media]);
 
-  async function fetchUser() {
+  async function fetchUserDocs() {
     if (pathname) {
         const queryId = pathname.substring(pathname.lastIndexOf("/") + 1);
+        const uid = session?.user?.id!
         const docRef = await getDoc(
-          doc(db, "users", session?.user?.email!, "documents", queryId.toString()),
+          doc(db, "users", uid, "documents", queryId.toString()),
         );
         const docData = docRef.data();
         if (docData) {
@@ -149,6 +139,13 @@ const DocumentPage = ({}: Props) => {
               <li>Help</li>
               <li>Tools</li>
             </ul>
+            <nav className="bg-grey-light p-3 rounded font-sans w-full m-4">
+                <ol className="list-reset flex text-grey-dark">
+                    <li><a href="/dashboard/documents" className="text-blue font-bold">Documents</a></li>
+                    <li><span className="mx-2">/</span></li>
+                    <li>Document: {currDoc.title}</li>
+                </ol>
+            </nav>
             <main className="flex flex-col h-full items-center mx-auto">
               <div className="grow py-2 px-8 md:py-6 md:px-16 flex flex-col justify-around">
                 {/* {!optimizedPost ? ( */}

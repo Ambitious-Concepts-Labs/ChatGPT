@@ -1,45 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-nocheck
 "use client";
+import React from "react";
 import Documents from "../../../components/Documents";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useSession } from "next-auth/react";
-import { auth, db } from "../../../firebase";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
 // import Filters from "../../../components/Filters";
 import Title from "../../../components/Title";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
-// import { UserAuth } from "../../context/AuthContext";
+import { UserAuth } from "../../../app/authContext";
 
 const MainDocuments = () => {
-  const [user] = useAuthState(auth);
-  const { data: session } = useSession();
-  const router = useRouter();
-//   const { showModal, setShowModal } = UserAuth();
-  const [showModal, setShowModal ] = useState(false);
+  const { session, documents, showModal, setShowModal, user, id } = UserAuth();
 
-  let [documents] = useCollection(
-    session &&
-      query(
-        collection(db, "users", session?.user?.email, "documents"),
-        orderBy("createdAt", "asc"),
-      ),
-  );
-
-  React.useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        console.log({ uid });
-      } else {
-        console.log("no user");
-      }
-    });
-  }, []);
-  console.log(user);
   return (
     <div>
       <Title

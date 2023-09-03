@@ -16,8 +16,8 @@ import logo from "../assets/logo.svg";
 import Image from "next/image";
 // import { LiaFileInvoiceSolid } from "react-icons/lia";
 // import { AiTwotoneSetting } from "react-icons/ai";
-import { signOut } from "next-auth/react";
 import UseDarkMode from "../utils/use-dark-mode";
+import { handleSignout } from "../utils/helperFunctions";
 
 export default function Sidebar(props: any) {
   const {  askQuestion, isOpen, handleCloseSidebar, setAskQuestion } = props
@@ -161,7 +161,7 @@ export default function Sidebar(props: any) {
           <div className="rotate-90 h-5 w-5">
             <HiArrowUpTray className="h-full w-auto" />
           </div>
-          <span onClick={() => signOut()} className="text-xs font-semibold">
+          <span onClick={() => handleSignout()} className="text-xs font-semibold">
             Sign out
           </span>
         </button>

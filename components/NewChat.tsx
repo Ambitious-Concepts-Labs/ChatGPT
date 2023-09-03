@@ -17,9 +17,9 @@ const NewChat = ({setShow} : Props) => {
       setShow(false);
     }
     const doc = await addDoc(
-      collection(db, "users", session?.user?.email!, "chats"),
+      collection(db, "users", session?.user?.id!, "chats"),
       {
-        userId: session?.user?.email!,
+        userId: session?.user?.id!,
         createdAt: serverTimestamp(),
         name: "New chat"
       }

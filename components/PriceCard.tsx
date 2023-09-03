@@ -1,32 +1,51 @@
 import React from "react";
 import professional from "../assets/professional.svg";
 import Image from "next/image";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { db } from "../firebase";
 import { createCheckoutSession } from "../stripe/createCheckoutSession";
 import usePremiumStatus from "../stripe/usePremiumStatus";
+import { useSession } from "next-auth/react";
+import { doc, getDoc } from "firebase/firestore";
+import { delay } from "../utils/helperFunctions";
+import { UserAuth } from "../app/authContext";
 
 export default function PriceCard(props: any) {
-  const [user, userLoading] = useAuthState(auth);
-  const userIsPremium = usePremiumStatus(user);
+  const { user } = UserAuth();
+  console.log(user, 'from auth')
 
-  React.useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        console.log({ uid });
-      } else {
-        console.log("no user");
+  const { data: session } = useSession();
+  // const userIsPremium = usePremiumStatus(user);
+
+
+  const getUser = async () => {
+    const email = session?.user?.email
+    if (session && email) {
+      const docRef = doc(db, "users", email);
+      const docSnap = await getDoc(docRef);
+      console.log("Document data:", docSnap.data());
+      if (docSnap) {
+        return docSnap.data()
       }
-    });
-  }, [user]);
-  console.log(user, "user");
+    }
+  }
 
   const { plan } = props
-  const handlerPlan = () => {
-    props.setLoading(true);
-    createCheckoutSession(user?.uid || '', plan.id);
+
+  const handlerPlan = async () => {
+    try {
+      const currUser = await getUser()
+      await delay(1000)
+      console.log(currUser, 'lol')
+      if (currUser) {
+        props.setLoading(true);
+        console.log('----start')
+        await createCheckoutSession(currUser?.email, plan.id);
+      } else {
+        console.log(`User info ${currUser}`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

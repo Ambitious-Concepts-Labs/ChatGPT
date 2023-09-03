@@ -6,6 +6,8 @@ import initializeStripe from "./initializeStripe";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function createCheckoutSession(email: string, planId) {
+  console.log(email, planId)
+  console.log('yoooooo')
   let priceId = ''
 
   if (planId == 1) {
@@ -20,7 +22,8 @@ export async function createCheckoutSession(email: string, planId) {
   if (!priceId) return
 
   // Create a new checkout session in the subollection inside this users document
-  const checkoutSessionRef = await addDoc(collection(db, "users", email, "checkout_sessions"), { 
+  // const checkoutSessionRef = await addDoc(collection(db, "users", email, "checkout_sessions"), { 
+  const checkoutSessionRef = await addDoc(collection(db, "users", 'o6WNrSBWrmT81d01DQiz004J2WA3', "checkout_sessions"), { 
     id: uuidv4(),
     price: priceId,
     success_url: window.location.origin + "/dashboard/billing",
@@ -28,7 +31,8 @@ export async function createCheckoutSession(email: string, planId) {
     createdAt: serverTimestamp(),
   })
 
-  const stripeCollection = await query(collection(db, "users", email, "checkout_sessions"));
+  // const stripeCollection = await query(collection(db, "users", email, "checkout_sessions"));
+  const stripeCollection = await query(collection(db, "users", 'o6WNrSBWrmT81d01DQiz004J2WA3', "checkout_sessions"));
   const sessionRef = await getDoc(checkoutSessionRef);
   const data = sessionRef.data()
 
@@ -43,7 +47,7 @@ export async function createCheckoutSession(email: string, planId) {
           // Init Stripe
           const stripe = await initializeStripe();
           await stripe.redirectToCheckout({ sessionId });
-        }
+         }
       }
     })
   },

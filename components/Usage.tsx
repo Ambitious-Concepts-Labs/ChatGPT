@@ -3,11 +3,10 @@ import DailyCard from "./DailyCard";
 import QuotaCard from "./QuotaCard";
 import TokenCard from "./TokenCard";
 import Title from "./Title";
-// import { UserAuth } from "../app/context/AuthContext";
+import { UserAuth } from "../app/authContext";
 
 const Usage = (props: any) => {
-//   const { showModal, setShowModal } = UserAuth();
-  const [ showModal, setShowModal ] = useState(false);
+  const { showModal, setShowModal } = UserAuth();
   const { session } = props
 
   return (

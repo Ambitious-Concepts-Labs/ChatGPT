@@ -3,7 +3,6 @@ import Toggle from './Toggle'
 import { useState } from 'react'
 
 export default function DeleteCard (props: any) {
-  const { user, session } = props
   const [canDelete, setCanDelete] = useState(false)
 
   const handleCanDelete = () => {

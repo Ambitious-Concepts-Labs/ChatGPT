@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { GrDocument } from "react-icons/gr";
 import { db } from "../firebase";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   document: DocumentData;
@@ -15,22 +16,11 @@ type Props = {
 
 const Folder = (props: any) => {
   const { folder } = props
+  const { getFoldersDocuments } = UserAuth();
   const { data: session } = useSession();
 
-  let [documents] = useCollection(
-    session &&
-      query(
-        collection(
-          db,
-          "users",
-          session?.user?.email,
-          "folders",
-          folder.name,
-          "documents",
-        ),
-        orderBy("createdAt", "asc"),
-      ),
-  );
+  const documents = getFoldersDocuments(folder.name)
+
   return (
     <>
       <div
@@ -53,7 +43,7 @@ const Folder = (props: any) => {
               <p className="pt-1  text-m">0 Document</p>
             </>
           )}
-          {documents?.docs.map((document) => (
+          {documents.map((document) => (
             <>
               <p key={document.id} className="pt-1 text-m">
                 {document} Document
