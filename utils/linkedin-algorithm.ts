@@ -32,6 +32,7 @@ import { compact } from "lodash";
 
 import Sentiment from "sentiment";
 import LanguageDetect from "languagedetect";
+import { PostData, Rank, RankResponse, Validation } from "..";
 
 export function rank(post: string, postMedia: boolean): RankResponse {
   const parsedPost = post.toLowerCase();

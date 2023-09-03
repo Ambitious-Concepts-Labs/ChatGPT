@@ -14,6 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Popup from "../../../../components/Popup";
 // import LoadingDots from "../../../../components/LoadingDots";
 import CustomButton from "../../../../components/CustomButton";
+import { RankResponse } from "../../../..";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
