@@ -11,7 +11,8 @@ module.exports = {
     }
   ],
   rules: {
-        'body-max-line-length': [2, 'always', 20]
+        'body-max-line-length': [0, 'always'],
+        'footer-max-line-length': [0, 'always'] 
     },
   plugins: [
     '@semantic-release/commit-analyzer',
