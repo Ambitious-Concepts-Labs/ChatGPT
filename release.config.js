@@ -10,6 +10,9 @@ module.exports = {
       prerelease: true
     }
   ],
+  rules: {
+        'body-max-line-length': [2, 'always', 20]
+    },
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
