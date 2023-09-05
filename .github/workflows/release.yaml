@@ -5,7 +5,12 @@ on:
     branches: [main, beta, feature-branch]
 
 jobs:
+  deloy-staging:
+    secrets: inherit
+    uses: ./.github/workflows/preview.yaml
+
   release:
+    needs: [deloy-staging]
     name: Release
     runs-on: ubuntu-latest
     permissions:
