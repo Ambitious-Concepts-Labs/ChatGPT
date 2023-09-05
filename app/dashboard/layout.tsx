@@ -7,10 +7,10 @@ import React from "react";
 import Sidebar from "../../components/DashboardSidebar";
 import "../../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { Rubik } from "next/font/google";
+// import { Rubik } from "next/font/google";
 import AuthRouter from "../authRouter";
 
-const rubik = Rubik({ subsets: ["latin"] });
+// const rubik = Rubik({ subsets: ["latin"] });
 
 const DashboardLayout = ({ children }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -26,7 +26,8 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <>
-      <div className={`${rubik.className} flex ${isOpen && "overflow-hidden"}`}>
+      {/* <div className={`${rubik.className} flex ${isOpen && "overflow-hidden"}`}> */}
+      <div className={`flex ${isOpen && "overflow-hidden"}`}>
         <AuthRouter>
           <Sidebar
             setAskQuestion={setAskQuestion}
