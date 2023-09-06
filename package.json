@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "prettier --check .",
+    "lint-staged": {
+        "*": "prettier --write"
+      },
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@grammarly/editor-sdk-react": "^2.5.1",
@@ -52,11 +57,24 @@
     "faker": "^5.5.3",
     "husky": "^8.0.3",
     "postcss": "^8.4.18",
+    "prettier": "^3.0.3",
     "semantic-release": "^21.1.1",
     "tailwindcss": "^3.2.4",
     "typescript": "4.9.4"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "release": {
+     "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/changelog",
+      "@semantic-release/git"
+    ],
     "branches": [
       "main",
       {
@@ -67,26 +85,7 @@
         "name": "feature-branch",
         "prerelease": true
       }
-    ],
-     "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/git",
-      "@semantic-release/npm",
-      "@semantic-release/github",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogFile": "CHANGELOG.md"
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": ["CHANGELOG.md", "dist/**"],
-          "message": "chore(release): set `package.json` to ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-        }
-      ]
     ]
   }
+
 }
