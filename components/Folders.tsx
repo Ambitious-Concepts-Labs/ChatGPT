@@ -30,7 +30,7 @@ const Folders = () => {
         id={id}
         showModal={showModal}
         setShowModal={setShowModal}
-        button={"Folder"}
+        button={"Folders"}
         title={"Folders"}
         session={session}
       />

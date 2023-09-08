@@ -4,6 +4,7 @@ import { DocumentData } from "firebase/firestore";
 import React from "react";
 import Image from "next/image";
 import { AiOutlineStar } from "react-icons/ai";
+import { GiArtificialHive } from "react-icons/gi";
 import Link from "next/link";
 
 type Props = {
@@ -26,13 +27,20 @@ const Document = (props: any) => {
           </div>
         </Link>
         <div className={`col-start-4`}>
-          <Image
-            width={30}
-            height={30}
-            src={session?.user?.image}
-            alt={`${document?.title}'s doc`}
-            className="object-contain rounded-full"
-          />
+          {
+            session?.user?.image ? 
+              <Image
+                width={30}
+                height={30}
+                src={session?.user?.image}
+                alt={`${document?.title}'s doc`}
+                className="object-contain rounded-full"
+              />
+            :
+              <div className="rounded-full h-8 w-8 flex items-center justify-center bg-slate-100 text-slate-400 p-1">
+                <GiArtificialHive />
+              </div>
+          }
         </div>
         <div className={`col-start-5`}>
           <div className="flex items-start mb-1">

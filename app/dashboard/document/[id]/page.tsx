@@ -1,8 +1,8 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import PromptBar from "../../../../components/NewDocPromptBar";
 import { VibeType } from "../../../../components/DropDown";
@@ -11,13 +11,14 @@ import { rank } from "../../../../utils/linkedin-algorithm";
 import logo from "../../../../assets/logo.svg";
 import Toogle from "../../../../components/Toggle";
 
-import { doc, DocumentData, getDoc } from "firebase/firestore";
+import { arrayUnion, doc, DocumentData, getDoc, updateDoc } from "firebase/firestore";
 import Logo from "../../../../components/Logo";
 // import LoadingDots from "../../../../components/LoadingDots";
 import Popup from "../../../../components/Popup";
 import { handlePrompt } from "../../../../utils/helperFunctions";
 import Image from "next/image";
 import { RankResponse } from "../../../..";
+import { UserAuth } from "../../../authContext";
 
 type Props = {
   params: {
@@ -30,7 +31,9 @@ const DocumentPage = ({}: Props) => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [currDoc, setCurrDoc] = useState<DocumentData>({title: '', status: '', response: ''});
+  const { id } = UserAuth();
   const [loading, setLoading] = useState(false);
+  const [doneFetching, setDoneFetching] = useState(false);
   const [optimizedPost, setOptimizedPost] = useState<string>("");
   const [ranking, setRanking] = useState<RankResponse>({
     score: 0,
@@ -48,14 +51,14 @@ const DocumentPage = ({}: Props) => {
   }, []);
 
   useEffect(() => {
-    const rankResponse = rank(post, media);
-    setRanking(rankResponse);
+    // const rankResponse = rank(post, media);
+    // setRanking(rankResponse);
   }, [post, media]);
 
   async function fetchUserDocs() {
     if (pathname) {
         const queryId = pathname.substring(pathname.lastIndexOf("/") + 1);
-        const uid = session?.user?.id!
+        const uid = id
         const docRef = await getDoc(
           doc(db, "users", uid, "documents", queryId.toString()),
         );
@@ -66,6 +69,17 @@ const DocumentPage = ({}: Props) => {
         }
     }
         
+  }
+  
+  const updateDocument = async () => {
+    const queryId = pathname?.substring(pathname?.lastIndexOf("/") + 1);
+    const uid = id
+    const docRef =  doc(db, "users", uid, "documents", queryId!.toString());
+    if (optimizedPost) {
+      await updateDoc(docRef, {
+        responses: arrayUnion({post, optimizedPost})
+      });
+    }
   }
 
   const handleButtonClick = () => {
@@ -83,7 +97,6 @@ const DocumentPage = ({}: Props) => {
     setOptimizedPost("");
     setLoading(true);
     const prompt = handlePrompt(vibe, post);
-    console.log(prompt);
 
     // Show the popup right before the API call
     handleButtonClick();
@@ -97,7 +110,6 @@ const DocumentPage = ({}: Props) => {
         prompt,
       }),
     });
-
     if (!response.ok) {
       throw new Error(response.statusText);
     }
@@ -118,12 +130,18 @@ const DocumentPage = ({}: Props) => {
       const chunkValue = decoder.decode(value);
       const formattedChunk = chunkValue.replace(/\n/g, "<br>");
       setOptimizedPost((prev) => prev + formattedChunk);
-    }
     setLoading(false);
+    }
+
+    setDoneFetching(true)
+    
   };
 
-  console.log(post, "post");
-  console.log(currDoc, "doc");
+
+  if (optimizedPost && doneFetching) {
+    updateDocument()
+  }
+
   return (
     <>
       {!isClient ? (
@@ -191,6 +209,20 @@ const DocumentPage = ({}: Props) => {
                       <p>{currDoc?.status}</p>
                     </div>
                     <p>{currDoc?.response}</p>
+                    {
+                      currDoc.responses ?
+                        <div>
+                          {currDoc.responses.map((res: { question: any; answer: any; }) => {
+                            <div key={`${res.question}`}>
+                              <p>{res.question}</p>
+                              <p>{res.answer}</p>
+                            </div>
+                          })}
+                        </div>
+                      :
+                        <>
+                        </>
+                    }
                     <p>Pervious Question & Response</p>
                     <div>
                       <PromptBar
@@ -198,6 +230,7 @@ const DocumentPage = ({}: Props) => {
                         handleButtonClick={handleButtonClick}
                         optimizePost={optimizePost}
                         setPost={setPost}
+                        post={post}
                       />
                       <Popup show={showPopup} setShowPopup={setShowPopup} />
                       <div className="text-xs flex items-center gap-1 py-2">

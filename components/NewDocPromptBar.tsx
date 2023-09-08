@@ -15,10 +15,10 @@ import {
 import { formatPrompt, HTMLBreak, setFocus } from "../constants/parse";
 
 export default function PromptBar(props: any) {
-  const { loading, handleButtonClick, setPost, optimizePost } = props
+  const { post, loading, handleButtonClick, setPost, optimizePost } = props
   const [isClient, setIsClient] = useState(false);
-  const ref = useRef();
   const [isDisabled, setIsDisabled] = useState(true);
+  const ref = useRef();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,37 +46,38 @@ export default function PromptBar(props: any) {
     setIsClient(true);
   }, []);
 
+  const handleText = (e) => {
+    setPost(e.target.value)
+    setIsDisabled(false)
+  }
+
   return (
     <>
       <div className="border rounded-xl w-full grow">
         <div className="flex items-end gap-4 py-2 px-4 ">
           <GrammarlyEditorPlugin
-            clientId={process.env.GRAMMARLY_CLIENT_ID}
+            clientId={process.env.NEXT_PUBLIC_GRAMMARLY_CLIENT_ID}
             maxLength={2000}
-            onChange={(e) => setPost(e.target.value)}
+            // onChange={(e) => console.log(e.target.value)}
             placeholder="Type or copy your post or idea here "
             className="grow max-h-20"
             config={{ activation: "immediate", underlines: "on" }}
           >
             {/* To avoid hydration errors, render the editable component after hydration ends */}
             {isClient ? (
-              <div
-                onFocus={(e) =>
-                  e.target.innerText.length < 1
-                    ? setIsDisabled(true)
-                    : setIsDisabled(false)
-                }
-                onKeyUp={(e) =>
-                  e.target.innerText.length < 1
-                    ? setIsDisabled(true)
-                    : setIsDisabled(false)
-                }
-                ref={ref}
-                contentEditable
-                className="h-fit w-full p-2 outline-none max-h-20 overflow-y-auto"
+              <input
+                maxLength={2000}
+                onChange={(e) => handleText(e)}
+                className="grow max-h-20"
+                placeholder="Type or copy your post or idea here "
               />
             ) : (
-              <div className="h-10 w-full p-2 outline-none overflow-y-auto" />
+              <input
+                maxLength={2000}
+                onChange={(e) => handleText(e)}
+                className="grow max-h-20"
+                placeholder="Type or copy your post or idea here "
+              />
             )}
           </GrammarlyEditorPlugin>
           <GrammarlyButton />

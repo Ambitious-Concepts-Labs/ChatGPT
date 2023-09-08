@@ -87,9 +87,7 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.setItem('id_help', id)
     }
     setId(uid)
-    console.log(uid, 'uidddd')
-    console.log(session, 'uidddd')
-    if (session && uid) {
+    if (uid) {
       const docRef = doc(db, "users", uid);
       const docSnap = await getDoc(docRef);
       console.log("Document data:", docSnap.data());
@@ -97,9 +95,9 @@ export const AuthContextProvider = ({ children }) => {
         setUser(docSnap.data())
         setCurrUser(docSnap.data())
         return docSnap.data()
+      }
     }
-}
-}
+  }
 
 useEffect(() => {
     if (session?.user?.id) {

@@ -47,7 +47,7 @@ const Folder = (props: any) => {
             </Link>
             </>
           ) : (
-            folder.map((document) => (
+            folder.documents.map((document) => (
               <>
                <Link 
                 key={document.id}

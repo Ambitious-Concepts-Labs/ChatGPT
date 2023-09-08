@@ -1,4 +1,4 @@
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbFilePlus } from "react-icons/tb";
 import { db } from "../firebase";
@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 // import { setDocument } from "../utils/firebaseHelpers";
 
 export default function index(props: any) {
-  const { title, button, session, setShowModal, showModal, id } = props
+  const { path, title, button, session, setShowModal, showModal, id } = props
   const router = useRouter();
 
   const handleOnClick = async () => {
@@ -22,6 +22,7 @@ export default function index(props: any) {
             status: "Draft",
             folder: "",
             response: "Sample Response",
+            responses: [],
             createdAt: serverTimestamp(),
             lastModified: new Date(),
             id: uid,
@@ -31,24 +32,51 @@ export default function index(props: any) {
       } catch (error) {
         console.log(error)
       }
-    } else if (button === "Folder") {
-      // try {
-      //   console.log('here')
-      //   console.log(id, uid)
-      //   await setDoc(
-      //       doc(db, "users", id, "folders", uid),
-      //       {
-      //         name: "",
-      //         documents: [],
-      //         createdAt: serverTimestamp(),
-      //         lastModified: new Date(),
-      //         id: uid,
-      //       },
-      //     );
-      //     router.push(`/dashboard/folder/${uid}`);
-      // } catch (error) {
-      //   console.log(error)
-      // }
+    } else if (button === "Folders") {
+      try {
+        await setDoc(
+            doc(db, "users", id, "folders", uid),
+            {
+              name: "New Folder",
+              documents: [],
+              createdAt: serverTimestamp(),
+              lastModified: new Date(),
+              id: uid,
+            },
+          );
+          router.push(`/dashboard/folder/${uid}`);
+      } catch (error) {
+        console.log(error)
+      }
+    } else if (button === "Folder Doc") {
+      try {
+        const folderID = path
+        await setDoc(
+          doc(db, "users", id, "documents", uid),
+          {
+            title: "Untitled document",
+            status: "Draft",
+            folder: "",
+            response: "Sample Response",
+            createdAt: serverTimestamp(),
+            lastModified: new Date(),
+            id: uid,
+          },
+        );
+
+        const folderRef = doc(db, "users", id, "folders", folderID);
+        await updateDoc(folderRef, {
+            documents: arrayUnion(uid)
+        });
+
+        const docRef = doc(db, "users", id, "documents", uid);
+        await updateDoc(docRef, {
+            folder: folderID
+        });
+        router.push(`/dashboard/folder/${uid}`);
+      } catch (error) {
+        console.log(error)
+      }
     }
   };
 
