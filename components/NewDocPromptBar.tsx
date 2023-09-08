@@ -47,6 +47,7 @@ export default function PromptBar(props: any) {
   }, []);
 
   const handleText = (e) => {
+    console.log(e.target.value)
     setPost(e.target.value)
     setIsDisabled(false)
   }
@@ -68,16 +69,28 @@ export default function PromptBar(props: any) {
               <input
                 maxLength={2000}
                 onChange={(e) => handleText(e)}
-                className="grow max-h-20"
+                 onFocus={(e) => e.target.value.length < 1 ? setIsDisabled(true) : setIsDisabled(false)}
+                  onKeyUp={(e) => e.target.value.length < 1 ? setIsDisabled(true) : setIsDisabled(false)}
+                className='bg-inherit h-fit w-full p-2 outline-none max-h-20 overflow-y-auto'
                 placeholder="Type or copy your post or idea here "
               />
+              //  <div
+              //       onFocus={(e) => e.target.innerText.length < 1 ? setIsDisabled(true) : setIsDisabled(false)}
+              //       onKeyUp={(e) => e.target.innerText.length < 1 ? setIsDisabled(true) : setIsDisabled(false)}
+              //       ref={ref}
+              //       onChange={(e) => console.log(e.target.value)}
+              //       // onChange={(e) => handleText(e)}
+              //       contentEditable
+              //       className='h-fit w-full p-2 outline-none max-h-20 overflow-y-auto'
+              //     />
             ) : (
               <input
                 maxLength={2000}
                 onChange={(e) => handleText(e)}
-                className="grow max-h-20"
+                className='bg-inherit h-10 w-full p-2 outline-none overflow-y-auto'	
                 placeholder="Type or copy your post or idea here "
               />
+              // <div className='h-10 w-full p-2 outline-none overflow-y-auto' />
             )}
           </GrammarlyEditorPlugin>
           <GrammarlyButton />

@@ -130,11 +130,11 @@ const DocumentPage = ({}: Props) => {
       const chunkValue = decoder.decode(value);
       const formattedChunk = chunkValue.replace(/\n/g, "<br>");
       setOptimizedPost((prev) => prev + formattedChunk);
-    setLoading(false);
     }
-
-    setDoneFetching(true)
     
+    setLoading(false);
+    setDoneFetching(true)
+
   };
 
 

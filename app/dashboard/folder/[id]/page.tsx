@@ -9,7 +9,6 @@ import { db } from "../../../../firebase";
 import Title from "../../../../components/Title";
 import NewModal from "../../../../components/NewModal";
 import React from "react";
-import NewDocModal from "../../../../components/NewDocModal";
 
 type Props = {
   params: {

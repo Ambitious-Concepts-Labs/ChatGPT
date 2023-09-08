@@ -1,95 +1,124 @@
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import React from "react";
-import { GrDocument } from "react-icons/gr";
-import { db } from "../firebase";
-import { v4 as uuidv4 } from "uuid";
+"use client"
+import React from "react";;
+import { useState } from 'react'
+import { categories, prompts } from '../constants/data'
+import { BiSearch } from 'react-icons/bi'
+import { BsInfoCircle } from 'react-icons/bs'
+import { IoClose } from 'react-icons/io5'
 
-const NewModal = (props: any) => {
-  const { inputRef, handleClose, showModal, setShowModal, warningAlert, setWarningAlert, session } = props
-  const [val, setVal] = React.useState("");
-  const submitHandler = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+export default function NewModal (props: any) {
+  const { handleCloseModal, addPrompt } = props
+  const [actual, setActual] = useState({
+    categoryId: undefined,
+    promptId: undefined,
+    promptValue: ''
+  })
 
-    setVal(inputRef.current.value);
-    if (inputRef.current.value.length > 0) setShowModal(!showModal);
-    if (inputRef.current.value.length == 0) setWarningAlert(!warningAlert);
-    await setDoc(
-      doc(db, "users", session?.user?.id, "folders", inputRef.current.value),
-      {
-        name: inputRef.current.value,
-        createdAt: serverTimestamp(),
-        id: uuidv4(),
-      },
-    );
-  };
+  const chooseCategory = (id: any) => {
+    setActual({
+      categoryId: id,
+      promptId: undefined,
+      promptValue: ''
+
+    })
+  }
+
+  const choosePrompt = (id: any, value: any) => {
+    setActual(prev => ({
+      ...prev,
+      promptId: id,
+      promptValue: value
+    }))
+  }
+
+  const handlePrompt = () => {
+    const pr = prompts.find((prompt: { id: any }) => prompt.id === actual.promptId)
+    addPrompt(pr!.value)
+    handleCloseModal()
+  }
+
   return (
-    <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-          {warningAlert && (
-            <div
-              className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 rounded"
-              role="alert"
-            >
-              <p className="font-bold">Oops...</p>
-              <p>Please type something in the input box.</p>
+    <div className='fixed w-screen h-screen inset-0 flex items-center justify-center bg-black/20 z-20 md:justify-start'>
+      <div className='w-11/12 h-[95%] bg-white px-4 flex flex-col overflow-hidden md:px-8 md:w-4/5 md:h-3/4'>
+        <div className='flex items-center justify-between py-4 md:py-6'>
+          <div className='flex items-center justify-between md:w-1/2'>
+            <div className='font-semibold text-xl'>Prompts</div>
+            <div className='border p-1 hidden md:flex items-center gap-2 md:py-1.5 md:ps-2 md:pe-4'>
+              <span>
+                <BiSearch />
+              </span>
+              <input type='text' placeholder='Try "Sales" or "Email"' className='px-2 outline-none rounded-md text-sm' />
             </div>
-          )}
-          {/*content*/}
-          <form
-            onSubmit={submitHandler}
-            className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
-          >
-            {/*header*/}
-            <div className="flex items-start justify-between p-5 rounded-t">
-              <p className="text-xl font-semibold">New Folder</p>
-              <button
-                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={() => setShowModal(false)}
-              >
-                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  ×
-                </span>
-              </button>
-            </div>
-            {/*body*/}
-            <div className="relative p-6 flex-auto">
-              <div className="flex items-center">
-                <div className="py-4 px-4 border-r-0 border-2 border-solid border-slate-200">
-                  <GrDocument className="text-black" />
-                </div>
-                <input
-                  className="py-3 px-3 border-2 border-solid border-slate-200 w-96"
-                  placeholder="Untitled folder"
-                  type="text"
-                  name=""
-                  id=""
-                  ref={inputRef}
-                />
+          </div>
+          <button onClick={handleCloseModal} className='h-6 w-6 flex items-center justify-center'>
+            <IoClose className='h-full w-auto' />
+          </button>
+        </div>
+        <div className='flex flex-col gap-2 grow overflow-auto md:flex-row md:border-t'>
+          <div className='h-1/4 p-2 overflow-y-auto md:h-full md:w-1/4'>
+            <ul className='flex flex-col gap-1 md:gap-2 overflow-hidden'>
+              {
+                categories.map((cat: { id: any; name: any; }) => (
+                  <li
+                    key={cat.id}
+                    className={`font-semibold text-sm cursor-pointer p-2 rounded-md hover:bg-slate-100 md:py-3 ${actual.categoryId === cat.id ? 'bg-slate-100' : 'bg-white'} ${cat.id === 2 && 'mb-8'}`}
+                    onClick={() => chooseCategory(cat.id)}
+                  >
+                    {cat.name}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div className='h-1/4 border-y p-2 overflow-y-auto md:border-x md:border-y-0 md:w-1/3 md:h-full'>
+            <ul className='flex flex-col gap-1 md:gap-2 overflow-hidden'>
+              {
+                actual.categoryId !== undefined &&
+                prompts
+                  .filter((prompt: { categoryId: any; }) => prompt.categoryId === actual.categoryId)
+                  .map((prompt: { id: any; value: any; title: any; }) => (
+                    <li
+                      key={prompt.id}
+                      className={`font-semibold cursor-pointer text-sm p-2 rounded-md md:py-3 ${actual.promptId === prompt.id ? 'bg-[#93e1cf] hover:bg-[#93e1cf]' : 'hover:bg-slate-100'}`}
+                      onClick={() => {
+                        const formattedValue = prompt.value === undefined || prompt.value.length < 1 ? undefined : prompt.value
+                        choosePrompt(prompt.id, formattedValue)
+                      }}
+                    >
+                      {prompt.title}
+                    </li>
+                  ))
+              }
+            </ul>
+          </div>
+          <div className='h-1/5 px-2 py-4 grow flex flex-col gap-4 items-end md:w-1/3 md:h-full'>
+            <div className='grow bg-slate-100 w-full text-slate-400 p-3 md:p-2'>
+              <div className='uppercase text-xs flex items-center gap-1.5 mb-2'>
+                <span>Preview (workspace prompt)</span>
+                <span><BsInfoCircle /></span>
               </div>
+              {
+                actual.promptValue !== undefined &&
+                  <div className='text-slate-500'>
+                    {actual.promptValue.split('\n').map((par: any, i: any) => (
+                      <div key={i}>
+                        <p>{par}</p>
+                        <br />
+                      </div>
+                    ))}
+                  </div>
+                }
             </div>
-            {/*footer*/}
-            <div className="flex items-center justify-end p-6">
-              <button
-                className="text-black background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => handleClose()}
-              >
-                Close
-              </button>
-              <button
-                className="bg-black text-white active:bg-gray font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="submit"
-              >
-                Save Changes
-              </button>
-            </div>
-          </form>
+            <button
+              className='px-4 py-2 bg-c-green text-white text-sm rounded-md w-max disabled:opacity-30'
+              onClick={handlePrompt}
+              disabled={actual.categoryId === undefined || actual.promptId === undefined || actual.promptValue === undefined}
+            >
+              Use Prompt
+            </button>
+          </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-    </>
-  );
-};
-
-export default NewModal;
+    </div>
+  )
+}
