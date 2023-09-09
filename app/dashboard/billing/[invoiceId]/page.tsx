@@ -5,97 +5,46 @@ import InvoiceCenter from '../../../../components/InvoiceCenter';
 import InvoiceItems from '../../../../components/InvoiceItems';
 import styles from '../../../../styles/Invoice.module.css';
 import { usePathname } from 'next/navigation';
+import { UserAuth } from '../../../authContext';
+import { useSession } from 'next-auth/react';
 
 const Invoice = () => {
-    // const {invoice} = props
     const pathname = usePathname();
-    const invoices = [
-    {
-    id: 1,
-    createdAt: "2021-06-30",
-    description: 'hello description',
-    status: 'paid',
-    items: [
-        {
-            id:"1", 
-            name:'item one',
-            quantity: 90,
-            price: 80,
-            itemTotal: 900,
-        },
-        {
-            id:"2", 
-            name:'item two',
-            quantity: 190,
-            price: 820,
-            itemTotal: 900,
-        },
-    ],
-    total: 90,
-    paymentDue: 80,
-    senderAddress: {
-        street: 'street',
-        city: 'dallas',
-        postCode: 777777,
-        country: 'usa'
-    },
-    clientEmail : '<NAME>',
-    clientName: 'name',
-    clientAddress: {
-        street: 'street',
-        city: 'dallas',
-        postCode: 777777,
-        country: 'usa'
-    },
-},{
-    id: 1,
-    createdAt: "2021-06-30",
-    description: 'hello description',
-    status: 'pending',
-    items: [
-        {
-            id:"1", 
-            name:'item one',
-            quantity: 90,
-            price: 80,
-            itemTotal: 900,
-        },
-        {
-            id:"2", 
-            name:'item two',
-            quantity: 190,
-            price: 820,
-            itemTotal: 900,
-        },
-    ],
-    total: 90,
-    paymentDue: 80,
-    senderAddress: {
-        street: 'street',
-        city: 'dallas',
-        postCode: 777777,
-        country: 'usa'
-    },
-    clientEmail : '<NAME>',
-    clientName: 'name',
-    clientAddress: {
-        street: 'street',
-        city: 'dallas',
-        postCode: 777777,
-        country: 'usa'
-    },
-},
-    ]
-    const [invoice, setInvoice] = useState(invoices[0])
+    const [invoice, setInvoice] = useState<any>([])
+    const [items, setItems] = useState<any>([])
+    const { subscriptions } = UserAuth();
+    const { data: session } = useSession();
+
     useEffect(() => {
-        if (pathname) {
-            const queryId = pathname.substring(pathname.lastIndexOf("/") + 1);
-            const idx = parseInt(queryId)
-            setInvoice(invoices[idx])
+        if (subscriptions) {
+            let subscriptionArray: any[] = []
+            const queryId = pathname?.substring(pathname.lastIndexOf("/") + 1);
+            subscriptions.forEach((element: { items: any; }) => {
+                console.log("Element", element.items )
+                if(element.items[0].plan.id === queryId) setInvoice(element.items[0].plan)
+                subscriptionArray.push(element.items[0].plan)
+            });
+            setItems(subscriptionArray)
         }
-        
-    }, []);
-    
+    }, [subscriptions, pathname])
+
+    console.log(items, invoice)
+    const description = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+    molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+    numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+    optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+    obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+    nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+    tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+    quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
+    sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam`
+    const senderAddress = {
+        street: '909 Trey',
+        city: 'Dallas',
+        postCode: 75223,
+        country: 'USA'
+    }
+
     return (
         <div className={styles.container}>
             <nav className="bg-grey-light p-3 rounded font-sans w-full m-4">
@@ -105,9 +54,10 @@ const Invoice = () => {
                     <li>Invoice: {invoice.id}</li>
                 </ol>
             </nav>
-            <InvoiceHeader id={invoice.id || ''} description={invoice.description} senderAddress={invoice.senderAddress} />
-            <InvoiceCenter createdAt={invoice.createdAt} paymentDue={invoice.paymentDue} clientName={invoice.clientName} clientEmail={invoice.clientEmail} clientAddress={invoice.clientAddress} />
-            <InvoiceItems items={invoice.items} total={invoice.total} />
+            <InvoiceHeader id={invoice.id} description={description} senderAddress={senderAddress} />
+            <InvoiceCenter createdAt={invoice.created} paymentDue={invoice.interval} clientName={session?.user?.name || ''} 
+            clientEmail={session?.user?.email || ''} clientAddress={senderAddress} />
+            <InvoiceItems items={invoice} total={invoice.amount} />
         </div>
     )
 }

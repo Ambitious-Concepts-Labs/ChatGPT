@@ -4,7 +4,7 @@ import styles from '../styles/InvoiceList.module.css';
 const InvoiceList = (props: any) => {
     const { invoices } = props
     return (
-        <div className={styles.container}>
+        <div>
             {invoices.map((invoice: { id: any; }) => <Invoice key={invoice.id} invoice={invoice} />)}
         </div>
     )
