@@ -1,13 +1,13 @@
 import React from "react";
-import professional from "../assets/professional.svg";
+import professional from "../../../assets/professional.svg";
 import Image from "next/image";
-import { db } from "../firebase";
-import { createCheckoutSession } from "../stripe/createCheckoutSession";
-import usePremiumStatus from "../stripe/usePremiumStatus";
+import { db } from "../../../firebase";
+import { createCheckoutSession } from "../../../stripe/createCheckoutSession";
+import usePremiumStatus from "../../../stripe/usePremiumStatus";
 import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
-import { delay } from "../utils/helperFunctions";
-import { UserAuth } from "../app/authContext";
+import { delay } from "../../../utils/helperFunctions";
+import { UserAuth } from "../../authContext";
 
 export default function PriceCard(props: any) {
   const { user } = UserAuth();

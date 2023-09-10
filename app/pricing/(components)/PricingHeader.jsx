@@ -1,4 +1,4 @@
-import logo from "../assets/logo.svg";
+import logo from "../../../assets/logo.svg";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 

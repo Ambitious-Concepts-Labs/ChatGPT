@@ -2,9 +2,9 @@
 
 import Table from "../../components/Table";
 import appointment from "../../assets/appointment.svg";
-import PriceCard from "../../components/PriceCard";
-import Footer from "../../components/PricingFooter";
-import Header from "../../components/PricingHeader";
+import PriceCard from "./(components)/PriceCard";
+import Footer from "./(components)/PricingFooter";
+import Header from "./(components)/PricingHeader";
 import plans from "../../constants/plans";
 import faqs from "../../constants/faqs";
 import Image from "next/image";
