@@ -1,16 +1,62 @@
 import { surpriseMePrompts } from "../constants/prompts";
 import { firebaseSignOut } from "./firebaseHelpers";
 import { signOut } from "next-auth/react";
+import Stripe from 'stripe';
 
 export function handleSignout() {
   firebaseSignOut()
   signOut()
 }
 
+export const stripe = new Stripe(String(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY), {
+    apiVersion: "2023-08-16",
+});
+
+
 export async function delay (ms: number): Promise<number> {
   return await new Promise(resolve => setTimeout(resolve, ms))
 }
 
+async function impl_getStripeProducts() {
+    try {
+        const products = await stripe.products.list({ expand: ['data.default_price'], active: true });
+        return products.data;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+    }
+}
+
+async function impl_getStripePricesForStripeProduct(productId: string) {
+    try {
+        const prices = await stripe.prices.list({
+            product: productId,
+        });
+        return prices.data;
+    } catch (error) {
+        console.error('Error fetching prices:', error);
+        throw error;
+    }
+}
+
+
+export async function getProductsWithRecurringPrices(): Promise<Stripe.Product[]> {
+    const products = await impl_getStripeProducts();
+    const productsWithRecurringPrices: Stripe.Product[] = [];
+
+    for (const product of products) {
+        const prices = await impl_getStripePricesForStripeProduct(product.id);
+    console.log(product, 'product')
+
+        if (prices.some(price => price.recurring)) {
+            productsWithRecurringPrices.push(product);
+        }
+    }
+    console.log(productsWithRecurringPrices, 'productsWithRecurringPrices')
+
+    return productsWithRecurringPrices;
+
+}
 export function getRandomPrompt(prompt: string): any {
   const randomIndex = Math.floor(Math.random() * surpriseMePrompts.length);
   const randomPrompt = surpriseMePrompts[randomIndex];
