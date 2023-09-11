@@ -1,15 +1,11 @@
 'use client';
-
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { makeAdmin } from '../(actions)/actions';
 import Button from '../../../components/Button';
 
 
 export default function Form({ users }: { users: any[] }) {
-  const router = useRouter();
-
   const [id, setId] = useState('');
 
   return (

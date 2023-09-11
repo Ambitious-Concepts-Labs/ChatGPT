@@ -17,10 +17,11 @@ export default function Page() {
     <div className='grid min-h-screen grid-cols-2'>
       <div className='flex flex-col'>
         <Link href={'/'} className='px-4 py-2'>
-          <Button variant='outline' size='xs'>
-            <BiChevronLeft size={18} />
-            Home
-          </Button>
+          <Button 
+          variant={"white"}
+          icon={<BiChevronLeft size={18} />}
+          text={"Home"}
+          />
         </Link>
         <div className='my-auto grid place-items-center px-4 py-10'>
           <div className='flex w-full max-w-md flex-col'>
@@ -32,24 +33,29 @@ export default function Page() {
               <Button
                 variant={'black'}
                 text={"Sign in with Discord"}
-                icon={<BsDiscord/>}
+                icon={<BsDiscord size={18} />}
                 onClick={() => signIn('discord', { callbackUrl: '/dashboard' })}
               />
               <Button
                 variant={'black'}
                 text={"Sign in with GitHub"}
-                icon={<AiFillGithub/>}
+                icon={<AiFillGithub size={18}/>}
                 onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
               />
               { 
               <Button
+                animation={true}
                 variant={'black'}
                 text={"Sign in with Google"}
-                icon={<FcGoogle/>}
+                icon={<FcGoogle size={18}/>}
                 onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
               />     
               }
-                       </div>
+              <button onClick={() => signIn("google", { callbackUrl: '/dashboard' })} 
+              className="font-bold text-3xl animate-pulse">
+                Sign In to use ChatGPT
+              </button>
+            </div>
           </div>
         </div>
       </div>

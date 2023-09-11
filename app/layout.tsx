@@ -1,20 +1,16 @@
 import { getServerSession } from "next-auth";
 import ClientProvider from "../components/ClientProvider";
 import { SessionProvider } from "../components/SessionProvider";
-import { authOptions } from "../pages/api/auth/[...nextauth]";
+import { authOptions } from "../utils/auth/authOptions";
 import "../styles/globals.css";
 import Head from "./head";
 import { Metadata } from "next";
 import AuthRouter from "./authRouter";
 import { AuthContextProvider } from "./authContext";
-// import { AuthContextProvider } from "./context/AuthContext";
 
 export async function getServerSideProps(context: { req: any; query: any; }) {
-  const { req, query } = context;
   const session = await getServerSession(authOptions);
-  const { callbackUrl } = query;
-  console.log(callbackUrl, "test");
-  console.log(session, "session");
+ 
   if (session) {
     return {
       redirect: {
@@ -48,16 +44,38 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  // const { events: routerEvents } = useRouter();
+  // const [pageLoading, setPageLoading] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   const startLoader = () => {
+  //     setPageLoading(true);
+  //   };
+
+  //   const stopLoader = () => {
+  //     setPageLoading(false);
+  //   };
+
+  //   routerEvents.on('routeChangeStart', startLoader);
+  //   routerEvents.on('routeChangeComplete', stopLoader);
+  //   routerEvents.on('routeChangeError', stopLoader);
+  // }, [routerEvents]);
+
   return (
     <html lang="en">
       <Head />
       <body>
         <SessionProvider session={session}>
           <AuthContextProvider>
-            {/* <AuthRouter> */}
+            <AuthRouter>
               <ClientProvider />
+              {/* {pageLoading ?
+                <div className=''>Loading...</div> 
+                : 
+                <main>{children}</main>
+              } */}
               <main>{children}</main>
-            {/* </AuthRouter> */}
+            </AuthRouter>
           </AuthContextProvider>
         </SessionProvider>
       </body>

@@ -9,6 +9,7 @@ import { delay } from "../utils/helperFunctions";
 
 const HOME_ROUTE = "/";
 const DASHBOARD_ROUTE = "/dashboard";
+const SIGNIN_ROUTE = "/sign-in";
 
 const AuthRouter = (props: any) => {
   const [user, loading] = useAuthState(auth);
@@ -25,9 +26,9 @@ const AuthRouter = (props: any) => {
         console.log(firebaseUser, 'firebaseUser')
         console.log(pathName, 'pathname')
       await delay(2000)
-      // if (!session) {
-      //   router.push(HOME_ROUTE);
-      // }
+      if (!session) {
+        // router.push(SIGNIN_ROUTE);
+      }
     }
   };
 

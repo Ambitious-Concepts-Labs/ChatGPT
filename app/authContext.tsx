@@ -30,7 +30,6 @@ export const AuthContextProvider = ({ children }) => {
   const [subscriptions, setSubscriptions] = useState([])
   const [subs, setSubs] = useState([])
   const [folders, setFolders] = useState([])
-  const [folderDocs, setFolderDocs] = useState([])
   const [showModal, setShowModal] = useState(false);
 
   const getSubscriptions = async () => {
@@ -39,7 +38,6 @@ export const AuthContextProvider = ({ children }) => {
     querySnapshot.forEach((subscription) => {
         const obj = { ...subscription.data(), subscriptionId: subscription.id }
         dataArr.push(obj)
-        // resolve(dataArr);
     });
     setSubscriptions(dataArr)
     return dataArr
@@ -83,7 +81,6 @@ export const AuthContextProvider = ({ children }) => {
     querySnapshot.forEach((payment) => {
         const obj = { ...payment.data(), paymentId: payment.id }
         dataArr.push(obj)
-        // resolve(dataArr);
     });
     setPayments(dataArr)
     return dataArr
@@ -106,7 +103,6 @@ export const AuthContextProvider = ({ children }) => {
     querySnapshot.forEach((folder) => {
         const obj = { ...folder.data(), folderId: folder.id }
         dataArr.push(obj)
-        // resolve(dataArr);
     });
     setFolders(dataArr)
     return dataArr
@@ -118,7 +114,6 @@ export const AuthContextProvider = ({ children }) => {
     querySnapshot.forEach((doc) => {
         const obj = { ...doc.data(), documentId: doc.id }
         dataArr.push(obj)
-        // resolve(dataArr);
     });
     setDocuments(dataArr)
     return dataArr
@@ -133,7 +128,6 @@ export const AuthContextProvider = ({ children }) => {
     if (uid) {
       const docRef = doc(db, "users", uid);
       const docSnap = await getDoc(docRef);
-      console.log("Document data:", docSnap.data());
       if (docSnap) {
         setUser(docSnap.data())
         setCurrUser(docSnap.data())

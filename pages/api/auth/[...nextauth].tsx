@@ -1,12 +1,15 @@
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import DiscordProvider from "next-auth/providers/discord"
+import GithubProvider from "next-auth/providers/github"
 import { auth, db } from "../../../firebase";
 import {
   GoogleAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
 import { delay } from "../../../utils/helperFunctions";
+import { getSubscriptions } from "../../../utils/stripeHelpers";
 
 let uid: string = ''
 
@@ -17,8 +20,22 @@ export const authOptions = {
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
     }),
+    DiscordProvider({
+          clientId: String(process.env.DISCORD_CLIENT_ID),
+          clientSecret: String(process.env.DISCORD_CLIENT_SECRET),
+      }),
+    GithubProvider({
+        clientId: String(process.env.GITHUB_CLIENT_ID),
+        clientSecret: String(process.env.GITHUB_CLIENT_SECRET),
+    }),
     // ...add more providers here
   ],
+  pages: {
+      'newUser': '/onboarding',
+      'signIn': '/sign-in',
+      // 'signOut': '/sign-out',
+      // 'verifyRequest': '/sign-in?verify_email'
+  },
   callbacks: {
     async signIn(props: any) {
       const { user, account } = props
@@ -92,6 +109,15 @@ export const authOptions = {
       console.log(uid, 'uid async')
       await delay(2000)
       session.user.id = uid
+      // const db = await getUser(user.id)
+      // const subscriptions = await getSubscriptions(db.email, '_ignore')
+      // if (session.user) {
+      //     session.user.id = db.id
+      //     session.user.onboarded = db.onboarded
+      //     session.user.subscriptions = subscriptions
+      //     session.user.role = db.role
+      //     session.user.stripe_customer_id = db.stripe_customer_id
+      // }
       return session
     },
   },

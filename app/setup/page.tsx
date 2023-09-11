@@ -1,5 +1,4 @@
 'use client';
-
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
 import Form from './(components)/components';
 import { UserAuth } from '../authContext';

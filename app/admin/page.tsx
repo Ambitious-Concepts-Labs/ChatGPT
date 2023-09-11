@@ -118,7 +118,7 @@ export default function Page() {
 
         <Card title='Products'>
           <div className='flex flex-col divide-y divide-neutral-200'>
-            {/* {products.map((item: any, index: any) => (
+            {products.length > 0 && products.map((item: any, index: any) => (
               <div
                 key={index}
                 className='flex cursor-pointer items-center justify-between px-4 py-2.5'
@@ -128,8 +128,8 @@ export default function Page() {
                   {item.description ?? 'No description'}
                 </p>
               </div>
-            ))} */}
-            {products.length == 0 && (
+            ))}
+            {!products || products.length == 0 && (
               <div className='flex items-center gap-2 px-4 py-3'>
                 <FiAlertTriangle
                   size={18}

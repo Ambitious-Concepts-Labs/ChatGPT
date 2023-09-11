@@ -13,36 +13,18 @@ export default function PriceCard(props: any) {
   const { user } = UserAuth();
   console.log(user, 'from auth')
 
-  const { data: session } = useSession();
-  // const userIsPremium = usePremiumStatus(user);
+  const userIsPremium = usePremiumStatus(user);
 
-
-  const getUser = async () => {
-    const email = session?.user?.email
-    if (session && email) {
-      const docRef = doc(db, "users", email);
-      const docSnap = await getDoc(docRef);
-      console.log("Document data:", docSnap.data());
-      if (docSnap) {
-        return docSnap.data()
-      }
-    }
-  }
 
   const { plan } = props
 
   const handlerPlan = async () => {
     try {
-      const currUser = await getUser()
       await delay(1000)
-      console.log(currUser, 'lol')
-      if (currUser) {
+      if (user) {
         props.setLoading(true);
-        console.log('----start')
-        await createCheckoutSession(currUser?.email, plan.id);
-      } else {
-        console.log(`User info ${currUser}`)
-      }
+        await createCheckoutSession(user?.email, plan.id);
+      } 
     } catch (error) {
       console.log(error)
     }
@@ -50,18 +32,19 @@ export default function PriceCard(props: any) {
 
   return (
     <>
-      {/* {user && !userLoading && (
+      {/* {user && !userLoading && ( */}
+      {user && (
         <div>
           <h1>Hello, {user.displayName}</h1>
           {!userIsPremium ? (
-            <button onClick={() => createCheckoutSession(user.uid)}>
+            <button onClick={() => createCheckoutSession(user.email, 3)}>
               Upgrade to premium!
             </button>
           ) : (
             <h2>Have a cookie 🍪 Premium customer!</h2>
           )}
         </div>
-      )} */}
+      )}
       <li
         className={`rounded-2xl overflow-hidden py-6 lg:py-10 px-10 lg:px-5 w-full text-black shadow-md lg:shadow-xl ${
           plan.id < 3 ? "bg-[#E3E4EC]" : "bg-white sm:col-span-2 lg:col-auto"

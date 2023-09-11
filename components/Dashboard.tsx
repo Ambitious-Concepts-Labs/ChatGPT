@@ -11,6 +11,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import Title from "./Title";
 import { UserAuth } from "../app/authContext";
 import Loading from "./Loader";
+import Link from 'next/link';
 
 const Dashboard = () => {
   const { session, documents, showModal, setShowModal, user, id } = UserAuth();
@@ -91,6 +92,30 @@ const Dashboard = () => {
             documents={documents}
             session={session}
           />
+          <div className='grid grid-cols-2 gap-x-8 py-8'>
+        <div className='flex flex-col rounded-lg bg-gradient-to-tr from-zinc-800 to-black p-8'>
+          <p className='font-display text-2xl text-white'>
+            Upgrade to enchance your experience
+          </p>
+          <p className='py-4 text-base text-white/80'>
+            Checkout out our other billing plans.
+          </p>
+          <Link href='/dashboard/settings/billing'>
+            <button size='xs'>Upgrade</button>
+          </Link>
+        </div>
+        <div className='flex flex-col rounded-lg bg-gradient-to-tr from-violet-800 to-violet-900 p-8'>
+          <p className='font-display text-2xl text-white'>
+            Join our developer community
+          </p>
+          <p className='py-4 text-base text-white/80'>
+            Join the discord for updates and support from other developers.
+          </p>
+          <Link href='https://discord.gg/sAcvuQACYQ'>
+            <button size='xs'>Join</button>
+          </Link>
+        </div>
+      </div>
 
         </>
       :

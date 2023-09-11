@@ -1,8 +1,4 @@
 'use server'
-
-// import { authOptions } from "@/auth/options";
-// import { prisma } from "@saas/database/connection"
-import { getServerSession } from "next-auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 

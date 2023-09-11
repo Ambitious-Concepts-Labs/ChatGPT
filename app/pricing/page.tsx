@@ -1,5 +1,4 @@
 "use client";
-
 import Table from "../../components/Table";
 import appointment from "../../assets/appointment.svg";
 import PriceCard from "./(components)/PriceCard";

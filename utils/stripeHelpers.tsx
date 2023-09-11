@@ -291,3 +291,57 @@ export async function getProductsWithRecurringPrices(): Promise<Stripe.Product[]
     return productsWithRecurringPrices;
 
 }
+
+export async function mrr() {
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the start and end dates for the current month
+  const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+  // Retrieve active subscriptions within the current month
+  const subscriptions = await stripe.subscriptions.list({
+    created: {
+      gte: Math.floor(startDate.getTime() / 1000), // Convert to seconds
+      lte: Math.floor(endDate.getTime() / 1000)
+    },
+    status: 'active',
+    expand: ['data.plan']
+  });
+
+  // Calculate the MRR
+  let mrr = 0;
+  subscriptions.data.forEach(subscription => {
+    //@ts-ignore
+    mrr += subscription.plan.amount / 100; // Amount is in cents, so divide by 100 to get dollars
+  });
+
+  return mrr;
+}
+
+export async function payments() {
+  const twentyFourHoursAgo = Math.floor(Date.now() / 1000) - 24 * 60 * 60;
+
+  try {
+    const paymentIntents = await stripe.paymentIntents.list({
+      created: {
+        gte: twentyFourHoursAgo,
+      },
+    });
+
+    const paymentCount = paymentIntents.data.length;
+    let paymentAmount = 0;
+
+    paymentIntents.data.forEach((paymentIntent) => {
+      paymentAmount += paymentIntent.amount / 100; // Convert cents to dollars
+    });
+
+    return {
+      count: paymentCount,
+      amount: paymentAmount,
+    };
+  } catch (error) {
+    throw new Error('Error fetching payment data: ' + error);
+  }
+}

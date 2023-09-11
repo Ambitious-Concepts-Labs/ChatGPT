@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Document from "./Document";
 import { v4 as uuidv4 } from "uuid";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useRouter } from "next/navigation";
+import { delay } from "../utils/helperFunctions";
 
 const Documents = (props: any) => {
-  const { user, session, documents, setShowModal } = props
+  const { id, session, documents, setShowModal } = props
   const router = useRouter();
 
   const handleOnClick = async () => {
     setShowModal(!true);
     const uid = uuidv4();
-    await setDoc(doc(db, "users", session?.user?.id, "documents", uid), {
+    await setDoc(doc(db, "users", id, "documents", uid), {
       title: "Untitled document",
       status: "Draft",
       folder: "",
@@ -25,7 +26,6 @@ const Documents = (props: any) => {
     router.push(`dashboard/document/${uid}`);
   };
 
-  console.log(documents, 'lol: )')
   return (
     <>
       {!documents || documents.length === 0 ? (

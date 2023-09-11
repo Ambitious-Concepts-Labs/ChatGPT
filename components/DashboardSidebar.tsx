@@ -1,5 +1,6 @@
 "use client";
 
+import { AiTwotoneSetting } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import { BsFolder2, BsSuitHeart, BsTrophy } from "react-icons/bs";
 import { FaRegLifeRing } from "react-icons/fa6";
@@ -88,10 +89,11 @@ export default function Sidebar(props: any) {
       badge: "New",
       src: "/dashboard/rewards",
     },
-    // {
-    //   title: 'Settings',
-    //   icon: <AiTwotoneSetting />,
-    // }
+    {
+      title: 'Settings',
+      icon: <AiTwotoneSetting />,
+      src: "/dashboard/settings",
+    }
   ];
 
   const support = [
