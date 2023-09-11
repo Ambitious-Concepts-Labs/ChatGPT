@@ -31,6 +31,7 @@ export default function Home() {
   const [post, setPost] = useState<string>("");
   const [media, setMedia] = useState<boolean>(false);
   const [vibe, setVibe] = useState<VibeType>("Story");
+  const [tone, setTone] = useState<string>("Professional")
   const [showPopup, setShowPopup] = useState(false);
   const [isCustomPrompt, setIsCustomPrompt] = useState(false);
   const [customPrompt, setCustomPrompt] = useState("");
@@ -72,7 +73,7 @@ export default function Home() {
     e.preventDefault();
     setOptimizedPost("");
     setLoading(true);
-    const prompt = handlePrompt(vibe, post);
+    const prompt = handlePrompt(vibe, tone, post);
     setCustomPrompt(prompt)
 
     // Show the popup right before the API call

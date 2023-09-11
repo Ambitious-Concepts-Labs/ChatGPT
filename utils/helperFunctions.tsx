@@ -66,38 +66,81 @@ export function getRandomPrompt(prompt: string): any {
   return randomPrompt;
 }
 
+export function handleTone(tone: string) {
+  switch (tone) {
+    case "Professional":
+      tone = "Use a professional voice and tone, emphasizing the importance of well-supported arguments and industry-specific terminology."
+      break
+    case "Conversational":
+      tone = "Adopt a conversational voice and tone, encouraging them to describe their experiences as if chatting with a friend."
+      break
+    case "Humorous":
+      tone = "Use a humorous voice and tone to spark creativity and make the interaction enjoyable."
+      break
+    case "Empathic":
+      tone = "Use an empathic voice and tone to foster a supportive and safe environment for sharing."
+      break
+    default:
+     tone = `Default prompt for optimizing post`;
+     break
+  }
+  // Prompt Example (Professional Style): Compose a prompt asking users to provide a 
+  // detailed analysis of the impact of artificial intelligence on the healthcare industry. 
+  // Use a professional voice and tone, emphasizing the importance of well-supported arguments 
+  // and industry-specific terminology.
+
+  // Prompt Example (Conversational Style): Write a prompt asking users to share their 
+  // favorite travel destinations. Adopt a conversational voice and tone, encouraging them to 
+  // describe their experiences as if chatting with a friend.
+
+  // Prompt Example (Humorous Style): Craft a prompt asking users to create a witty caption for a 
+  // funny image. Use a humorous voice and tone to spark creativity and make the interaction enjoyable. 
+
+  // Prompt Example (Empathic Style): Create a prompt, encouraging users to share their experiences of 
+  // overcoming personal challenges. Use an empathic voice and tone to foster a supportive and safe environment 
+  // for sharing.
+
+  return tone;
+
+}
+
 // prompt for optimizing post
-export const handlePrompt = (vibe: any, post: any) => {
+export const handlePrompt = (vibe: any, tone: any, post: any) => {
   let prompt;
+  tone = handleTone(tone)
   // add more vibes as needed
   switch (vibe) {
     case "Story":
-      prompt = `Generate post using this prompt, based on ${post}.  You are a LinkedinGPT, a large language model that generates viral posts for Linkedin. You are given a prompt of a post and must generate a post that is more likely to be liked and reposted than the original post.
-The Linkedin algorithm contains boosts and demotions based on what you are writing. Positive boosts are:
+      prompt = `Generate post using this prompt, based on ${post}.  
+      You are a LinkedinGPT, a large language model that generates viral posts for Linkedin. You are given a prompt of a post and must generate a post that is more likely to be liked and reposted than the original post.
+      The Linkedin algorithm contains boosts and demotions based on what you are writing. Positive boosts are:
 
-- in each post add emoji
-- 200 characters in sentence maximum
-- Start each sentecnce from new line and ad numbers in first 2 lines
-- add 3 hashtags which 2 are generic and one very specific (at the end) Tags relate to post theme
-- add a question at the end of the post to start a discussion. Before the hashtags
-- first two lines should be catchy
-- Dont add links - links are not good.
-- If post copied in the field contain some numbers keep them the same.
+      - in each post add emoji
+      - 200 characters in sentence maximum
+      - Start each sentecnce from new line and ad numbers in first 2 lines
+      - add 3 hashtags which 2 are generic and one very specific (at the end) Tags relate to post theme
+      - add a question at the end of the post to start a discussion. Before the hashtags
+      - first two lines should be catchy
+      - Dont add links - links are not good.
+      - If post copied in the field contain some numbers keep them the same.
 
-Add idea about which image or visual can be added at the end of the post (this text is not counted as part of post)
-${post}
----
-Generated post length must be more than 800-1200 characters
----
-Between each line must be a space
----
-Keep all mentions of people in there
----
-Start the firs line from smth like: I did smth, In year, I do, Tired of, Sometimes it is just, A path toward, Because this is not,I've been struggling,  (change the begginign depends on the context )
----
-Add emoji if it fits
----
-It should be a story`;
+      Add idea about which image or visual can be added at the end of the post (this text is not counted as part of post)
+      ${post}
+      ---
+      Generated post length must be more than 800-1200 characters
+      ---
+      Between each line must be a space
+      ---
+      Keep all mentions of people in there
+      ---
+      Start the firs line from smth like: I did smth, In year, I do, Tired of, Sometimes it is just, A path toward, Because this is not,I've been struggling,  (change the begginign depends on the context )
+      ---
+      Add emoji if it fits
+      ---
+      It should be a story
+      ---
+      ${tone}
+      `;
       break;
     case "Crisp":
       prompt = `Generate post using this prompt, based on ${post}. You are a LinkedinGPT, a large language model that generates viral posts for Linkedin. You are given a prompt of a post and must generate a post that is more likely to be liked and reposted than the original post.

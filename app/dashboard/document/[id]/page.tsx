@@ -42,6 +42,7 @@ const DocumentPage = ({}: Props) => {
   const [post, setPost] = useState<string>("");
   const [media, setMedia] = useState<boolean>(false);
   const [vibe, setVibe] = useState<VibeType>("Story");
+  const [tone, setTone] = useState<string>("Professional");
   const [showPopup, setShowPopup] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -96,7 +97,7 @@ const DocumentPage = ({}: Props) => {
     e.preventDefault();
     setOptimizedPost("");
     setLoading(true);
-    const prompt = handlePrompt(vibe, post);
+    const prompt = handlePrompt(vibe, tone, post);
 
     // Show the popup right before the API call
     handleButtonClick();

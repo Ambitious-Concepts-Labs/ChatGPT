@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { CgFileDocument } from "react-icons/cg";
 import { FaLocationArrow } from "react-icons/fa6";
 import { LuStars } from "react-icons/lu";
+import { AiTwotoneAudio } from "react-icons/ai";
 import { RiVoiceprintLine } from "react-icons/ri";
 import Modal from "./NewDocModal";
 import {
@@ -111,6 +112,12 @@ export default function PromptBar(props: any) {
                 <RiVoiceprintLine />
               </span>
               <span className="text-xs font-bold">No Brand Voice</span>
+            </button>
+             <button className="flex items-center gap-1 hover:bg-slate-200 py-1 px-2 rounded-md">
+              <span className="text-slate-400">
+                <AiTwotoneAudio />
+              </span>
+              <span className="text-xs font-bold">Add Tone</span>
             </button>
           </div>
           <div className="flex items-center gap-2">
