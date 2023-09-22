@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 export default function Survey(props: any) {
   const { session } = props
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
-  const [selectedOptions, setSelectedOptions] = React.useState<any>();
+  const [selectedOptions, setSelectedOptions] = React.useState<any>([{ question: "", response: "" }]);
   const [score, setScore] = React.useState(0);
   const [showScore, setShowScore] = React.useState(false);
   const [isStarted, setIsStarted] = React.useState(false);
@@ -60,6 +60,7 @@ export default function Survey(props: any) {
     setShowScore(true);
   };
 
+  console.log(selectedOptions)
   return (
     <div className="flex flex-col w-4/5 h-auto  px-5 my-4 py-5 bg-white justify-center items-center">
       {!isStarted ? (
