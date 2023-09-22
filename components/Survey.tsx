@@ -143,7 +143,7 @@ export default function Survey(props: any) {
                 </svg>
                 <button
                   className="text-sm ml-3 font-medium leading-none"
-                  onClick={handlePrevious}
+                  onClick={() => handlePrevious}
                   disabled={currentQuestion === 0 ? true : false}
                   style={
                     currentQuestion === 0
@@ -173,7 +173,7 @@ export default function Survey(props: any) {
               <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
                 <button
                   className="text-sm font-medium leading-none mr-3"
-                  onClick={
+                  onClick={ () =>
                     currentQuestion + 1 === survey.length
                       ? handleSubmitButton
                       : handleNext
