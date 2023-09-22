@@ -127,7 +127,7 @@ export default function Sidebar(props: any) {
         </div>
         <div
           className="col-start-1 row-start-1 md:hidden cursor-pointer h-6 w-6 flex items-center justify-center"
-          onClick={handleCloseSidebar}
+          onClick={() => handleCloseSidebar}
         >
           <IoCloseOutline className="h-full w-auto" />
         </div>

@@ -27,7 +27,7 @@ const NewChat = ({setShow} : Props) => {
     router.push(`/chat/${doc.id}`);
   };
   return (
-    <div onClick={createNewChat} className="border-gray-700 border chatRow">
+    <div onClick={() => createNewChat} className="border-gray-700 border chatRow">
       <PlusIcon className="h-4 w-4" />
       <p className="">New chat</p>
     </div>

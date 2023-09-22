@@ -197,7 +197,7 @@ const ImageInput = ({ imageId }: Props) => {
         <div className="mt-5 flex gap-5">
           <button
             type="button"
-            onClick={generateImage}
+            (onClick={() => generateImage}
             className=" text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
             {generatingImg ? 'Generating...' : 'Generate'}

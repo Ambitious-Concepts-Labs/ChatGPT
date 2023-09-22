@@ -27,7 +27,7 @@ const NewImage = ({setShow} : Props) => {
     router.push(`/image/${doc.id}`);
   };
   return (
-    <div onClick={createNewImage} className="border-gray-700 border chatRow">
+    <div onClick={() => createNewImage} className="border-gray-700 border chatRow">
       <PlusIcon className="h-4 w-4" />
       <p className="">New image</p>
     </div>
