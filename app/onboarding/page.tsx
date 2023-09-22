@@ -17,11 +17,11 @@ export default async function Page() {
           </div>
         </div>
       </div>
-      <div className='grid place-items-center bg-black'>
+      {/* <div className='grid place-items-center bg-black'>
         <div className='rounded-md invert'>
           <img src='/vercel.svg' className='h-14 w-14 ' />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

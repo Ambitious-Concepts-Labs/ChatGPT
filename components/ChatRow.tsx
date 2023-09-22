@@ -105,7 +105,7 @@ const ChatRow = ({ id, setShow }: Props) => {
           className="h-4 w-4 text-gray-400 hover:text-orange-300"
         />
         <TrashIcon
-          onClick={deleteChat}
+          onClick={() => deleteChat}
           className="h-4 w-4 text-gray-400 hover:text-red-600/70 close"
         />
       </div>

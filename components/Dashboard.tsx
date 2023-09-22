@@ -17,7 +17,7 @@ const Dashboard = () => {
   const { session, documents, showModal, setShowModal, user, id } = UserAuth();
   const [draft, setDraft] = useState(0);
 
-  const docSize = documents.length
+  const docSize = documents.length || 0
 
   useEffect(() => {
     handleStatus();
