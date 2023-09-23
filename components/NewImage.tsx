@@ -1,9 +1,9 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import { db } from "../firebase";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -11,15 +11,15 @@ type Props = {
 
 const NewImage = ({setShow} : Props) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { firebaseUser } = UserAuth();
   const createNewImage = async () => {
     if(window.innerWidth < 768) {
       setShow(false);
     }
     const doc = await addDoc(
-      collection(db, "users", session?.user?.id!, "images"),
+      collection(db, "users", firebaseUser.uid, "images"),
       {
-        userId: session?.user?.id!,
+        userId: firebaseUser.uid,
         createdAt: serverTimestamp(),
         name: "New image"
       }
@@ -27,7 +27,7 @@ const NewImage = ({setShow} : Props) => {
     router.push(`/image/${doc.id}`);
   };
   return (
-    <div onClick={createNewImage} className="border-gray-700 border chatRow">
+    <div onClick={() => createNewImage} className="border-gray-700 border chatRow">
       <PlusIcon className="h-4 w-4" />
       <p className="">New image</p>
     </div>

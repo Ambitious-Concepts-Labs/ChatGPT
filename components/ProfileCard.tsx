@@ -24,7 +24,7 @@ export default function ProfileCard(props: any) {
           </div>
           <div className="relative">
             <img
-              src={session?.user?.image}
+              src={session?.photoURL}
               alt="React Logo"
               className="h-8 w-8 rounded-full"
             />
@@ -50,7 +50,7 @@ export default function ProfileCard(props: any) {
                 value={displayName}
                 onChange={(e) => setName(e.target.value)}
                 className="border p-2 rounded-md"
-                placeholder={session?.user?.name}
+                placeholder={session.displayName}
               />
             </div>
             <div className="flex flex-col gap-2 text-xs text-slate-400">
@@ -63,7 +63,7 @@ export default function ProfileCard(props: any) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="border p-2 rounded-md"
-                placeholder={session?.user?.email}
+                placeholder={session.email}
               />
             </div>
             <Button

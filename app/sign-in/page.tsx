@@ -6,9 +6,12 @@ import { AiFillGithub } from 'react-icons/ai'
 import { FcGoogle } from 'react-icons/fc'
 import { BsDiscord } from 'react-icons/bs'
 
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { signInWithPopup } from 'firebase/auth';
+import { GoogleProvider, auth } from '../../firebase';
+
+
 
 export default function Page() {
   const [email, setEmail] = useState('');
@@ -34,13 +37,13 @@ export default function Page() {
                 variant={'black'}
                 text={"Sign in with Discord"}
                 icon={<BsDiscord size={18} />}
-                onClick={() => signIn('discord', { callbackUrl: '/dashboard' })}
+                // onClick={() => signIn('discord', { callbackUrl: '/dashboard' })}
               />
               <Button
                 variant={'black'}
                 text={"Sign in with GitHub"}
                 icon={<AiFillGithub size={18}/>}
-                onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
+                // onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
               />
               { 
               <Button
@@ -48,10 +51,10 @@ export default function Page() {
                 variant={'black'}
                 text={"Sign in with Google"}
                 icon={<FcGoogle size={18}/>}
-                onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+                onClick={() => signInWithPopup(auth, GoogleProvider)}
               />     
               }
-              <button onClick={() => signIn("google", { callbackUrl: '/dashboard' })} 
+              <button onClick={() => signInWithPopup(auth, GoogleProvider)}
               className="font-bold text-3xl animate-pulse">
                 Sign In to use ChatGPT
               </button>

@@ -2,7 +2,6 @@
 
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import { db } from "../firebase";
 import toast from "react-hot-toast";
@@ -12,13 +11,14 @@ import { getRandomPrompt } from "../utils/generatePrompts";
 import { preview } from '../assets';
 import Image from 'next/image';
 import { CreateImageRequestSizeEnum } from "openai";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   imageId: string;
 };
 const ImageInput = ({ imageId }: Props) => {
   const [prompt, setPrompt] = useState("");
-  const { data: session } = useSession();
+  const { firebaseUser, user } = UserAuth()
   const [form, setForm] = useState({
     name: '',
     prompt: '',
@@ -79,11 +79,11 @@ const ImageInput = ({ imageId }: Props) => {
       text: input,
       createdAt: serverTimestamp(),
       user: {
-        _id: session?.user?.email!,
-        name: session?.user?.name!,
+        _id: firebaseUser.uid,
+        name: user.displayName,
         avatar:
-          session?.user?.image! ||
-          `https://ui-avatar.com/api/?name=${session?.user?.name}`,
+          firebaseUser ||
+          `https://ui-avatar.com/api/?name=${user.displayName}`,
       },
     };
 
@@ -91,7 +91,7 @@ const ImageInput = ({ imageId }: Props) => {
       collection(
         db,
         "users",
-        session?.user?.email!,
+        firebaseUser.uid,
         "images",
         imageId,
         "messages"
@@ -111,7 +111,7 @@ const ImageInput = ({ imageId }: Props) => {
         prompt: input,
         imageId,
         size,
-        session,
+        session: firebaseUser,
       }),
     }).then(() => {
       // Notification toast Successful
@@ -197,7 +197,7 @@ const ImageInput = ({ imageId }: Props) => {
         <div className="mt-5 flex gap-5">
           <button
             type="button"
-            onClick={generateImage}
+            (onClick={() => generateImage}
             className=" text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
             {generatingImg ? 'Generating...' : 'Generate'}
@@ -221,7 +221,7 @@ const ImageInput = ({ imageId }: Props) => {
         >
           <input
             className="outline-none bg-transparent flex-1 disabled:cursor-not-allowed disabled:text-gray-300"
-            disabled={!session}
+            disabled={!firebaseUser}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             type="text"
@@ -230,7 +230,7 @@ const ImageInput = ({ imageId }: Props) => {
 
           <button
             type="submit"
-            disabled={!prompt || !session}
+            disabled={!prompt || !firebaseUser}
             className="bg-[#11A37F] hover:opacity-50 text-white font-bold px-2 py-1 md:px-4 md:py-2  rounded cursor-pointer disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             <PaperAirplaneIcon className="h-4 w-4 -rotate-45 " />

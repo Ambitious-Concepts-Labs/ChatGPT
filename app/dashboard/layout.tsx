@@ -8,7 +8,7 @@ import Sidebar from "../../components/DashboardSidebar";
 import "../../styles/globals.css";
 import "tailwindcss/tailwind.css";
 // import { Rubik } from "next/font/google";
-import AuthRouter from "../authRouter";
+// import AuthRouter from "../authRouter";
 
 // const rubik = Rubik({ subsets: ["latin"] });
 
@@ -28,7 +28,7 @@ const DashboardLayout = ({ children }) => {
     <>
       {/* <div className={`${rubik.className} flex ${isOpen && "overflow-hidden"}`}> */}
       <div className={`flex ${isOpen && "overflow-hidden"}`}>
-        <AuthRouter>
+        <>
           <Sidebar
             setAskQuestion={setAskQuestion}
             askQuestion={askQuestion}
@@ -39,7 +39,7 @@ const DashboardLayout = ({ children }) => {
             {children}
             {/* {askQuestion && <Chatbot />} */}
           </div>
-        </AuthRouter>
+        </>
       </div>
     </>
   );

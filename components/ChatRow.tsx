@@ -12,12 +12,12 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   id: string;
@@ -27,14 +27,14 @@ type Props = {
 const ChatRow = ({ id, setShow }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { data: session } = useSession();
+  const { firebaseUser } = UserAuth();
   const [active, setActive] = useState(false);
   const [chatName, setChatName] = useState("");
   const [editable, setEditable] = useState(false);
 
   const handleChatName = async () => {
     const chatDoc = await getDoc(
-      doc(db, "users", session?.user?.email!, "chats", id)
+      doc(db, "users", firebaseUser.uid, "chats", id)
     );
     const response = chatDoc?.data();
     if (response) {
@@ -54,13 +54,13 @@ const ChatRow = ({ id, setShow }: Props) => {
 
   const updateChatName = async () => {
     setEditable(false);
-    await updateDoc(doc(db, "users", session?.user?.email!, "chats", id), {
+    await updateDoc(doc(db, "users", firebaseUser.uid, "chats", id), {
       name: chatName,
     });
   };
 
   const deleteChat = async () => {
-    await deleteDoc(doc(db, "users", session?.user?.email!, "chats", id));
+    await deleteDoc(doc(db, "users", firebaseUser.uid, "chats", id));
     router.replace("/");
   };
 
@@ -105,7 +105,7 @@ const ChatRow = ({ id, setShow }: Props) => {
           className="h-4 w-4 text-gray-400 hover:text-orange-300"
         />
         <TrashIcon
-          onClick={deleteChat}
+          onClick={() => deleteChat}
           className="h-4 w-4 text-gray-400 hover:text-red-600/70 close"
         />
       </div>

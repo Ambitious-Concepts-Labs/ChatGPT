@@ -4,7 +4,6 @@
 "use client";
 
 import {  DocumentData } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { GrDocument } from "react-icons/gr";
 import { UserAuth } from "../app/authContext";
 import Link from "next/link";
@@ -15,8 +14,7 @@ type Props = {
 
 const Folder = (props: any) => {
   const { folder, folders } = props
-  const { getFoldersDocuments } = UserAuth();
-  const { data: session } = useSession();
+  const { getFoldersDocuments, firebaseUser } = UserAuth();
   console.log(folder)
   console.log(folder.documents)
   console.log(folder.documents.length === 0)
@@ -62,7 +60,7 @@ const Folder = (props: any) => {
           }
           <img
             className="h-5 w-5 rounded-full md:mx-auto"
-            src={session?.user?.image}
+            src={firebaseUser.photoURL}
             alt=""
           />
         </div>

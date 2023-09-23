@@ -19,6 +19,8 @@ import Image from "next/image";
 // import { AiTwotoneSetting } from "react-icons/ai";
 import UseDarkMode from "../utils/use-dark-mode";
 import { handleSignout } from "../utils/helperFunctions";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function Sidebar(props: any) {
   const {  askQuestion, isOpen, handleCloseSidebar, setAskQuestion } = props
@@ -127,7 +129,7 @@ export default function Sidebar(props: any) {
         </div>
         <div
           className="col-start-1 row-start-1 md:hidden cursor-pointer h-6 w-6 flex items-center justify-center"
-          onClick={handleCloseSidebar}
+          onClick={() => handleCloseSidebar}
         >
           <IoCloseOutline className="h-full w-auto" />
         </div>
@@ -163,7 +165,7 @@ export default function Sidebar(props: any) {
           <div className="rotate-90 h-5 w-5">
             <HiArrowUpTray className="h-full w-auto" />
           </div>
-          <span onClick={() => handleSignout()} className="text-xs font-semibold">
+          <span onClick={() => signOut(auth)} className="text-xs font-semibold">
             Sign out
           </span>
         </button>

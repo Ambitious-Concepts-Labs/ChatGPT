@@ -2,24 +2,24 @@
 
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 import { collection, orderBy, query } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 import Message from "./Message";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   imageId: string;
 };
 const Image = ({ imageId }: Props) => {
-  const { data: session } = useSession();
+  const { firebaseUser } = UserAuth();
 
   const [messages] = useCollection(
-    session &&
+    firebaseUser &&
       query(
         collection(
           db,
           "users",
-          session?.user?.email!,
+          firebaseUser.uid,
           "images",
           imageId,
           "messages"

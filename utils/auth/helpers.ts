@@ -4,19 +4,22 @@ import { redirect } from 'next/navigation';
 import { UserAuth } from '../../app/authContext';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../utils/auth/authOptions';
+import { getSession } from 'next-auth/react';
 
 // const { user, id } = UserAuth();
 
 export async function requireUserLoggedIn() {
-    const session = await getServerSession(authOptions)
+    const session = await getSession(authOptions)
 
-    if (!session) {
-        redirect('/sign-in')
+    if (!session && location.pathname !== "/sign-in") {
+        console.log("no-user-logged-in")
+        window.location.assign("/sign-in")
     }
 }
 
 export async function requireAdminRole() {
-    const session = await getServerSession(authOptions)
+    const session = await getSession(authOptions)
+    // const session = await getServerSession(authOptions)
 
     if (!session) {
         redirect('/sign-in')

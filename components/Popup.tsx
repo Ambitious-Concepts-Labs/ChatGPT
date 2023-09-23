@@ -1,6 +1,5 @@
 import React from "react";
 
-// import { useSession } from "next-auth/client";
 
 interface PopupProps {
   show: boolean;
@@ -76,7 +75,7 @@ function Popup({ show, setShowPopup }: PopupProps) {
           And you will never see this popup again 😜
         </p>
         <button
-          onClick={handleCloseClick}
+          onClick={() => handleCloseClick}
           className=" mt-6 block w-full rounded-md bg-black text-white px-4 py-2 text-center text-sm font-semibold"
         >
           Continue without upgrade
