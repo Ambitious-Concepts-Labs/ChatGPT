@@ -4,6 +4,14 @@ import Stripe from 'stripe';
 import { UserAuth } from "../app/authContext";
 
 
+export function scrollToTop() {
+      window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth"
+      });
+  }
+
 export const stripe = new Stripe(String(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY), {
     apiVersion: "2023-08-16",
 });

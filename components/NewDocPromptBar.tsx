@@ -100,7 +100,7 @@ export default function PromptBar(props: any) {
           <div className="flex items-center gap-2">
             <button
               className="flex items-center gap-1 hover:bg-slate-200 py-1 px-2 rounded-md"
-              onClick={handleOpenModal}
+              onClick={() => handleOpenModal}
             >
               <span className="text-slate-400">
                 <CgFileDocument />
@@ -121,7 +121,7 @@ export default function PromptBar(props: any) {
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <button
+            {/* <button
               disabled={isDisabled}
               className="flex items-center gap-1 hover:bg-slate-200 py-1 px-2 rounded-md disabled:text-slate-400 disabled:hover:bg-transparent"
             >
@@ -129,7 +129,7 @@ export default function PromptBar(props: any) {
                 <LuStars />
               </span>
               <span className="text-xs font-bold">Improve</span>
-            </button>
+            </button> */}
             <button
               disabled={isDisabled}
               onClick={(e) => {

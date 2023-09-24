@@ -111,7 +111,7 @@ export default function NewModal (props: any) {
             </div>
             <button
               className='px-4 py-2 bg-c-green text-white text-sm rounded-md w-max disabled:opacity-30'
-              onClick={handlePrompt}
+              onClick={() => handlePrompt}
               disabled={actual.categoryId === undefined || actual.promptId === undefined || actual.promptValue === undefined}
             >
               Use Prompt
