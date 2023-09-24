@@ -5,7 +5,6 @@ import React from "react";
 import Image from "next/image";
 import { GrDocument } from "react-icons/gr";
 import { collection, query, orderBy } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase";
 import Folder from "./Folder";

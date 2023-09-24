@@ -2,19 +2,19 @@
 
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { FormEvent, useState } from "react";
 import { db } from "../firebase";
 import toast from "react-hot-toast";
 import ModelSelection from "./ModelSelection";
 import useSWR from "swr";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   chatId: string;
 };
 const ChatInput = ({ chatId }: Props) => {
   const [prompt, setPrompt] = useState("");
-  const { data: session } = useSession();
+  const { firebaseUser, user } = UserAuth();
 
   // TODO useSWR to get model
   const { data: model } = useSWR("model", {
@@ -32,11 +32,11 @@ const ChatInput = ({ chatId }: Props) => {
       text: input,
       createdAt: serverTimestamp(),
       user: {
-        _id: session?.user?.email!,
-        name: session?.user?.name!,
+        _id: firebaseUser.uid,
+        name: user.displayName,
         avatar:
-          session?.user?.image! ||
-          `https://ui-avatar.com/api/?name=${session?.user?.name}`,
+          firebaseUser.photoUrl ||
+          `https://ui-avatar.com/api/?name=${user.displayName}`,
       },
     };
 
@@ -44,7 +44,7 @@ const ChatInput = ({ chatId }: Props) => {
       collection(
         db,
         "users",
-        session?.user?.email!,
+        firebaseUser.uid,
         "chats",
         chatId,
         "messages"
@@ -64,7 +64,7 @@ const ChatInput = ({ chatId }: Props) => {
         prompt: input,
         chatId,
         model,
-        session,
+        session: firebaseUser,
       }),
     }).then(() => {
       // Notification toast Successful
@@ -84,7 +84,7 @@ const ChatInput = ({ chatId }: Props) => {
         >
           <input
             className="outline-none bg-transparent flex-1 disabled:cursor-not-allowed disabled:text-gray-300"
-            disabled={!session}
+            disabled={!firebaseUser}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             type="text"
@@ -93,7 +93,7 @@ const ChatInput = ({ chatId }: Props) => {
 
           <button
             type="submit"
-            disabled={!prompt || !session}
+            disabled={!prompt || !firebaseUser}
             className="bg-[#11A37F] hover:opacity-50 text-white font-bold px-2 py-1 md:px-4 md:py-2  rounded cursor-pointer disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             <PaperAirplaneIcon className="h-4 w-4 -rotate-45 " />

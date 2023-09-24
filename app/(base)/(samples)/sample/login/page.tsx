@@ -1,7 +1,8 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signInWithPopup } from "firebase/auth";
 import Image from "next/image";
+import { GoogleProvider, auth } from "../../../../../firebase";
 
 const Login = () => {
   return (
@@ -12,7 +13,7 @@ const Login = () => {
         height={300}
         alt="chatgpt logo"
       />
-      <button onClick={() => signIn("google", { callbackUrl: '/dashboard' })} className="text-white font-bold text-3xl animate-pulse">Sign In to use ChatGPT</button>
+      <button onClick={() => signInWithPopup(auth, GoogleProvider)} className="text-white font-bold text-3xl animate-pulse">Sign In to use ChatGPT</button>
     </div>
   );
 };

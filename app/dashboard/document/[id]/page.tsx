@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
@@ -29,9 +28,8 @@ type Props = {
 const DocumentPage = ({}: Props) => {
   const clickCount = useRef(0);
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const {session, status, id } = UserAuth();
   const [currDoc, setCurrDoc] = useState<DocumentData>({title: '', status: '', response: ''});
-  const { id } = UserAuth();
   const [loading, setLoading] = useState(false);
   const [doneFetching, setDoneFetching] = useState(false);
   const [optimizedPost, setOptimizedPost] = useState<string>("");

@@ -5,16 +5,14 @@
 import "../../styles/globals.css";
 import ClientProvider from "../../components/ClientProvider";
 import RightSidebar from "../../components/RightSidebar";
-import { SessionProvider } from "../../components/SessionProvider";
 import Sidebar from "../../components/ChatSidebar";
 import Home from "../../components/homepage/home";
-import { useSession } from "next-auth/react";
 
 const ChatLayout = ({ children }) => {
-  const { data: session } = useSession();
+  const { session } = useAuth();
   console.log(session);
   return (
-    <SessionProvider session={session}>
+    <>
       {!session && (
         <>
           <Home />
@@ -36,7 +34,7 @@ const ChatLayout = ({ children }) => {
           </div>
         </div>
       )}
-    </SessionProvider>
+    </>
   );
 };
 

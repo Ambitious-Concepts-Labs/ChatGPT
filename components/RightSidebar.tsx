@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
@@ -11,9 +10,10 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import NewImage from "./NewImage";
 import ImageRow from "./ImageRow";
+import { UserAuth } from "../app/authContext";
 
 const RightSidebar = () => {
-  const { data: session } = useSession();
+  const { firebaseUser } = UserAuth();
 
   const [show, setShow] = useState(false);
 
@@ -33,9 +33,9 @@ const RightSidebar = () => {
   });
 
   const [images, loading, error] = useCollection(
-    session &&
+    firebaseUser &&
       query(
-        collection(db, "users", session?.user?.id!, "images"),
+        collection(db, "users", firebaseUser.uid, "images"),
         orderBy("createdAt", "asc")
       )
   );

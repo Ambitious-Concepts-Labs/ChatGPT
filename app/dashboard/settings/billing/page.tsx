@@ -8,7 +8,6 @@ import {
   getSubscriptions,
 } from '../../../../utils/stripeHelpers';
 // import { prisma } from '@saas/database/connection';
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 
 // import { authOptions } from '@/auth/options';

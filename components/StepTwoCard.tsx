@@ -6,7 +6,6 @@ import Button from "./Button";
 import { useState } from "react";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function StepTwoCard(props: any) {

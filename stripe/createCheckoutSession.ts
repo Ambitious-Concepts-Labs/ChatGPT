@@ -4,10 +4,14 @@ import { addDoc, collection, getDoc, onSnapshot, query, serverTimestamp } from "
 import { db } from "../firebase";
 import initializeStripe from "./initializeStripe";
 import { v4 as uuidv4 } from 'uuid';
+import { getAuth } from "firebase/auth";
 
 export async function createCheckoutSession(email: string, planId) {
-  console.log(email, planId)
-  console.log('yoooooo')
+
+const auth = getAuth();
+const user = auth.currentUser;
+
+  console.log('yoooooo', user)
   let priceId = ''
 
   if (planId == 1) {
@@ -23,7 +27,7 @@ export async function createCheckoutSession(email: string, planId) {
 
   // Create a new checkout session in the subollection inside this users document
   // const checkoutSessionRef = await addDoc(collection(db, "users", email, "checkout_sessions"), { 
-  const checkoutSessionRef = await addDoc(collection(db, "users", 'o6WNrSBWrmT81d01DQiz004J2WA3', "checkout_sessions"), { 
+  const checkoutSessionRef = await addDoc(collection(db, "users", user.uid, "checkout_sessions"), { 
     id: uuidv4(),
     price: priceId,
     success_url: window.location.origin + "/dashboard/billing",
@@ -32,7 +36,7 @@ export async function createCheckoutSession(email: string, planId) {
   })
 
   // const stripeCollection = await query(collection(db, "users", email, "checkout_sessions"));
-  const stripeCollection = await query(collection(db, "users", 'o6WNrSBWrmT81d01DQiz004J2WA3', "checkout_sessions"));
+  const stripeCollection = await query(collection(db, "users", user.uid, "checkout_sessions"));
   const sessionRef = await getDoc(checkoutSessionRef);
   const data = sessionRef.data()
 

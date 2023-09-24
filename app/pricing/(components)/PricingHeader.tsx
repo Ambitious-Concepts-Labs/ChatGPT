@@ -1,12 +1,12 @@
 import logo from "../../../assets/logo.svg";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { UserAuth } from "../../authContext";
 
 export default function Header() {
-  const { data: session } = useSession();
+  const {firebaseUser} = UserAuth()
   return (
     <>
-      {!session ? (
+      {!firebaseUser ? (
         <header className="flex items-center justify-between px-5 py-8 lg:px-8">
           <div className="h-10 w-24">
             <Image src={logo} width={199} height={43} alt="Logo" />
@@ -23,10 +23,10 @@ export default function Header() {
           <div className="h-10 w-24">
             <Image
               className="rounded-full"
-              src={session?.user?.image || ""}
+              src={firebaseUser.photoURL || ""}
               width={40}
               height={40}
-              alt={session?.user?.name || ""}
+              alt={firebaseUser.email || ""}
             />
           </div>
         </header>

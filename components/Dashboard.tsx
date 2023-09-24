@@ -61,7 +61,7 @@ const Dashboard = () => {
                 bgHover="hover:bg-teal-500 dark:hover:bg-teal-700"
                 textHover="hover:text-white"
                 heading="Drafts"
-                number={`${(draft / docSize) * 100} %`}
+                number={documents.length > 0 ? `${(draft / docSize) * 100} %`: 0}
                 iconbg="bg-teal-500 dark:bg-teal-700"
                 icon={<BsPeopleFill />}
               />
@@ -70,7 +70,7 @@ const Dashboard = () => {
                 bgHover="hover:bg-pink-500 dark:hover:bg-pink-700"
                 textHover="hover:text-white"
                 heading="Published"
-                number={`${((docSize - draft) / docSize) * 100} %`}
+                number={documents.length > 0 ? `${((docSize - draft) / docSize) * 100} %`: 0}
                 iconbg="bg-pink-500 dark:bg-pink-700"
                 icon={<GiCargoShip />}
               />

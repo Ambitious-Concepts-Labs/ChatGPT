@@ -1,10 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import NewChat from "./NewChat";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import ChatRow from "./ChatRow";
 import ModelSelection from "./ModelSelection";
 import { useEffect, useState } from "react";
@@ -13,10 +12,11 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { handleSignout } from "../utils/helperFunctions";
+import { UserAuth } from "../app/authContext";
+import { signOut } from "firebase/auth";
 
 const Sidebar = () => {
-  const { data: session } = useSession();
+  const { firebaseUser } = UserAuth();
 
   const [show, setShow] = useState(false);
 
@@ -36,9 +36,9 @@ const Sidebar = () => {
   });
 
   const [chats, loading, error] = useCollection(
-    session &&
+    firebaseUser &&
       query(
-        collection(db, "users", session?.user?.id!, "chats"),
+        collection(db, "users", firebaseUser.uid, "chats"),
         orderBy("createdAt", "asc"),
       ),
   );
@@ -88,15 +88,15 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      {session && (
+      {firebaseUser && (
         <div className="flex md:flex-col md:gap-2 flex-1 md:flex-grow-0 justify-end md:items-center">
           <img
             className="h-12 w-12 rounded-full mr-3 md:mx-auto"
-            src={session.user?.image!}
+            src={firebaseUser.photoURL}
             alt=""
           />
           <button
-            onClick={() => handleSignout()}
+            onClick={() => signOut(auth)}
             id="logout"
             className={`h-12 w-12 md:w-[100%] md:h-auto flex items-center justify-center gap-2  border font-bold p-2 text-gray-300 rounded-lg hover:bg-[#11A37F] transition duration-300 hover:border-transparent hover:text-white active:scale-90 ${
               window.innerWidth < 768 && "bg-[#11A37F] text-white border-none"

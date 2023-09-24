@@ -4,7 +4,6 @@ import Image from "next/image";
 import { db } from "../../../firebase";
 import { createCheckoutSession } from "../../../stripe/createCheckoutSession";
 import usePremiumStatus from "../../../stripe/usePremiumStatus";
-import { useSession } from "next-auth/react";
 import { doc, getDoc } from "firebase/firestore";
 import { delay } from "../../../utils/helperFunctions";
 import { UserAuth } from "../../authContext";

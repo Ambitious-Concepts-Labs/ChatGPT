@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 // import { setDocument } from "../utils/firebaseHelpers";
 
 export default function index(props: any) {
-  const { path, title, button, session, setShowModal, showModal, id } = props
+  const { path, title, button, setShowModal, showModal, id } = props
   const router = useRouter();
 
   const handleOnClick = async () => {

@@ -1,6 +1,5 @@
 import React from "react";
 
-// import { useSession } from "next-auth/client";
 
 interface PopupProps {
   show: boolean;

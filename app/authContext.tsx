@@ -2,20 +2,18 @@
 
 "use client";
 import { useContext, createContext, useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { doc, getDoc, getDocs, collection, collectionGroup } from "firebase/firestore";
-import { db } from "../firebase";
+import { doc, getDoc, getDocs, collection, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import { getProductsWithRecurringPrices } from "../utils/helperFunctions"
 import { getProducts, getAllSubscriptions, getPaymentMethods,
   generateCheckoutLink, generateCustomerPortalLink } from "../utils/stripeHelpers"
-import { requireUserLoggedIn } from '../utils/auth/helpers';
+import { User, onAuthStateChanged } from "firebase/auth";
 
 
 const AuthContext = createContext();
 
 
 export const AuthContextProvider = ({ children }) => {
-  const { data: session } = useSession();
   const [user, setUser] = useState('')
   const [users, setUsers] = useState('')
   const [products, setProducts] = useState('')
@@ -23,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
   const [checkoutLinks, setCheckoutLinks] = useState('')
   const [checkoutLink, setCheckoutLink] = useState('')
   const [methods, setMethods] = useState('')
-  const [id, setId] = useState(localStorage.getItem('id_help') || null)
+  const [id, setId] = useState(window.localStorage.getItem('id_help') || null)
   const [currUser, setCurrUser] = useState('')
   const [documents, setDocuments] = useState([])
   const [payments, setPayments] = useState([])
@@ -31,6 +29,10 @@ export const AuthContextProvider = ({ children }) => {
   const [subs, setSubs] = useState([])
   const [folders, setFolders] = useState([])
   const [showModal, setShowModal] = useState(false);
+
+  const [firebaseUser, setFirebaseUser] = useState<null | User>(null)
+  const [loading, setLoading] = useState(true)
+
 
   const getSubscriptions = async () => {
     const dataArr:{}[] = []
@@ -115,6 +117,7 @@ export const AuthContextProvider = ({ children }) => {
         const obj = { ...doc.data(), documentId: doc.id }
         dataArr.push(obj)
     });
+    console.log({'docs': dataArr})
     setDocuments(dataArr)
     return dataArr
   }
@@ -172,13 +175,13 @@ export const AuthContextProvider = ({ children }) => {
     return subs
   }
 
-useEffect(() => {
-  if (!user) {
-    if (session?.user?.id) {
-      getUser(session?.user?.id)
-      getUsers(session?.user?.id)
-      getDocuments(session?.user?.id)
-      getFolders(session?.user?.id)
+  useEffect(() => {
+  
+  if (firebaseUser !== null) {
+      getUser(firebaseUser.uid)
+      getUsers(firebaseUser.uid)
+      getDocuments(firebaseUser.uid)
+      getFolders(firebaseUser.uid)
       getPayments()
       getSubscriptions()
       getCurrProducts()
@@ -187,30 +190,58 @@ useEffect(() => {
       getCheckoutLinks()
       getCheckoutLink()
       getMethods()
-      requireUserLoggedIn();
-    } else {
-      setUser(currUser)
-      getUser(id)
-      getUsers(id)
-      getDocuments(id)
-      getFolders(id)
-      getPayments()
-      getSubscriptions()
-      getCurrProducts()
-      getRecurringProducts()
-      getSubs()
-      getCheckoutLinks()
-      getCheckoutLink()
-      getMethods()
-      requireUserLoggedIn();
-    }
+      // requireUserLoggedIn();
   }
-  }, [session, id]);
+  }, [firebaseUser]);
+
+  const registerNewUser = async (currentUser) => {
+    const docRef = doc(db, "users", currentUser.uid);
+  const docSnap = await getDoc(docRef);
+  
+  if (docSnap.exists()) {
+    return true;
+  } else {
+    await setDoc(doc(db, "users", currentUser.uid), {
+      // uid: newUser?.user.uid,
+      email: currentUser.email,
+      name: currentUser.displayName || "",
+      // provider: account.provider,
+      photoUrl: currentUser.photoURL || "",
+      createdAt: serverTimestamp(),
+    });
+  }}
+  
+  
+  
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser: any) => {
+    setFirebaseUser(currentUser);
+    if (currentUser) {
+      await registerNewUser(currentUser)
+    }
+    setLoading(false);
+  });
+
+  return unsubscribe;
+}, []);
+  
+useEffect(() => {
+  const nonProtectedPaths = ["/sign-in"];
+  if (!loading) {
+    (async () => {
+      if (firebaseUser === null) {
+        if (!nonProtectedPaths.includes(location.pathname))
+          window.location.assign("/sign-in");
+      } else {
+        if (nonProtectedPaths.includes(location.pathname)) window.location.assign("/dashboard");
+      }
+    })();
+  }
+}, [firebaseUser, loading]);
 
   return (
     <AuthContext.Provider
       value={{ 
-        session, 
         getSingleFolder, 
         getFoldersDocuments, 
         documents, getDocuments, 
@@ -221,10 +252,10 @@ useEffect(() => {
         recurringProducts,
         subs, checkoutLinks,
         user, users, checkoutLink,
-        showModal, setShowModal 
+        showModal, setShowModal , firebaseUser
       }}
     >
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

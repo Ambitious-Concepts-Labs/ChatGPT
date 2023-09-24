@@ -1,9 +1,9 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import { db } from "../firebase";
+import { UserAuth } from "../app/authContext";
 
 type Props = {
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -11,15 +11,15 @@ type Props = {
 
 const NewChat = ({setShow} : Props) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { firebaseUser } = UserAuth();
   const createNewChat = async () => {
     if(window.innerWidth < 768) {
       setShow(false);
     }
     const doc = await addDoc(
-      collection(db, "users", session?.user?.id!, "chats"),
+      collection(db, "users", firebaseUser.uid, "chats"),
       {
-        userId: session?.user?.id!,
+        userId: firebaseUser.uid,
         createdAt: serverTimestamp(),
         name: "New chat"
       }

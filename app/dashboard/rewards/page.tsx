@@ -1,9 +1,9 @@
 "use client";
-import { useSession } from "next-auth/react";
 import Rewards from "../../../components/Rewards";
+import { UserAuth } from "../../authContext";
 
 const MainRewards = () => {
-  const { data: session } = useSession();
+  const {session } = UserAuth();
 
   return <Rewards session={session} />;
 };

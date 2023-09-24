@@ -6,14 +6,12 @@ import InvoiceItems from '../../../../components/InvoiceItems';
 import styles from '../../../../styles/Invoice.module.css';
 import { usePathname } from 'next/navigation';
 import { UserAuth } from '../../../authContext';
-import { useSession } from 'next-auth/react';
 
 const Invoice = () => {
     const pathname = usePathname();
     const [invoice, setInvoice] = useState<any>([])
     const [items, setItems] = useState<any>([])
-    const { subscriptions } = UserAuth();
-    const { data: session } = useSession();
+    const { subscriptions, session } = UserAuth();
 
     useEffect(() => {
         if (subscriptions) {
