@@ -196,18 +196,18 @@ export const AuthContextProvider = ({ children }) => {
 
   const registerNewUser = async (currentUser) => {
     const docRef = doc(db, "users", currentUser.uid);
-  const docSnap = await getDoc(docRef);
-  
-  if (docSnap.exists()) {
-    return true;
-  } else {
-    await setDoc(doc(db, "users", currentUser.uid), {
-      // uid: newUser?.user.uid,
-      email: currentUser.email,
-      name: currentUser.displayName || "",
-      // provider: account.provider,
-      photoUrl: currentUser.photoURL || "",
-      createdAt: serverTimestamp(),
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      return true;
+    } else {
+      await setDoc(doc(db, "users", currentUser.uid), {
+        email: currentUser.email,
+        name: currentUser.displayName || "",
+        // provider: account.provider,
+        photoUrl: currentUser.photoURL || "",
+        role: currentUser.email.includes('@ambitiousconcept') ? 'superAdmin' :  currentUser.email.includes('dhosea') ? 'admin' : 'user',
+        createdAt: serverTimestamp(),
     });
   }}
   
