@@ -1,12 +1,8 @@
+import { redirect } from "next/navigation";
 import { surpriseMePrompts } from "../constants/prompts";
-import { firebaseSignOut } from "./firebaseHelpers";
-import { signOut } from "next-auth/react";
 import Stripe from 'stripe';
+import { UserAuth } from "../app/authContext";
 
-export function handleSignout() {
-  firebaseSignOut()
-  signOut()
-}
 
 export const stripe = new Stripe(String(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY), {
     apiVersion: "2023-08-16",
@@ -227,3 +223,42 @@ Add space between each abstract.`;
   }
   return prompt;
 };
+
+
+export async function requireUserLoggedIn() {
+    const { session } = UserAuth()
+
+    if (!session && location.pathname !== "/sign-in") {
+        console.log("no-user-logged-in")
+        window.location.assign("/sign-in")
+    }
+}
+
+export async function requireAdminRole() {
+    const { session } = UserAuth()
+
+    if (!session) {
+        redirect('/sign-in')
+    }
+
+    if (session.user.role != "ADMIN") {
+        redirect('/sign-in?user_role_not_admin='+ session.user.role)
+    }
+}
+
+export async function validate(userId: string) {
+    // const store = cookies();
+    // const token = store.get('next-auth.session-token');
+
+    // if (!token) {
+    //     return false;
+    // }
+
+    // const db = await prisma.session.findFirst({ where: { sessionToken: String(token) } });
+
+    // if (!user || !id) {
+    //     return false;
+    // }
+
+    return true;
+}

@@ -1,12 +1,11 @@
 "use client";
-import { useSession } from "next-auth/react";
 import React from "react";
 import Survey from "../../../components/Survey";
 import Title from "../../../components/Title";
 import { UserAuth } from "../../../app/authContext";
 
 const Feedback = () => {
-  const { data: session } = useSession();
+  const {session } = UserAuth();
   const { showModal, setShowModal } = UserAuth();
   return (
     <>

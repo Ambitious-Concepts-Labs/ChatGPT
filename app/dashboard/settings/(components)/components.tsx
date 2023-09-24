@@ -4,9 +4,9 @@ import Button from '../../../../components/Button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { updateProfile } from '../(actions)/actions';
-import { signOut } from 'next-auth/react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getAuth, signOut } from 'firebase/auth';
 
 export function SidebarItem({
   href,
@@ -17,7 +17,6 @@ export function SidebarItem({
 }) {
   const pathname = usePathname() ?? "";
   let active = pathname == href;
-  
   return (
     <Link
       href={href}
@@ -38,6 +37,7 @@ export default function Form({
   email: string;
 }) {
   const [name, setName] = useState(currentName);
+  const auth = getAuth();
 
   async function update() {
     await updateProfile(name);
@@ -73,7 +73,7 @@ export default function Form({
         <Button 
         variant={"black"}
         text={"Logout"}
-        onClick={() => signOut()} size={'sm'} 
+        onClick={() => signOut(auth)} size={'sm'} 
         />
       </div>
     </>

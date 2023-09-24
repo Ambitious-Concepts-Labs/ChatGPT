@@ -117,6 +117,7 @@ export const AuthContextProvider = ({ children }) => {
         const obj = { ...doc.data(), documentId: doc.id }
         dataArr.push(obj)
     });
+    console.log({'docs': dataArr})
     setDocuments(dataArr)
     return dataArr
   }

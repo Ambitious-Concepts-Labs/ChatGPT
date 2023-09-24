@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { doc, DocumentReference, Firestore, getDoc } from "firebase/firestore";
 import Documents from "../../../../components/Documents";
 import { UserAuth } from "../../../authContext";
-import { useSession } from "next-auth/react";
 import { db } from "../../../../firebase";
 import Title from "../../../../components/Title";
 import NewModal from "../../../../components/NewModal";
@@ -18,8 +17,7 @@ type Props = {
 
 const FolderPage = ({}: Props) => {
   const pathname = usePathname();
-  const { showModal, setShowModal, getFoldersDocuments, id } = UserAuth();
-  const { data: session } = useSession();
+  const { session, showModal, setShowModal, getFoldersDocuments, id } = UserAuth();
   const [documents, setDocuments] = useState<any>(null);
   const [folder, setFolder] = useState<any>(null);
   const [isClient, setIsClient] = useState(false);

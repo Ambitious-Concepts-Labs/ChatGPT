@@ -1,8 +1,5 @@
 "use client"
-import { requireAdminRole, requireUserLoggedIn } from '../../utils/auth/helpers';
-import { authOptions } from '../../utils/auth/options';
 import { NavbarItem } from './(components)/components';
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import React from 'react';
 import { UserAuth } from '../authContext';
@@ -15,7 +12,6 @@ export default function AdminLayout({
   // await requireUserLoggedIn();
   // await requireAdminRole();
     const { user } = UserAuth();
-  // const { user } = await getServerSession(authOptions);
 
   return (
     <div className='flex h-full w-full flex-row'>

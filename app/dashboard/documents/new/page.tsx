@@ -8,7 +8,6 @@ import Header from "../../../../components/NewDocHeader";
 import "../../../../styles/globals.css";
 import { useEffect, useRef, useState } from "react";
 import DropDown, { VibeType } from "../../../../components/DropDown";
-import { useSession } from "next-auth/react";
 import { rank } from "../../../../utils/linkedin-algorithm";
 import toast, { Toaster } from "react-hot-toast";
 import Popup from "../../../../components/Popup";
@@ -36,7 +35,7 @@ export default function Home() {
   const [isCustomPrompt, setIsCustomPrompt] = useState(false);
   const [customPrompt, setCustomPrompt] = useState("");
   const [tab, setTab] = useState("vibe"); // Default to "vibe" tab
-  const { data: session, status } = useSession();
+  const { session, status } = UserAuth();
   const clickCount = useRef(0);
   const { id } = UserAuth();
 
