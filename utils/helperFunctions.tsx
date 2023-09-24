@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { surpriseMePrompts } from "../constants/prompts";
 import Stripe from 'stripe';
 import { UserAuth } from "../app/authContext";
+import { getAuth } from "firebase/auth";
 
 
 export function scrollToTop() {
@@ -234,9 +235,10 @@ Add space between each abstract.`;
 
 
 export async function requireUserLoggedIn() {
-    const { session } = UserAuth()
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-    if (!session && location.pathname !== "/sign-in") {
+    if (!user && location.pathname !== "/sign-in") {
         console.log("no-user-logged-in")
         window.location.assign("/sign-in")
     }

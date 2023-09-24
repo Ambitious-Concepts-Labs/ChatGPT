@@ -12,9 +12,6 @@ const page = () => {
   if (!user) router.push('/sign-in')
   return (
     <>
-      {/* {!user && userLoading && <h1>Loading...</h1>} */}
-      {/* {!user && !userLoading && <Login />} */}
-      {/* {user && !userLoading && <Home />} */}
       <Home />
     </>
   );

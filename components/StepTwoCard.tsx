@@ -9,9 +9,7 @@ import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 
 export default function StepTwoCard(props: any) {
-
-  const { session } = props
-  // const { data: session } = useSession();
+  const { user } = props
   const [selected, setSelected] = useState('')
   const [link, setLink] = useState('')
   const [image, setImage] = useState('')
@@ -21,7 +19,7 @@ export default function StepTwoCard(props: any) {
     const uid = uuidv4();
     // const allRewards = await getDoc(doc(db, "users", session?.user?.email!, "rewards"));
     
-    await setDoc(doc(db, "users", session?.user?.id, "rewards", uid), {
+    await setDoc(doc(db, "users", user.uid, "rewards", uid), {
       type: selected,
       status: "Not Verified",
       link: link,
