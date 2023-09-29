@@ -9,15 +9,15 @@ import { IoClose } from 'react-icons/io5'
 export default function NewModal (props: any) {
   const { handleCloseModal, addPrompt } = props
   const [actual, setActual] = useState({
-    categoryId: undefined,
-    promptId: undefined,
+    categoryId: null,
+    promptId: null,
     promptValue: ''
   })
 
   const chooseCategory = (id: any) => {
     setActual({
       categoryId: id,
-      promptId: undefined,
+      promptId: null,
       promptValue: ''
 
     })
@@ -73,7 +73,7 @@ export default function NewModal (props: any) {
           <div className='h-1/4 border-y p-2 overflow-y-auto md:border-x md:border-y-0 md:w-1/3 md:h-full'>
             <ul className='flex flex-col gap-1 md:gap-2 overflow-hidden'>
               {
-                actual.categoryId !== undefined &&
+                actual.categoryId !== null &&
                 prompts
                   .filter((prompt: { categoryId: any; }) => prompt.categoryId === actual.categoryId)
                   .map((prompt: { id: any; value: any; title: any; }) => (
@@ -81,7 +81,7 @@ export default function NewModal (props: any) {
                       key={prompt.id}
                       className={`font-semibold cursor-pointer text-sm p-2 rounded-md md:py-3 ${actual.promptId === prompt.id ? 'bg-[#93e1cf] hover:bg-[#93e1cf]' : 'hover:bg-slate-100'}`}
                       onClick={() => {
-                        const formattedValue = prompt.value === undefined || prompt.value.length < 1 ? undefined : prompt.value
+                        const formattedValue = prompt.value === null || prompt.value.length < 1 ? null : prompt.value
                         choosePrompt(prompt.id, formattedValue)
                       }}
                     >
@@ -98,7 +98,7 @@ export default function NewModal (props: any) {
                 <span><BsInfoCircle /></span>
               </div>
               {
-                actual.promptValue !== undefined &&
+                actual.promptValue !== null &&
                   <div className='text-slate-500'>
                     {actual.promptValue.split('\n').map((par: any, i: any) => (
                       <div key={i}>
@@ -112,7 +112,7 @@ export default function NewModal (props: any) {
             <button
               className='px-4 py-2 bg-c-green text-white text-sm rounded-md w-max disabled:opacity-30'
               onClick={() => handlePrompt}
-              disabled={actual.categoryId === undefined || actual.promptId === undefined || actual.promptValue === undefined}
+              disabled={actual.categoryId === null || actual.promptId === null || actual.promptValue === null}
             >
               Use Prompt
             </button>

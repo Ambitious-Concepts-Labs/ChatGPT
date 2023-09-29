@@ -172,7 +172,7 @@ function Detail({
   value,
 }: {
   label: string;
-  value: string | undefined | null;
+  value: string | null;
 }) {
   return (
     <div className='flex flex-col'>

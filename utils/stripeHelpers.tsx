@@ -13,7 +13,7 @@ export const stripe = new Stripe(String(process.env.NEXT_PUBLIC_STRIPE_SECRET_KE
 /*
     Get all payments for a user 
 */
-export async function getInvoices(customerEmail: string): Promise<Invoice[] | undefined> {
+export async function getInvoices(customerEmail: string): Promise<Invoice[] | null> {
 
     let results: Invoice[] = []
 
@@ -30,7 +30,7 @@ export async function getInvoices(customerEmail: string): Promise<Invoice[] | un
     return results;
 }
 
-export async function getInvoicesForCustomerId(customerId: string): Promise<Invoice[] | undefined> {
+export async function getInvoicesForCustomerId(customerId: string): Promise<Invoice[] | null> {
     let results: Invoice[] = [];
 
     let charges = await stripe.invoices.list(
@@ -55,7 +55,7 @@ export async function getInvoicesForCustomerId(customerId: string): Promise<Invo
     Get the billing address of a customer
 */
 
-export async function getBillingAddress(customerId: string): Promise<BillingAddress | undefined> {
+export async function getBillingAddress(customerId: string): Promise<BillingAddress | null> {
     let customer = await stripe.customers.retrieve(customerId, { expand: ['address'] });
 
     return {
@@ -226,7 +226,7 @@ export async function generateCustomerPortalLink(customerId: string, redirectUrl
         });
         return portalSession.url;
     } catch (error) {
-        return undefined;
+        return null;
     }
 }
 
