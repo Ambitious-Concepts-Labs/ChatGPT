@@ -88,11 +88,11 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      {session && (
+      {firebaseUser && (
         <div className="flex md:flex-col md:gap-2 flex-1 md:flex-grow-0 justify-end md:items-center">
           <img
             className="h-12 w-12 rounded-full mr-3 md:mx-auto"
-            src={session.user?.image!}
+            src={firebaseUser?.photoUrl!}
             alt=""
           />
           <button

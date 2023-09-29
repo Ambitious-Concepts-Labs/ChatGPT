@@ -18,7 +18,6 @@ import Image from "next/image";
 // import { LiaFileInvoiceSolid } from "react-icons/lia";
 // import { AiTwotoneSetting } from "react-icons/ai";
 import UseDarkMode from "../utils/use-dark-mode";
-import { handleSignout } from "../utils/helperFunctions";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 

@@ -2,7 +2,8 @@
 import React from "react";
 import { Header, Footer } from "./(components)/components";
 
-const BaseLayout = ({ children }) => {
+const BaseLayout = (props: any) => {
+  const { children } = props
   return (
     <>
       <div className={`flex flex-col ${"overflow-hidden"}`}>
