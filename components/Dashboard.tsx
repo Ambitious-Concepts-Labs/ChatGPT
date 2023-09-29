@@ -14,7 +14,7 @@ import Loading from "./Loader";
 import Link from 'next/link';
 
 const Dashboard = () => {
-  const { session, documents, showModal, setShowModal, user, id } = UserAuth();
+  const { firebaseUser, documents, showModal, setShowModal, user, id } = UserAuth();
   const [draft, setDraft] = useState(0);
 
   const docSize = documents.length || 0
@@ -42,7 +42,6 @@ const Dashboard = () => {
             showModal={showModal}
             button={"Document"}
             title={"Dashboard"}
-            session={session}
             id={id}
           />
           {
@@ -90,7 +89,7 @@ const Dashboard = () => {
             user={user}
             setShowModal={setShowModal}
             documents={documents}
-            session={session}
+            session={firebaseUser}
           />
           <div className='grid grid-cols-2 gap-x-8 py-8'>
         <div className='flex flex-col rounded-lg bg-gradient-to-tr from-zinc-800 to-black p-8'>

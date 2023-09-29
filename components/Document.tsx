@@ -28,11 +28,11 @@ const Document = (props: any) => {
         </Link>
         <div className={`col-start-4`}>
           {
-            session?.user?.image ? 
+            session?.photoURL ? 
               <Image
                 width={30}
                 height={30}
-                src={session?.user?.image}
+                src={session?.photoURL}
                 alt={`${document?.title}'s doc`}
                 className="object-contain rounded-full"
               />

@@ -42,7 +42,7 @@ export default function Survey(props: any) {
   };
 
   const handleSubmitButton = async () => {
-    await addDoc(collection(db, "users", session?.user?.email, "feedback"), {
+    await addDoc(collection(db, "users", session?.email, "feedback"), {
       feeback: selectedOptions,
       createdAt: serverTimestamp(),
       id: uuidv4(),

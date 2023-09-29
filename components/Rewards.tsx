@@ -7,8 +7,7 @@ import Title from "./Title";
 import { getAuth } from "firebase/auth";
 import router from "next/router";
 
-export default function Rewards(props: any) {
-  const { session } = props
+export default function Rewards() {
   const { showModal, setShowModal } = UserAuth();
   const auth = getAuth();
   const user = auth.currentUser;
@@ -19,7 +18,6 @@ export default function Rewards(props: any) {
         setShowModal={setShowModal}
         button={"Document"}
         title={"Rewards"}
-        session={session}
       />
       <div className="grid grid-cols-1 auto-rows-min lg:grid-cols-2 lg:grid-rows-[15rem_1fr] gap-5">
         <IncreaseCard />

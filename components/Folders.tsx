@@ -13,7 +13,7 @@ import NewModal from "./NewModal";
 import { UserAuth } from "../app/authContext";
 
 const Folders = () => {
-  const { showModal, setShowModal, session, folders, id } = UserAuth();
+  const { showModal, setShowModal, firebaseUser, folders, id } = UserAuth();
   const [warningAlert, setWarningAlert] = React.useState(false);
 
   const handleClose = () => {
@@ -31,7 +31,6 @@ const Folders = () => {
         setShowModal={setShowModal}
         button={"Folders"}
         title={"Folders"}
-        session={session}
       />
       <section>
         <div className={`flex flex-col items-center {} dark:bg-night-blue p-5`}>
@@ -53,7 +52,6 @@ const Folders = () => {
               <Folder
                 folders={folders}
                 key={folder.id}
-                session={session}
                 folder={folder}
               />
             ))}
@@ -63,7 +61,7 @@ const Folders = () => {
       <>
         {showModal ? (
           <NewModal
-            session={session}
+            session={firebaseUser}
             inputRef={inputRef}
             handleClose={handleClose}
             showModal={showModal}

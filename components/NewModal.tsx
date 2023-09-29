@@ -14,7 +14,7 @@ const NewModal = (props: any) => {
     if (inputRef.current.value.length > 0) setShowModal(!showModal);
     if (inputRef.current.value.length == 0) setWarningAlert(!warningAlert);
     await setDoc(
-      doc(db, "users", session?.user?.id, "folders", inputRef.current.value),
+      doc(db, "users", session.uid, "folders", inputRef.current.value),
       {
         name: inputRef.current.value,
         createdAt: serverTimestamp(),

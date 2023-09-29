@@ -5,7 +5,7 @@ import Title from "../../../components/Title";
 import { UserAuth } from "../../../app/authContext";
 
 const Feedback = () => {
-  const {session } = UserAuth();
+  const {firebaseUser } = UserAuth();
   const { showModal, setShowModal } = UserAuth();
   return (
     <>
@@ -14,9 +14,8 @@ const Feedback = () => {
         setShowModal={setShowModal}
         button={"Document"}
         title={"Feedback"}
-        session={session}
       />
-      <Survey session={session} />
+      <Survey session={firebaseUser} />
     </>
   );
 };

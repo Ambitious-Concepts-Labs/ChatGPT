@@ -17,7 +17,7 @@ type Props = {
 
 const FolderPage = ({}: Props) => {
   const pathname = usePathname();
-  const { session, showModal, setShowModal, getFoldersDocuments, id } = UserAuth();
+  const { firebaseUser, showModal, setShowModal, getFoldersDocuments, id } = UserAuth();
   const [documents, setDocuments] = useState<any>(null);
   const [folder, setFolder] = useState<any>(null);
   const [isClient, setIsClient] = useState(false);
@@ -73,7 +73,6 @@ const FolderPage = ({}: Props) => {
                 setShowModal={setShowModal}
                 button={"Folder Doc"}
                 title={`Folder: ${folder.name || 'No Name'}`}
-                session={session}
                 path={pathname?.substring(pathname?.lastIndexOf("/") + 1)}
                 data={inputRef}
               />
@@ -94,7 +93,7 @@ const FolderPage = ({}: Props) => {
                 <Documents
                   setShowModal={setShowModal}
                   documents={documents}
-                  session={session}
+                  session={firebaseUser}
                 />
               </main>
             </div>
@@ -102,7 +101,7 @@ const FolderPage = ({}: Props) => {
           <>
           {showModal ? (
             <NewModal
-              session={session}
+              session={firebaseUser}
               inputRef={inputRef}
               handleClose={handleClose}
               showModal={showModal}

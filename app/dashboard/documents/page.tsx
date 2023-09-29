@@ -8,7 +8,7 @@ import Title from "../../../components/Title";
 import { UserAuth } from "../../../app/authContext";
 
 const MainDocuments = () => {
-  const { session, documents, showModal, setShowModal, user, id } = UserAuth();
+  const { firebaseUser, documents, showModal, setShowModal, user, id } = UserAuth();
 
   return (
     <div>
@@ -17,13 +17,12 @@ const MainDocuments = () => {
         setShowModal={setShowModal}
         button={"Document"}
         title={"Documents"}
-        session={session}
       />
       {/* <Filters /> */}
       <Documents
         setShowModal={setShowModal}
         documents={documents}
-        session={session}
+        session={firebaseUser}
       />
     </div>
   );

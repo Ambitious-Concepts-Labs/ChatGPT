@@ -7,8 +7,7 @@ import InvoiceHeader from "./InvoiceHeader";
 import InvoiceList from "./InvoiceList";
 import { UserAuth } from "../app/authContext";
 
-export default function Billing(props: any) {
-  const { session } = props
+export default function Billing() {
   const [isStarted, setIsStarted] = React.useState(false);
   const { showModal, setShowModal, id, payments, subscriptions } = UserAuth();
   const [item, setItem] = useState<any>([])
@@ -33,7 +32,6 @@ export default function Billing(props: any) {
           setShowModal={setShowModal}
           button={"Document"}
           title={"Billing"}
-          session={session}
         />
       </div>
         {!isStarted && subscriptions.length === 0 && item ? (

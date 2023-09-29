@@ -5,9 +5,8 @@ import TokenCard from "./TokenCard";
 import Title from "./Title";
 import { UserAuth } from "../app/authContext";
 
-const Usage = (props: any) => {
+const Usage = () => {
   const { showModal, setShowModal } = UserAuth();
-  const { session } = props
 
   return (
     <>
@@ -16,7 +15,6 @@ const Usage = (props: any) => {
         setShowModal={setShowModal}
         button={"Document"}
         title={"Usage"}
-        session={session}
       />
       <div className="grid grid-cols-1 auto-rows-min lg:grid-cols-2 lg:grid-rows-[10rem_1fr] gap-5">
         <TokenCard />
