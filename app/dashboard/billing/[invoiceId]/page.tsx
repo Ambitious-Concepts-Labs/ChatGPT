@@ -1,13 +1,14 @@
 "use client"
+
 import { FC, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import InvoiceHeader from '../../../../components/InvoiceDetailsHeader';
 import InvoiceCenter from '../../../../components/InvoiceCenter';
 import InvoiceItems from '../../../../components/InvoiceItems';
 import styles from '../../../../styles/Invoice.module.css';
-import { usePathname } from 'next/navigation';
 import { UserAuth } from '../../../authContext';
 
-const Invoice = () => {
+function Invoice() {
     const pathname = usePathname();
     const [invoice, setInvoice] = useState<any>([])
     const [items, setItems] = useState<any>([])
@@ -15,7 +16,7 @@ const Invoice = () => {
 
     useEffect(() => {
         if (subscriptions) {
-            let subscriptionArray: any[] = []
+            const subscriptionArray: any[] = []
             const queryId = pathname?.substring(pathname.lastIndexOf("/") + 1);
             subscriptions.forEach((element: { items: any; }) => {
                 console.log("Element", element.items )

@@ -1,22 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
+// @ts-nocheck
 
 "use client";
+
 import "../../styles/globals.css";
 import ClientProvider from "../../components/ClientProvider";
 import RightSidebar from "../../components/RightSidebar";
 import Sidebar from "../../components/ChatSidebar";
 import Home from "../../components/homepage/home";
 
-const ChatLayout = ({ children }) => {
+function ChatLayout({ children }) {
   const { session } = useAuth();
   console.log(session);
   return (
     <>
       {!session && (
-        <>
-          <Home />
-        </>
+        <Home />
       )}
 
       {session && (
@@ -36,6 +35,6 @@ const ChatLayout = ({ children }) => {
       )}
     </>
   );
-};
+}
 
 export default ChatLayout;

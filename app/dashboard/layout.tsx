@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
+// @ts-nocheck
 
 "use client";
+
 import React from "react";
 // import Chatbot from "../../components/Chatbot";
 import Sidebar from "../../components/DashboardSidebar";
@@ -12,7 +13,7 @@ import "tailwindcss/tailwind.css";
 
 // const rubik = Rubik({ subsets: ["latin"] });
 
-const DashboardLayout = ({ children }) => {
+function DashboardLayout({ children }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [askQuestion, setAskQuestion] = React.useState(false);
 
@@ -28,8 +29,7 @@ const DashboardLayout = ({ children }) => {
     <>
       {/* <div className={`${rubik.className} flex ${isOpen && "overflow-hidden"}`}> */}
       <div className={`flex ${isOpen && "overflow-hidden"}`}>
-        <>
-          <Sidebar
+        <Sidebar
             setAskQuestion={setAskQuestion}
             askQuestion={askQuestion}
             isOpen={isOpen}
@@ -39,10 +39,9 @@ const DashboardLayout = ({ children }) => {
             {children}
             {/* {askQuestion && <Chatbot />} */}
           </div>
-        </>
       </div>
     </>
   );
-};
+}
 
 export default DashboardLayout;

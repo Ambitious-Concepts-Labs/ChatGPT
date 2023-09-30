@@ -1,4 +1,5 @@
 'use client';
+
 import * as React from "react"
 import { usePathname } from 'next/navigation';
 import Link from "next/link";
@@ -44,7 +45,7 @@ export function Stat({
   
 export function NavbarItem({ href, text }: { href: string; text: string }) {
   const pathname = usePathname() ?? '';
-  let active = pathname == href;
+  const active = pathname == href;
 
   return (
     <Link
@@ -64,7 +65,7 @@ const Table = React.forwardRef<
   <div className="w-full overflow-auto">
     <table
       ref={ref}
-      className={"w-full caption-bottom text-sm"}
+      className="w-full caption-bottom text-sm"
       {...props}
     />
   </div>
@@ -75,7 +76,7 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={"[&_tr]:border-b"} {...props} />
+  <thead ref={ref} className="[&_tr]:border-b" {...props} />
 ))
 TableHeader.displayName = "TableHeader"
 
@@ -85,7 +86,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={"[&_tr:last-child]:border-0"}
+    className="[&_tr:last-child]:border-0"
     {...props}
   />
 ))
@@ -97,7 +98,7 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={"bg-neutral-100 font-medium text-neutral-600"}
+    className="bg-neutral-100 font-medium text-neutral-600"
     {...props}
   />
 ))
@@ -109,7 +110,7 @@ const TableRow = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tr
     ref={ref}
-    className={"border-b transition-colors hover:bg-neutral-100 data-[state=selected]:bg-muted"}
+    className="border-b transition-colors hover:bg-neutral-100 data-[state=selected]:bg-muted"
     {...props}
   />
 ))
@@ -121,7 +122,7 @@ const TableHead = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <th
     ref={ref}
-    className={"h-10 px-4 text-left align-middle font-normal text-neutral-500 [&:has([role=checkbox])]:pr-0"}
+    className="h-10 px-4 text-left align-middle font-normal text-neutral-500 [&:has([role=checkbox])]:pr-0"
     {...props}
   />
 ))
@@ -133,7 +134,7 @@ any,
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={"px-4 py-3 align-middle [&:has([role=checkbox])]:pr-0"}
+    className="px-4 py-3 align-middle [&:has([role=checkbox])]:pr-0"
     {...props}
   />
 ))
@@ -145,7 +146,7 @@ any,
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={"mt-4 text-sm text-muted-foreground"}
+    className="mt-4 text-sm text-muted-foreground"
     {...props}
   />
 ))

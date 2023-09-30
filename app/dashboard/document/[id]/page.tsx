@@ -1,31 +1,32 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
+import { arrayUnion, doc, type DocumentData, getDoc, updateDoc } from "firebase/firestore";
+import Image from "next/image";
 import PromptBar from "../../../../components/NewDocPromptBar";
-import { VibeType } from "../../../../components/DropDown";
+import { type VibeType } from "../../../../components/DropDown";
 import { db } from "../../../../firebase";
 import { rank } from "../../../../utils/linkedin-algorithm";
 import logo from "../../../../assets/logo.svg";
 import Toogle from "../../../../components/Toggle";
 
-import { arrayUnion, doc, DocumentData, getDoc, updateDoc } from "firebase/firestore";
 import Logo from "../../../../components/Logo";
 // import LoadingDots from "../../../../components/LoadingDots";
 import Popup from "../../../../components/Popup";
 import { handlePrompt } from "../../../../utils/helperFunctions";
-import Image from "next/image";
-import { RankResponse } from "../../../..";
+import { type RankResponse } from "../../../..";
 import { UserAuth } from "../../../authContext";
 
-type Props = {
+interface Props {
   params: {
     id: string;
   };
-};
+}
 
-const DocumentPage = ({}: Props) => {
+function DocumentPage({}: Props) {
   const clickCount = useRef(0);
   const pathname = usePathname();
   const {session, status, id } = UserAuth();
@@ -269,7 +270,7 @@ const DocumentPage = ({}: Props) => {
                     Grammerly
                   </p>
                 </div>
-                <Toogle variant={"blue"} handleCheck={() => {}} />
+                <Toogle variant="blue" handleCheck={() => {}} />
               </div>
               <div className="flex justify-between px-3 py-3 w-full border-b">
                 <div>
@@ -325,6 +326,6 @@ const DocumentPage = ({}: Props) => {
       )}
     </>
   );
-};
+}
 
 export default DocumentPage;

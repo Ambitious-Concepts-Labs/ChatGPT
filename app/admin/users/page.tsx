@@ -1,4 +1,9 @@
 "use client"
+
+import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
+import { GiPencil } from 'react-icons/gi'
+
+import Link from 'next/link';
 import {
   Table,
   TableBody,
@@ -7,10 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '../(components)/components';
-import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
-import { GiPencil } from 'react-icons/gi'
-
-import Link from 'next/link';
 import { UserAuth } from '../../authContext';
 
 export default function Page() {
@@ -63,7 +64,7 @@ export default function Page() {
                 <TableCell className='flex items-center gap-1'>
                   <div className='truncate'>{item.role}</div>
                   <Link
-                    href={'/admin/roles'}
+                    href="/admin/roles"
                     className='text-neutral-600 duration-150 hover:text-neutral-800'
                   >
                     <GiPencil size={16} />
