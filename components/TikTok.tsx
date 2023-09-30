@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
+// @ts-nocheck
 
-import tikTok from "../assets/tikTok.png";
 import Image from "next/image";
+import tikTok from "../assets/tikTok.png";
 
 export default function TikTok() {
   return (

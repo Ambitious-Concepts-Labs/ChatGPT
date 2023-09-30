@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
+// @ts-nocheck
 import React from "react";
-import { survey } from "../constants/survey";
 import Image from "next/image";
-import surveyImage from "../assets/survey.png";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { survey } from "../constants/survey";
+import surveyImage from "../assets/survey.png";
+import { db } from "../firebase";
 
 export default function Survey(props: any) {
   const { session } = props
@@ -73,7 +73,7 @@ export default function Survey(props: any) {
           </p>
           <button
             className=" mb-5 bg-yellow-400 rounded p-2 text-black/60"
-            onClick={() => setIsStarted(!isStarted)}
+            onClick={() => { setIsStarted(!isStarted); }}
           >
             Take Survey
           </button>
@@ -94,7 +94,7 @@ export default function Survey(props: any) {
               <div
                 key={index}
                 className="flex items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
-                onClick={(e) => handleAnswerOption(answer.answer)}
+                onClick={(e) => { handleAnswerOption(answer.answer); }}
               >
                 <input
                   type="radio"
@@ -103,7 +103,7 @@ export default function Survey(props: any) {
                   checked={
                     answer.answer === selectedOptions[currentQuestion]?.response
                   }
-                  onChange={(e) => handleAnswerOption(answer.answer)}
+                  onChange={(e) => { handleAnswerOption(answer.answer); }}
                   className="w-6 h-6 bg-black"
                 />
                 <p className="ml-6 text-black">{answer.answer}</p>
@@ -145,7 +145,7 @@ export default function Survey(props: any) {
                 <button
                   className="text-sm ml-3 font-medium leading-none"
                   onClick={() => handlePrevious}
-                  disabled={currentQuestion === 0 ? true : false}
+                  disabled={currentQuestion === 0}
                   style={
                     currentQuestion === 0
                       ? { backgroundColor: "gray !important" }
@@ -165,7 +165,7 @@ export default function Survey(props: any) {
                         : "text-sm font-medium leading-none cursor-pointer text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2"
                     }
                                     `}
-                    onClick={() => handlePaginationClick(index)}
+                    onClick={() => { handlePaginationClick(index); }}
                   >
                     {index + 1}
                   </p>

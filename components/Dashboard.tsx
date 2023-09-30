@@ -1,27 +1,28 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
+// @ts-nocheck
 
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 import { GiCargoShip } from "react-icons/gi";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import Link from 'next/link';
 import Card from "./Card";
 import DocumentContainer from "./Documents";
-import { IoDocumentTextOutline } from "react-icons/io5";
 import Title from "./Title";
 import { UserAuth } from "../app/authContext";
 import Loading from "./Loader";
-import Link from 'next/link';
 
-const Dashboard = () => {
-  const { firebaseUser, documents, showModal, setShowModal, user, id } = UserAuth();
+function Dashboard() {
+  const { firebaseUser, documents, showModal, setShowModal, id } = UserAuth();
   const [draft, setDraft] = useState(0);
 
   const docSize = documents.length || 0
 
   useEffect(() => {
     handleStatus();
-  }, [user, documents]);
+  }, [firebaseUser, documents]);
 
   function handleStatus() {
     let count = 0;
@@ -35,13 +36,13 @@ const Dashboard = () => {
 
   return (
     <>
-      {user ? 
+      {firebaseUser ? 
         <>
           <Title
             setShowModal={setShowModal}
             showModal={showModal}
-            button={"Document"}
-            title={"Dashboard"}
+            button="Document"
+            title="Dashboard"
             id={id}
           />
           {
@@ -86,7 +87,6 @@ const Dashboard = () => {
           }
 
           <DocumentContainer
-            user={user}
             setShowModal={setShowModal}
             documents={documents}
             session={firebaseUser}
@@ -122,6 +122,6 @@ const Dashboard = () => {
       }
     </>
   );
-};
+}
 
 export default Dashboard;

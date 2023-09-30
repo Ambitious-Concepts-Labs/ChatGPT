@@ -1,12 +1,12 @@
 import { MdPlaylistAddCheck } from "react-icons/md";
 import { TbClockCheck } from "react-icons/tb";
+import { useState } from "react";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 import Card from "./MainCard";
 import CardHeader from "./CardHeader";
 import Button from "./Button";
-import { useState } from "react";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { v4 as uuidv4 } from "uuid";
 
 export default function StepTwoCard(props: any) {
   const { user } = props
@@ -22,7 +22,7 @@ export default function StepTwoCard(props: any) {
     await setDoc(doc(db, "users", user.uid, "rewards", uid), {
       type: selected,
       status: "Not Verified",
-      link: link,
+      link,
       imag: image,
       createdAt: serverTimestamp(),
       lastModified: new Date(),
@@ -39,7 +39,7 @@ export default function StepTwoCard(props: any) {
       />
       <form onSubmit={handleRewards} className="flex flex-col gap-2 py-4">
         <select
-          onChange={(e) => setSelected(e.target.value)}
+          onChange={(e) => { setSelected(e.target.value); }}
           id="input-select"
           className="text-xs py-2 px-1 border rounded-md text-slate-400"
         >
@@ -54,7 +54,7 @@ export default function StepTwoCard(props: any) {
         </select>
         <input
           value={link}
-          onChange={(event)=> setLink(event.target.value)} 
+          onChange={(event)=> { setLink(event.target.value); }} 
           className="text-xs p-2 border rounded-md"
           type="text"
           placeholder="Paste your review link"
@@ -67,7 +67,7 @@ export default function StepTwoCard(props: any) {
             Upload your screenshot
           </label>
           <input
-            onChange={(event)=> setImage(event.target.value)} 
+            onChange={(event)=> { setImage(event.target.value); }} 
             className="hidden"
             type="file"
             id="input-file"

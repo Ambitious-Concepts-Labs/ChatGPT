@@ -5,7 +5,7 @@ import TokenCard from "./TokenCard";
 import Title from "./Title";
 import { UserAuth } from "../app/authContext";
 
-const Usage = () => {
+function Usage() {
   const { showModal, setShowModal } = UserAuth();
 
   return (
@@ -13,8 +13,8 @@ const Usage = () => {
       <Title
         showModal={showModal}
         setShowModal={setShowModal}
-        button={"Document"}
-        title={"Usage"}
+        button="Document"
+        title="Usage"
       />
       <div className="grid grid-cols-1 auto-rows-min lg:grid-cols-2 lg:grid-rows-[10rem_1fr] gap-5">
         <TokenCard />
@@ -23,6 +23,6 @@ const Usage = () => {
       </div>
     </>
   );
-};
+}
 
 export default Usage;

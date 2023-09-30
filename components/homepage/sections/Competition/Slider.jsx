@@ -1,3 +1,5 @@
+import Marquee from 'react-fast-marquee'
+import Image from 'next/image'
 import Arthur from '../../../../assets/brands/arthur_logo.png'
 import FiscalNote from '../../../../assets/brands/fiscalnote_logo.png'
 import HuggingFace from '../../../../assets/brands/huggingface_logo.png'
@@ -15,8 +17,6 @@ import Aimly from '../../../../assets/brands/aimly_logo.png'
 import DJSmoothHoly from '../../../../assets/brands/djsmoothholy_logo.png'
 import SocialRing from '../../../../assets/brands/socialring_logo.png'
 import Meta from '../../../../assets/brands/meta_logo.png'
-import Marquee from 'react-fast-marquee'
-import Image from 'next/image'
 
 export default function Slider () {
   const brandsLogos = [

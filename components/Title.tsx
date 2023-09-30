@@ -1,9 +1,9 @@
 import { arrayUnion, doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbFilePlus } from "react-icons/tb";
-import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import { db } from "../firebase";
 // import { setDocument } from "../utils/firebaseHelpers";
 
 export default function index(props: any) {
@@ -87,7 +87,7 @@ export default function index(props: any) {
       </h2>
       <button
         className="rounded col-start-3 justify-self-end md:col-start-2 md:row-start-1 md:justify-self-end w-fit bg-black px-2 py-2 rounded-sm text-white text-xs font-light flex items-center gap-2 cursor-pointer"
-        onClick={() => handleOnClick()}
+        onClick={async () => { await handleOnClick(); }}
       >
         <div className="h-4 w-4">
           <TbFilePlus className="h-full w-auto" />

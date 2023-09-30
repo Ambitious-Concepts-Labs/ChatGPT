@@ -14,7 +14,6 @@ export default function Footer () {
       </div>
       <div className='flex gap-4'>
         {Object.entries(socialLinks).map(([key, link], i) => (
-          <>
           <div key={i} className='group flex items-center text-black hover:text-dark/500'>
             <a href={link} className='group-hover:underline transition-all mr-1 font-vietnam tracking-tight font-light'
             target='_blank' rel='noreferrer'>
@@ -22,7 +21,6 @@ export default function Footer () {
             </a>
             <RxArrowTopRight className='inline-block text-[#4F536A] group-hover:text-black' />
           </div>
-          </>
         ))}
       </div>
       <div className='flex sm:hidden mt-4 sm:mt-0 font-light'>

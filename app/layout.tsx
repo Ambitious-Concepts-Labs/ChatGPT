@@ -1,4 +1,5 @@
 "use client"
+
 import ClientProvider from "../components/ClientProvider";
 import "../styles/globals.css";
 import Head from "./head";
@@ -65,8 +66,7 @@ export default function RootLayout({
     <html lang="en">
       <Head />
       <body>
-        <>
-          <AuthContextProvider>
+        <AuthContextProvider>
             {/* <AuthRouter> */}
               <ClientProvider />
               {/* {pageLoading ?
@@ -77,7 +77,6 @@ export default function RootLayout({
               <main>{children}</main>
             {/* </AuthRouter> */}
           </AuthContextProvider>
-        </>
       </body>
     </html>
   );

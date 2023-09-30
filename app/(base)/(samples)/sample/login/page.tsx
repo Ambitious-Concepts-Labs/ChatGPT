@@ -4,7 +4,7 @@ import { signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import { GoogleProvider, auth } from "../../../../../firebase";
 
-const Login = () => {
+function Login() {
   return (
     <div className="bg-[#11A37F] h-screen flex flex-col items-center justify-center text-center">
       <Image
@@ -13,9 +13,9 @@ const Login = () => {
         height={300}
         alt="chatgpt logo"
       />
-      <button onClick={() => signInWithPopup(auth, GoogleProvider)} className="text-white font-bold text-3xl animate-pulse">Sign In to use ChatGPT</button>
+      <button onClick={async () => await signInWithPopup(auth, GoogleProvider)} className="text-white font-bold text-3xl animate-pulse">Sign In to use ChatGPT</button>
     </div>
   );
-};
+}
 
 export default Login;

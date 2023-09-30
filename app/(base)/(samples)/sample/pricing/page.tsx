@@ -1,7 +1,8 @@
 'use client';
-import Button from '../../../../../components/Button';
+
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import Button from '../../../../../components/Button';
 
 export default function Page() {
   return (
@@ -22,12 +23,12 @@ function CTA() {
       <div className='flex w-full justify-center'>
         <div className='m-auto flex w-full max-w-2xl flex-wrap items-center justify-between gap-2'>
           <p className='text-4xl font-medium text-white font-display'>
-            {'Get started today, for free.'}
+            Get started today, for free.
           </p>
           <Link href='/sign-in'>
             <Button 
-            variant={"whiteFill"}
-            text={"Get started"}
+            variant="whiteFill"
+            text="Get started"
             />
           </Link>
         </div>
@@ -49,7 +50,7 @@ function Hero() {
   );
 }
 
-const StripePricingTable = () => {
+function StripePricingTable() {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://js.stripe.com/v3/pricing-table.js';
@@ -66,4 +67,4 @@ const StripePricingTable = () => {
     'publishable-key':
       'pk_test_51LeTehDscgyTUUyYsD6aOjZD7zyJoj1OMLkKbFjsOEGoMUc6JPDlFzr09nip4sm39iirRllIL45RuqDChIlQ349p00loAcHNlo',
   });
-};
+}

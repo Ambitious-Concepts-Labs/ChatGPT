@@ -1,5 +1,5 @@
-import Button from '../../../components/Button';
 import Link from 'next/link';
+import Button from '../../../components/Button';
 
 export default async function Page() {
   return (
@@ -10,7 +10,7 @@ export default async function Page() {
             About us
           </p>
           <p className='bg-gradient-to-r from-black to-zinc-600 bg-clip-text py-4 text-4xl font-semibold text-transparent'>
-            {'Our strength is collaboration'}
+            Our strength is collaboration
           </p>
           <p className='text-base font-normal text-neutral-600 max-w-[60ch]'>
             We believe that our strength lies in our collaborative approach,
@@ -28,7 +28,7 @@ export default async function Page() {
           <div className='flex flex-col'>
             <p className='text-sm font-semibold text-neutral-800'>Benefit</p>
             <p className='text-neutral-600'>
-              We {"don't"} care when our team works just as long as they are working
+              We don't care when our team works just as long as they are working
               every waking second.
             </p>
           </div>
@@ -42,7 +42,7 @@ export default async function Page() {
           <div className='flex flex-col'>
             <p className='text-sm font-semibold text-neutral-800'>Benefit</p>
             <p className='text-neutral-600'>
-              We {"don't"} care when our team works just as long as they are working
+              We don't care when our team works just as long as they are working
               every waking second.
             </p>
           </div>
@@ -59,11 +59,11 @@ function CTA() {
       <div className='flex w-full justify-center'>
         <div className='m-auto flex w-full max-w-2xl flex-wrap items-center justify-between gap-2'>
           <p className='text-4xl font-medium text-white font-display'>
-            {'Get started today, for free.'}
+            Get started today, for free.
           </p>
           <Link href='/sign-in'>
             <Button 
-            text={"Get started"}
+            text="Get started"
             variant='whiteFill'/>
           </Link>
         </div>

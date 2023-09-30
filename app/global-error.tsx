@@ -1,6 +1,7 @@
 'use client';
-import { Footer, Header } from './(base)/(components)/components';
+
 import { FiAlertTriangle } from 'react-icons/fi';
+import { Footer, Header } from './(base)/(components)/components';
 
 export default function NotFound() {
   return (

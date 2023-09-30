@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
-import snapchat from "../assets/snapchat.png";
+// @ts-nocheck
 import Image from "next/image";
+import snapchat from "../assets/snapchat.png";
 
 export default function Snapchat() {
   return (

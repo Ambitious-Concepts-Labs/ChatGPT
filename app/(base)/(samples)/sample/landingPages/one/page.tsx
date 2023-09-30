@@ -1,8 +1,8 @@
-import Button from '../../../../../../components/Button';
 import { BsFingerprint } from 'react-icons/bs'
 import { LuLayoutDashboard, LuMousePointerClick, LuTowerControl,
     LuPlaneLanding, LuSlidersHorizontal, LuUsers, LuZap } from 'react-icons/lu'
 import Link from 'next/link';
+import Button from '../../../../../../components/Button';
 
 export default async function Page() {
 
@@ -24,7 +24,7 @@ function CTA() {
       <div className='flex w-full justify-center'>
         <div className='m-auto flex w-full max-w-2xl flex-wrap items-center justify-between gap-2'>
           <p className='text-4xl font-medium text-white font-display'>
-            {'Get started today, for free.'}
+            Get started today, for free.
           </p>
           <Link href='/sign-in'>
             <Button variant='outline'>Get started</Button>
@@ -136,7 +136,7 @@ function LargeDemo() {
           </div>
         </div>
       </div>
-      <div className='absolute bottom-20 top-20 z-[-1] h-[60%] w-full bg-gradient-to-br from-blue-400 via-rose-500 to-amber-600'></div>
+      <div className='absolute bottom-20 top-20 z-[-1] h-[60%] w-full bg-gradient-to-br from-blue-400 via-rose-500 to-amber-600' />
     </div>
   );
 }
@@ -154,10 +154,10 @@ function Hero() {
             boilerplate. Everything you need to launch included.
           </p>
           <div className='flex items-center gap-4'>
-            <Link href={'/sign-in'}>
+            <Link href="/sign-in">
               <Button variant='default'>Get started</Button>
             </Link>
-            <Link href={'/pricing'}>
+            <Link href="/pricing">
               <Button variant='outline'>Pricing</Button>
             </Link>
           </div>
@@ -194,7 +194,7 @@ function Features() {
               mockups.
             </p>
             <div className='flex items-center gap-4'>
-              <Link href={'/pricing'}>
+              <Link href="/pricing">
                 <Button variant='outline'>Learn more</Button>
               </Link>
             </div>
@@ -218,7 +218,7 @@ function Features() {
               mockups.
             </p>
             <div className='flex items-center gap-4'>
-              <Link href={'/pricing'}>
+              <Link href="/pricing">
                 <Button variant='outline'>Learn more</Button>
               </Link>
             </div>

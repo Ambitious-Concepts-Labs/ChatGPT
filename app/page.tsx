@@ -1,9 +1,10 @@
 "use client";
+
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
 import Home from "../components/homepage/home";
 import { UserAuth } from "../app/authContext";
-import { useRouter } from "next/navigation";
 
 const page = () => {
   const { user } = UserAuth();
@@ -11,9 +12,7 @@ const page = () => {
 
   if (!user) router.push('/sign-in')
   return (
-    <>
       <Home />
-    </>
   );
 };
 

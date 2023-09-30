@@ -1,6 +1,7 @@
 'use client';
-import { Footer, Header } from './(base)/(components)/components';
+
 import { FiAlertTriangle } from 'react-icons/fi';
+import { Footer, Header } from './(base)/(components)/components';
 
 export default function Error({
   error,
@@ -19,7 +20,7 @@ export default function Error({
             <div className='text-neutral-800 pt-6 pb-2'>
               {error.message}
             </div>
-            <button onClick={()=>reset()} className='text-sm text-neutral-600'>Retry</button>
+            <button onClick={()=>{ reset(); }} className='text-sm text-neutral-600'>Retry</button>
           </div>
         </div>
       </div>

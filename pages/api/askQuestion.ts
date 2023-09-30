@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import query from "../../utils/queryApi";
 import admin from "firebase-admin";
+import query from "../../utils/queryApi";
 import { adminDb } from "../../firebaseAdmin";
 
-type Data = {
+interface Data {
   answer: string;
-};
+}
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,10 +1,11 @@
 "use client"
-import { Stat, Card } from './(components)/components';
-import Button from '../../components/Button';
+
 import { AiFillCreditCard } from 'react-icons/ai'
 import { FaUsers } from 'react-icons/fa'
 import { FiAlertTriangle, FiPackage } from 'react-icons/fi'
 import Link from 'next/link';
+import Button from '../../components/Button';
+import { Stat, Card } from './(components)/components';
 import { UserAuth } from '../authContext';
 
 export default function Page() {
@@ -64,11 +65,11 @@ export default function Page() {
               >
                 <div className='flex flex-col'>
                   <p className='text-primary text-sm font-medium'>
-                    {/*@ts-ignore */}
+                    {/* @ts-expect-error */}
                     {item.customer.name ?? 'No name'}
                   </p>
                   <p className='text-accent-foreground text-xs'>
-                    {/*@ts-ignore */}
+                    {/* @ts-expect-error */}
                     {item.customer.email}
                   </p>
                 </div>

@@ -1,11 +1,7 @@
 "use client";
 
-import NewChat from "./NewChat";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import ChatRow from "./ChatRow";
-import ModelSelection from "./ModelSelection";
 import { useEffect, useState } from "react";
 import {
   ArrowRightOnRectangleIcon,
@@ -13,9 +9,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { signOut } from "firebase/auth";
+import ModelSelection from "./ModelSelection";
+import ChatRow from "./ChatRow";
+import { auth, db } from "../firebase";
+import NewChat from "./NewChat";
 import { UserAuth } from "../app/authContext";
 
-const Sidebar = () => {
+function Sidebar() {
   const { firebaseUser } = UserAuth();
 
   const [show, setShow] = useState(false);
@@ -49,12 +49,12 @@ const Sidebar = () => {
       }`}
     >
       <div className="flex-1 w-[50%] md:w-[100%]">
-        {/* For small screen show Three bars*/}
+        {/* For small screen show Three bars */}
         <div
           className={`text-gray-400 p-2 max-w-[42px] rounded-lg cursor-pointer ${
             show && "hidden"
           }`}
-          onClick={() => setShow(true)}
+          onClick={() => { setShow(true); }}
         >
           <Bars3Icon className="h-6 w-6" />
         </div>
@@ -64,7 +64,7 @@ const Sidebar = () => {
             className={`text-gray-400 p-2 max-w-[42px] rounded-lg cursor-pointer mb-3 ${
               show && window.innerWidth >= 768 && "hidden"
             }`}
-            onClick={() => setShow(false)}
+            onClick={() => { setShow(false); }}
           >
             <XMarkIcon className="h-6 w-6" />
           </div>
@@ -96,7 +96,7 @@ const Sidebar = () => {
             alt=""
           />
           <button
-            onClick={() => signOut(auth)}
+            onClick={async () => { await signOut(auth); }}
             id="logout"
             className={`h-12 w-12 md:w-[100%] md:h-auto flex items-center justify-center gap-2  border font-bold p-2 text-gray-300 rounded-lg hover:bg-[#11A37F] transition duration-300 hover:border-transparent hover:text-white active:scale-90 ${
               window.innerWidth < 768 && "bg-[#11A37F] text-white border-none"
@@ -109,6 +109,6 @@ const Sidebar = () => {
       )}
     </div>
   );
-};
+}
 
 export default Sidebar;

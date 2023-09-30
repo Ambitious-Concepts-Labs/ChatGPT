@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Button from '../../../components/Button';
 import { AiFillGithub, AiFillTwitterCircle, AiFillInstagram } from 'react-icons/ai'
 import { MdOutlineNotStarted } from 'react-icons/md'
+import Button from '../../../components/Button';
 
 export function Header() {
   return (
@@ -32,7 +32,7 @@ export function Header() {
         </div>
         <div className='ml-auto flex items-center gap-4'>
             <Link href='/sign-in'>
-              <Button variant={"black"} text={"Get started"} icon={<MdOutlineNotStarted/>}  />
+              <Button variant="black" text="Get started" icon={<MdOutlineNotStarted/>}  />
             </Link>
 
         </div>

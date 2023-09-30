@@ -10,8 +10,8 @@ export default function Button ({ text, variant }) {
 
   const variantClasses = variant === 'white' ? 'font-vietnam text-[#01695D] bg-white' : 'btn text-white'
   return (
-    <div onClick={() => signInWithPopup(GoogleProvider)} >
-      <div className={sharedClasses + ' ' + variantClasses}>
+    <div onClick={async () => await signInWithPopup(GoogleProvider)} >
+      <div className={`${sharedClasses  } ${  variantClasses}`}>
         <div className='group-hover:underline underline-offset-2 decoration-1 decoration-white/30 tracking-tight'>{text}</div>
         <div className='font-medium text-xl flex mt-1'>
           <RxArrowTopRight />

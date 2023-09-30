@@ -34,8 +34,7 @@ export default function JoinUs () {
     // }
   ]
   return (
-    <>
-      <section>
+    <section>
         <div className='text-center text-2xl md:text-5xl tracking-tighter font-semibold md:font-medium px-4 md:px-32 md:pt-15 lg:px-[200px] font-vietnam'>
           <span>Create post with our community.</span>
           <br />
@@ -55,7 +54,5 @@ export default function JoinUs () {
           }
         </div>
       </section>
-
-    </>
   )
 }

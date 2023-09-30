@@ -1,9 +1,9 @@
 import { RiUploadCloud2Line } from "react-icons/ri";
+import { BiPlusCircle } from "react-icons/bi";
 import ProgressBar from "./ProgressBar";
 import Button from "./Button";
 import Card from "./MainCard";
 import CardHeader from "./CardHeader";
-import { BiPlusCircle } from "react-icons/bi";
 
 export default function TokenCard() {
   return (
