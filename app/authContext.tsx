@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
   const [checkoutLinks, setCheckoutLinks] = useState('')
   const [checkoutLink, setCheckoutLink] = useState('')
   const [methods, setMethods] = useState('')
-  const [id, setId] = useState(window.localStorage.getItem('id_help') || null)
+  const [id, setId] = useState(null)
   const [currUser, setCurrUser] = useState('')
   const [documents, setDocuments] = useState([])
   const [payments, setPayments] = useState([])
@@ -35,14 +35,16 @@ export const AuthContextProvider = ({ children }) => {
 
 
   const getSubscriptions = async () => {
-    const dataArr:{}[] = []
-    const querySnapshot = await getDocs(collection(db, "users", id, "subscriptions"));
-    querySnapshot.forEach((subscription) => {
-        const obj = { ...subscription.data(), subscriptionId: subscription.id }
-        dataArr.push(obj)
-    });
-    setSubscriptions(dataArr)
-    return dataArr
+    if (id) {
+      const dataArr:{}[] = []
+      const querySnapshot = await getDocs(collection(db, "users", id, "subscriptions"));
+      querySnapshot.forEach((subscription) => {
+          const obj = { ...subscription.data(), subscriptionId: subscription.id }
+          dataArr.push(obj)
+      });
+      setSubscriptions(dataArr)
+      return dataArr
+    }
   }
 
   const getCheckoutLinks = async () => {
@@ -78,25 +80,31 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   const getPayments = async () => {
-    const dataArr:{}[] = []
-    const querySnapshot = await getDocs(collection(db, "users", id, "payments"));
-    querySnapshot.forEach((payment) => {
-        const obj = { ...payment.data(), paymentId: payment.id }
-        dataArr.push(obj)
-    });
-    setPayments(dataArr)
-    return dataArr
+    if (id) {
+      const dataArr:{}[] = []
+      const querySnapshot = await getDocs(collection(db, "users", id, "payments"));
+      querySnapshot.forEach((payment) => {
+          const obj = { ...payment.data(), paymentId: payment.id }
+          dataArr.push(obj)
+      });
+      setPayments(dataArr)
+      return dataArr
+    }
   }
 
   const getSingleFolder = async (name) => {
+    if (id) {
       const docRef = await getDoc(doc(db, "users", id, "folders",  name));
       const docData = docRef.data();
       return docData
+    }
   }
   const getFoldersDocuments = async (name) => {
-      const docRef = await getDoc(doc(db, "users", id, "folders",  name));
-      const docData = docRef.data();
-      return docData
+      if (id) {
+        const docRef = await getDoc(doc(db, "users", id, "folders",  name));
+        const docData = docRef.data();
+        return docData
+      }
   }
 
   const getFolders = async (id) => {
@@ -124,9 +132,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const getUser = async (id) => {
     const uid = id
-    if (id) {
-        localStorage.setItem('id_help', id)
-    }
     setId(uid)
     if (uid) {
       const docRef = doc(db, "users", uid);

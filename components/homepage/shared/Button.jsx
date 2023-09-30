@@ -1,4 +1,6 @@
 "use client";
+
+import React from 'react';
 import { signInWithPopup } from 'firebase/auth';
 import { RxArrowTopRight } from 'react-icons/rx'
 import { GoogleProvider } from '../../../firebase';

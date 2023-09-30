@@ -1,11 +1,8 @@
 "use client";
 import Billing from "../../../components/Billing";
-import { UserAuth } from "../../authContext";
 
 const index = () => {
-    const {session } = UserAuth();
-
-  return <Billing session={session} />;
+  return <Billing />;
 };
 
 export default index;
