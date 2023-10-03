@@ -39,7 +39,7 @@ export default function ProfileCard(props: any) {
         </div>
         <div>
           <h3 className="font-bold pb-5 text-xs">Profile</h3>
-          <form onSubmit={() => updateFirebaseUser('any', {displayName, email, photoURL})} className="flex flex-col gap-4 w-7/12">
+          <form onSubmit={() => { updateFirebaseUser('any', {displayName, email, photoURL}); }} className="flex flex-col gap-4 w-7/12">
             <div className="flex flex-col gap-2 text-xs text-slate-400">
               <label htmlFor="name" className="font-semibold">
                 Name
@@ -48,7 +48,7 @@ export default function ProfileCard(props: any) {
                 type="text"
                 id="name"
                 value={displayName}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => { setName(e.target.value); }}
                 className="border p-2 rounded-md"
                 placeholder={session.displayName}
               />
@@ -61,7 +61,7 @@ export default function ProfileCard(props: any) {
                 type="text"
                 id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => { setEmail(e.target.value); }}
                 className="border p-2 rounded-md"
                 placeholder={session.email}
               />

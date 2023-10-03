@@ -1,10 +1,10 @@
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import React from "react";
 import { GrDocument } from "react-icons/gr";
-import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { db } from "../firebase";
 
-const NewModal = (props: any) => {
+function NewModal(props: any) {
   const { inputRef, handleClose, showModal, setShowModal, warningAlert, setWarningAlert, session } = props
   const [val, setVal] = React.useState("");
   const submitHandler = async (e: { preventDefault: () => void; }) => {
@@ -35,12 +35,12 @@ const NewModal = (props: any) => {
               <p>Please type something in the input box.</p>
             </div>
           )}
-          {/*content*/}
+          {/* content */}
           <form
             onSubmit={submitHandler}
             className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
           >
-            {/*header*/}
+            {/* header */}
             <div className="flex items-start justify-between p-5 rounded-t">
               <p className="text-xl font-semibold">New Folder</p>
               <button
@@ -52,7 +52,7 @@ const NewModal = (props: any) => {
                 </span>
               </button>
             </div>
-            {/*body*/}
+            {/* body */}
             <div className="relative p-6 flex-auto">
               <div className="flex items-center">
                 <div className="py-4 px-4 border-r-0 border-2 border-solid border-slate-200">
@@ -68,7 +68,7 @@ const NewModal = (props: any) => {
                 />
               </div>
             </div>
-            {/*footer*/}
+            {/* footer */}
             <div className="flex items-center justify-end p-6">
               <button
                 className="text-black background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -87,9 +87,9 @@ const NewModal = (props: any) => {
           </form>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      <div className="opacity-25 fixed inset-0 z-40 bg-black" />
     </>
   );
-};
+}
 
 export default NewModal;
