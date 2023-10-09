@@ -2,11 +2,9 @@
 
 import { FC, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import InvoiceHeader from '../../../../components/InvoiceDetailsHeader';
-import InvoiceCenter from '../../../../components/InvoiceCenter';
-import InvoiceItems from '../../../../components/InvoiceItems';
-import styles from '../../../../styles/Invoice.module.css';
 import { UserAuth } from '../../../authContext';
+import styles from './(styles)/Invoice.module.css';
+import {  InvoiceHeader, InvoiceCenter, InvoiceItems } from "./(components)/components";
 
 function Invoice() {
     const pathname = usePathname();
