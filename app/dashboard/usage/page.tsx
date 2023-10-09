@@ -1,8 +1,27 @@
 "use client";
-import Usage from "../../../components/Usage";
+import React from "react";
+import Title from "../../../components/Title";
+import { UserAuth } from "../../authContext";
+import { DailyCard, QuotaCard, TokenCard } from "./(components)/compontents";
 
-const MainUsage = () => {
-  return <Usage  />;
-};
+function Usage() {
+  const { showModal, setShowModal } = UserAuth();
 
-export default MainUsage;
+  return (
+    <>
+      <Title
+        showModal={showModal}
+        setShowModal={setShowModal}
+        button="Document"
+        title="Usage"
+      />
+      <div className="grid grid-cols-1 auto-rows-min lg:grid-cols-2 lg:grid-rows-[10rem_1fr] gap-5">
+        <TokenCard />
+        <QuotaCard />
+        <DailyCard />
+      </div>
+    </>
+  );
+}
+
+export default Usage;
