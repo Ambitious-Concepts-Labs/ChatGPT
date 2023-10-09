@@ -6,17 +6,15 @@ import initializeStripe from "./initializeStripe";
 import { v4 as uuidv4 } from 'uuid';
 import { getAuth } from "firebase/auth";
 
-export async function createCheckoutSession(email: string, planId) {
+export async function createCheckoutSession(planId) {
 
-const auth = getAuth();
-const user = auth.currentUser;
-
-  console.log('yoooooo', user)
+  const auth = getAuth();
+  const user = auth.currentUser;
+  
   let priceId = ''
-
+  
   if (planId == 1) {
     priceId = null
-    return
   } else if (planId == 2) {
     priceId = 'price_1NS5QqDl9zzW61N7gNRwAE5S'
   } else if (planId == 3) {
