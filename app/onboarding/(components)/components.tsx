@@ -1,13 +1,12 @@
 'use client';
 
-import Button from '../../../components/Button';
 import { useRouter } from 'next/navigation';
-import { JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal, RefObject, useEffect, useRef, useState } from 'react';
-import { updateName } from '../(actions)/actions';
+import React, { JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal, type RefObject, useEffect, useRef, useState } from 'react';
 import { GrFormNextLink } from 'react-icons/gr'
+import Button from '../../../components/Button';
+import { updateName } from '../(actions)/actions';
 import plans from "../../../constants/plans";
 import PriceCard from '../../pricing/(components)/PriceCard';
-import React from 'react';
 
 export default function Form() {
   // const [name, setName] = useState('');
@@ -154,11 +153,11 @@ export default function Form() {
                 // <Success gotoForm={gotoForm} />
               // </AnimatePresence>
             ) : (
-              <form onSubmit={(e) => handleFormData(e)}>
+              <form onSubmit={(e) => { handleFormData(e); }}>
                 {/* <AnimatePresence mode="wait" custom={status}> */}
                   {currentStepIndex === 0 && (
                     <PersonalInfo
-                      key={"step1"}
+                      key="step1"
                       status={status}
                       name={name}
                       email={email}
@@ -233,7 +232,7 @@ export default function Form() {
                   {currentStepIndex === 3 && (
                     <Review
                       gotoForm={gotoForm}
-                      key={"step4"}
+                      key="step4"
                       status={status}
                       {...formData}
                     />
@@ -283,8 +282,8 @@ export default function Form() {
       <div className='flex justify-between'>
 
         <Button 
-        variant={"black"}
-        text={"Continue"}
+        variant="black"
+        text="Continue"
         icon={<GrFormNextLink color='white'/>}
         // onClick={() => validateAndUpdate()} size={'sm'}
           Continue
@@ -337,12 +336,12 @@ const useMultistepForm = (step: number) => {
   };
 };
 
-type NavTypes = {
+interface NavTypes {
   currentStepIndex: number;
   gotoForm?: (index: number) => void;
-};
+}
 
-const Sidebar = ({ currentStepIndex }: NavTypes) => {
+function Sidebar({ currentStepIndex }: NavTypes) {
   return (
     <header className="h-[200px] bg-bg-mobile bg-cover bg-center md:h-auto md:rounded-xl md:bg-bg-desktop md:px-8 ">
       <div className="flex h-full w-full justify-center space-x-6 pt-10  md:w-[220px] md:flex-col md:justify-start md:space-x-0 md:space-y-8">
@@ -373,9 +372,9 @@ const Sidebar = ({ currentStepIndex }: NavTypes) => {
       </div>
     </header>
   );
-};
+}
 
-type formDataProps = {
+interface formDataProps {
   status: string;
   name: RefObject<HTMLInputElement>;
   email: RefObject<HTMLInputElement>;
@@ -383,9 +382,9 @@ type formDataProps = {
   nameErr: RefObject<HTMLSpanElement>;
   emailErr: RefObject<HTMLSpanElement>;
   phoneErr: RefObject<HTMLSpanElement>;
-};
+}
 
-const PersonalInfo = ({
+function PersonalInfo({
   status,
   name,
   email,
@@ -393,7 +392,7 @@ const PersonalInfo = ({
   nameErr,
   emailErr,
   phoneErr,
-}: formDataProps) => {
+}: formDataProps) {
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -424,7 +423,7 @@ const PersonalInfo = ({
           <span
             ref={nameErr}
             className=" text-red-600 md:absolute md:-bottom-6 md:left-0"
-          ></span>
+           />
         </div>
         <div className="relative mb-4 md:mb-5">
           <label
@@ -445,7 +444,7 @@ const PersonalInfo = ({
           <span
             ref={emailErr}
             className=" text-red-600 md:absolute md:-bottom-6 md:left-0"
-          ></span>
+           />
         </div>
         <div className="relative">
           <label
@@ -466,27 +465,27 @@ const PersonalInfo = ({
           <span
             ref={phoneErr}
             className=" text-red-600 md:absolute md:-bottom-6 md:left-0"
-          ></span>
+           />
         </div>
       </div>
     </>
   );
-};
+}
 
 type updateWithAddons = any & {
   updateForm: (updateField: Partial<any>) => void;
   status: string;
 };
 
-const Addons = ({ status, addOns, yearly, updateForm }: updateWithAddons) => {
+function Addons({ status, addOns, yearly, updateForm }: updateWithAddons) {
 
   const handleCheckChange = (id: number, checked: boolean) => {
     const updateAddons = addOns.map((addon: { id: number; }) => {
       if (addon.id === id) {
         return { ...addon, checked };
-      } else {
+      } 
         return addon;
-      }
+      
     });
 
     updateForm({ addOns: updateAddons });
@@ -505,8 +504,7 @@ const Addons = ({ status, addOns, yearly, updateForm }: updateWithAddons) => {
         Add-ons help enhance your gaming experience.
       </p>
 
-      {addOns.map((addon: { id: any; checked: any; title: any; subtitle: any; price: number; }) => {
-        return (
+      {addOns.map((addon: { id: any; checked: any; title: any; subtitle: any; price: number; }) => (
           <div
             key={addon.id}
             className={`${
@@ -540,24 +538,23 @@ const Addons = ({ status, addOns, yearly, updateForm }: updateWithAddons) => {
               {yearly ? `$${addon.price * 10}/yr` : `$${addon.price}/mo`}
             </span>
           </div>
-        );
-      })}
+        ))}
     </>
   );
-};
+}
 
 type reviewBillingProps = any & {
   gotoForm: (index: number) => void;
   status: string;
 };
 
-const Review = ({
+function Review({
   status,
   gotoForm,
   planSelected,
   yearly,
   addOns,
-}: reviewBillingProps) => {
+}: reviewBillingProps) {
   console.log(planSelected);
 
   let plan = 0;
@@ -573,11 +570,9 @@ const Review = ({
     plan = 15;
   }
 
-  const isAddon = addOns.filter((addon: { checked: boolean; }) => addon.checked === true);
+  const isAddon = addOns.filter((addon: { checked: boolean; }) => addon.checked);
 
-  isAddon?.forEach((addon: { price: number; }) => {
-    return (totalAddons += addon.price);
-  });
+  isAddon?.forEach((addon: { price: number; }) => (totalAddons += addon.price));
 
   const planSelectedPrice = yearly ? plan * 10 : plan;
   const planSelectedPriceWithDuration = yearly
@@ -618,8 +613,7 @@ const Review = ({
         </div>
 
         <div className="">
-          {isAddon?.map((addon: { id: any; title: any; price: number; }) => {
-            return (
+          {isAddon?.map((addon: { id: any; title: any; price: number; }) => (
               <div
                 key={addon.id}
                 className="item-center mb-2 flex justify-between"
@@ -629,8 +623,7 @@ const Review = ({
                   {yearly ? `$${addon.price * 10}/yr` : `$${addon.price}/mo`}
                 </span>
               </div>
-            );
-          })}
+            ))}
         </div>
       </div>
       <div className="flex items-center justify-between px-3">
@@ -644,9 +637,9 @@ const Review = ({
       </div>
     </>
   );
-};
+}
 
-const StripePricingTable = () => {
+function StripePricingTable() {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://js.stripe.com/v3/pricing-table.js';
@@ -663,4 +656,4 @@ const StripePricingTable = () => {
     'publishable-key':
       'pk_test_51LeTehDscgyTUUyYsD6aOjZD7zyJoj1OMLkKbFjsOEGoMUc6JPDlFzr09nip4sm39iirRllIL45RuqDChIlQ349p00loAcHNlo',
   });
-};
+}

@@ -1,5 +1,5 @@
-import logo from "../../../assets/logo.svg";
 import Image from "next/image";
+import logo from "../../../assets/logo.svg";
 import { UserAuth } from "../../authContext";
 
 export default function Header() {

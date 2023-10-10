@@ -1,4 +1,7 @@
 "use client"
+
+import Link from 'next/link';
+import { format } from 'date-fns';
 import {
   generateCheckoutLink,
   generateCustomerPortalLink,
@@ -8,7 +11,6 @@ import {
   getSubscriptions,
 } from '../../../../utils/stripeHelpers';
 // import { prisma } from '@saas/database/connection';
-import Link from 'next/link';
 
 // import { authOptions } from '@/auth/options';
 import Button from '../../../../components/Button';
@@ -20,7 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from '../../../admin/(components)/components';
-import { format } from 'date-fns';
 import { UserAuth } from '../../../authContext';
 
 export default function Page() {
@@ -35,7 +36,7 @@ export default function Page() {
 
   // let methods = await getPaymentMethods(user.stripe_customer_id);
 
-  let plans = recurringProducts;
+  const plans = recurringProducts;
 
   // let checkoutLinks = {};
 
@@ -86,7 +87,7 @@ export default function Page() {
                     <div className='flex flex-row items-center gap-4'>
                       <p className='text-base font-medium'>
                         $
-                        {'' + item.default_price?.unit_amount_decimal / 100}
+                        {`${  item.default_price?.unit_amount_decimal / 100}`}
                         <span className='font-normal text-neutral-600'>
                           /
                           {
@@ -96,9 +97,9 @@ export default function Page() {
                       </p>
                       {
                         !hasSubscription(item.default_price.id) && (
-                          <Link href={checkoutLinks['' + item.default_price.id] || ''}>
+                          <Link href={checkoutLinks[`${  item.default_price.id}`] || ''}>
                             <Button 
-                            text={"Buy"}
+                            text="Buy"
                             size='xs' 
                             variant='black'
                             />
@@ -109,7 +110,7 @@ export default function Page() {
                         hasSubscription(item.default_price.id) && (
                           <Link href={checkoutLink || ''}>
                             <Button 
-                            text={"Manage"}
+                            text="Manage"
                             size='xs' 
                             variant='black'
                             />
@@ -156,7 +157,7 @@ export default function Page() {
           </div>
           <Link href={checkoutLink || ''}>
             <Button 
-            text={'Manage payment methods'}
+            text="Manage payment methods"
             size='sm' 
             variant='black'
             />

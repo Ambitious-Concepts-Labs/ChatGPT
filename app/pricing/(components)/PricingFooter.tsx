@@ -1,7 +1,7 @@
-import logo from "../../../assets/logo.svg";
-import FacebookIcon from "../../../components/FacebookIcon";
-import LinkedinIcon from "../../../components/LinkedinIcon";
 import Image from "next/image";
+import logo from "../../../assets/logo.svg";
+import FacebookIcon from "../../../icons/FacebookIcon";
+import LinkedinIcon from "../../../icons/LinkedinIcon";
 
 export default function Footer() {
   return (

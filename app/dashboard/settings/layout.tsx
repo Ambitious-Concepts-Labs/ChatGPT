@@ -1,4 +1,5 @@
 "use client"
+
 import { SidebarItem } from './(components)/components';
 
 export default function SettingsLayout({

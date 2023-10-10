@@ -5,7 +5,7 @@
 
 import React from "react";
 // import Chatbot from "../../components/Chatbot";
-import Sidebar from "../../components/DashboardSidebar";
+import { Sidebar } from "./(components)/components";
 import "../../styles/globals.css";
 import "tailwindcss/tailwind.css";
 // import { Rubik } from "next/font/google";

@@ -1,21 +1,21 @@
 "use client";
+
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { doc, DocumentReference, Firestore, getDoc } from "firebase/firestore";
-import Documents from "../../../../components/Documents";
+import { Documents } from "../../(components)/components"
 import { UserAuth } from "../../../authContext";
 import { db } from "../../../../firebase";
 import Title from "../../../../components/Title";
 import NewModal from "../../../../components/NewModal";
-import React from "react";
 
-type Props = {
+interface Props {
   params: {
     id: string;
   };
-};
+}
 
-const FolderPage = ({}: Props) => {
+function FolderPage({}: Props) {
   const pathname = usePathname();
   const { firebaseUser, showModal, setShowModal, getFoldersDocuments, id } = UserAuth();
   const [documents, setDocuments] = useState<any>(null);
@@ -36,7 +36,7 @@ const FolderPage = ({}: Props) => {
   const inputRef = React.useRef();
 
   async function fetchDocs() {
-    let docs: any[] = []
+    const docs: any[] = []
     if (pathname) {
         const queryId = pathname.substring(pathname.lastIndexOf("/") + 1);
         const uid = id
@@ -46,7 +46,7 @@ const FolderPage = ({}: Props) => {
         const docData = await docRef.data();
         if (docData) {
             setFolder(docData);
-            for (let i in docData?.documents){
+            for (const i in docData?.documents){
               console.log('docData', docData)
               console.log(docData?.documents[i])
               const newdocRef = await getDoc(doc(db, "users", uid, "documents", docData?.documents[i]));
@@ -71,7 +71,7 @@ const FolderPage = ({}: Props) => {
                 id={id}
                 showModal={showModal}
                 setShowModal={setShowModal}
-                button={"Folder Doc"}
+                button="Folder Doc"
                 title={`Folder: ${folder.name || 'No Name'}`}
                 path={pathname?.substring(pathname?.lastIndexOf("/") + 1)}
                 data={inputRef}
@@ -98,7 +98,6 @@ const FolderPage = ({}: Props) => {
               </main>
             </div>
           </div>
-          <>
           {showModal ? (
             <NewModal
               session={firebaseUser}
@@ -110,11 +109,10 @@ const FolderPage = ({}: Props) => {
               setWarningAlert={setWarningAlert}
             />
           ) : null}
-      </>
         </>
       )}
     </>
   );
-};
+}
 
 export default FolderPage;

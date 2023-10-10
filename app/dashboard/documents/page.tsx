@@ -1,13 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
+// @ts-nocheck
+
 "use client";
+
 import React from "react";
-import Documents from "../../../components/Documents";
+import { Documents } from "../(components)/components"
 // import Filters from "../../../components/Filters";
 import Title from "../../../components/Title";
 import { UserAuth } from "../../../app/authContext";
 
-const MainDocuments = () => {
+function MainDocuments() {
   const { firebaseUser, documents, showModal, setShowModal, user, id } = UserAuth();
 
   return (
@@ -15,8 +17,8 @@ const MainDocuments = () => {
       <Title
         showModal={showModal}
         setShowModal={setShowModal}
-        button={"Document"}
-        title={"Documents"}
+        button="Document"
+        title="Documents"
       />
       {/* <Filters /> */}
       <Documents
@@ -26,6 +28,6 @@ const MainDocuments = () => {
       />
     </div>
   );
-};
+}
 
 export default MainDocuments;

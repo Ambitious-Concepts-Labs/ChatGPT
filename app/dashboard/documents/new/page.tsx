@@ -1,26 +1,23 @@
 "use client";
 
-import PromptBar from "../../../../components/NewDocPromptBar";
 import Link from "next/link";
 import { CgFileDocument } from "react-icons/cg";
 import { TbListSearch, TbPencilPlus } from "react-icons/tb";
-import Header from "../../../../components/NewDocHeader";
-import "../../../../styles/globals.css";
-import { useEffect, useRef, useState } from "react";
-import DropDown, { VibeType } from "../../../../components/DropDown";
-import { rank } from "../../../../utils/linkedin-algorithm";
 import toast, { Toaster } from "react-hot-toast";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect, useRef, useState } from "react";
+import "../../../../styles/globals.css";
+import { rank } from "../../../../utils/linkedin-algorithm";
 import Popup from "../../../../components/Popup";
 // import LoadingDots from "../../../../components/LoadingDots";
-import CustomButton from "../../../../components/CustomButton";
-import { RankResponse } from "../../../../";
+import { type RankResponse } from "../../../..";
 import { handlePrompt } from "../../../../utils/helperFunctions";
 import { UserAuth } from "../../../authContext";
 import { db } from "../../../../firebase";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { v4 as uuidv4 } from "uuid";
+import { CustomButton, DropDown, Header, VibeType, PromptBar } from "../../(components)/components";
 
-export default function Home() {
+export default function NewDocument() {
   const [loading, setLoading] = useState(false);
   const [optimizedPost, setOptimizedPost] = useState<string>("");
   const [ranking, setRanking] = useState<RankResponse>({
@@ -138,7 +135,7 @@ export default function Home() {
   ];
   return (
     <>
-      <Header docId={""} />
+      <Header docId="" />
       <main className="grow flex flex-col items-center mx-auto">
         <div className="grow py-2 px-8 md:py-6 md:px-16 flex flex-col justify-around">
           {!optimizedPost ? (
@@ -172,8 +169,7 @@ export default function Home() {
               </ul>
             </>
           ) : (
-            <>
-              <div className="flex flex-colw w-full ">
+            <div className="flex flex-colw w-full ">
                 <div className="flex">
                   <Toaster
                     position="top-right"
@@ -216,7 +212,6 @@ export default function Home() {
                   )}
                 </div>
               </div>
-            </>
           )}
         </div>
         <PromptBar

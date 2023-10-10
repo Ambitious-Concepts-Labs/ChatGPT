@@ -1,28 +1,29 @@
 import React from "react";
-import professional from "../../../assets/professional.svg";
 import Image from "next/image";
+import { doc, getDoc } from "firebase/firestore";
+import professional from "../../../assets/professional.svg";
 import { db } from "../../../firebase";
 import { createCheckoutSession } from "../../../stripe/createCheckoutSession";
 import usePremiumStatus from "../../../stripe/usePremiumStatus";
-import { doc, getDoc } from "firebase/firestore";
 import { delay } from "../../../utils/helperFunctions";
 import { UserAuth } from "../../authContext";
 
 export default function PriceCard(props: any) {
   const { user } = UserAuth();
-  console.log(user, 'from auth')
-
+  
   const userIsPremium = usePremiumStatus(user);
-
-
+  
   const { plan } = props
 
+  console.log({user, plan})
+  
   const handlerPlan = async () => {
     try {
       await delay(1000)
       if (user) {
         props.setLoading(true);
-        await createCheckoutSession(user?.email, plan.id);
+        const stripe = await createCheckoutSession(plan.id);
+        console.log({stripe})
       } 
     } catch (error) {
       console.log(error)
@@ -36,7 +37,7 @@ export default function PriceCard(props: any) {
         <div>
           <h1>Hello, {user.displayName}</h1>
           {!userIsPremium ? (
-            <button onClick={() => createCheckoutSession(user.email, 3)}>
+            <button onClick={async () => { await createCheckoutSession(3); }}>
               Upgrade to premium!
             </button>
           ) : (
@@ -84,7 +85,7 @@ export default function PriceCard(props: any) {
         )}
         <button
           className="relative z-10 text-center w-4/6 left-2/4 -translate-x-2/4 lg:left-0 lg:translate-x-0 lg:w-full py-5 rounded-md text-white text-sm bg-c-green drop-shadow-md hover:underline hover:underline-offset-2 hover:shadow-lg decoration-1 decoration-white/30  tracking-[0.2px]"
-          onClick={() => handlerPlan()}
+          onClick={async () => { await handlerPlan(); }}
         >
           Get Started
         </button>

@@ -1,4 +1,5 @@
 'use client';
+
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
 import Form from './(components)/components';
 import { UserAuth } from '../authContext';
@@ -52,11 +53,11 @@ export default function Page() {
             <div className='divide-border flex flex-col divide-y'>
               <TipItem
                 question='Just added your DATABASE_URL? You need to push it your MySQL server.'
-                answer={'yarn dev-db-push'}
+                answer="yarn dev-db-push"
               />
               <TipItem
                 question='Updated your DB Schema? Push it to MySQL and generate client types.'
-                answer={'yarn dev-db-push && yarn dev-db-generate'}
+                answer="yarn dev-db-push && yarn dev-db-generate"
               />
             </div>
           </div>

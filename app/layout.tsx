@@ -1,6 +1,6 @@
 "use client"
 
-import ClientProvider from "../components/ClientProvider";
+import { ClientProvider } from "./(components)/components";
 import "../styles/globals.css";
 import Head from "./head";
 // import { Metadata } from "next";

@@ -4,9 +4,8 @@
 "use client";
 
 import "../../styles/globals.css";
-import ClientProvider from "../../components/ClientProvider";
-import RightSidebar from "../../components/RightSidebar";
-import Sidebar from "../../components/ChatSidebar";
+import { Sidebar } from "./(components)/components";
+import { ClientProvider, RightSidebar } from "../(components)/components";
 import Home from "../../components/homepage/home";
 
 function ChatLayout({ children }) {

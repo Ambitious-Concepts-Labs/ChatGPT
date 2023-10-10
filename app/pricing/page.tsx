@@ -1,4 +1,7 @@
 "use client";
+
+import Image from "next/image";
+import React from "react";
 import Table from "../../components/Table";
 import appointment from "../../assets/appointment.svg";
 import PriceCard from "./(components)/PriceCard";
@@ -6,10 +9,8 @@ import Footer from "./(components)/PricingFooter";
 import Header from "./(components)/PricingHeader";
 import plans from "../../constants/plans";
 import faqs from "../../constants/faqs";
-import Image from "next/image";
 import "../../styles/loader.css";
 import "../../styles/index.css";
-import React from "react";
 
 export default function Pricing() {
   const [loading, setLoading] = React.useState(false);
@@ -18,7 +19,7 @@ export default function Pricing() {
     <>
       {loading && (
         <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
-          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4" />
           <h2 className="text-center text-white text-xl font-semibold">
             Loading...
           </h2>

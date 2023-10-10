@@ -1,6 +1,4 @@
-import Chat from "../../../components/Chat";
-import ChatInput from "../../../components/ChatInput";
-
+import { Chat, ChatInput } from "../(components)/components";
 interface Props {
   params: {
     id: string;

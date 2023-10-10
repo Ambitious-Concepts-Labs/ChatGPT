@@ -1,12 +1,11 @@
 'use client';
 
-import Button from '../../../../components/Button';
-import { useRouter } from 'next/navigation';
+import { useRouter , usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { updateProfile } from '../(actions)/actions';
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { getAuth, signOut } from 'firebase/auth';
+import { updateProfile } from '../(actions)/actions';
+import Button from '../../../../components/Button';
 
 export function SidebarItem({
   href,
@@ -16,7 +15,7 @@ export function SidebarItem({
   text: string;
 }) {
   const pathname = usePathname() ?? "";
-  let active = pathname == href;
+  const active = pathname == href;
   return (
     <Link
       href={href}
@@ -52,7 +51,7 @@ export default function Form({
             <input
               value={name}
               className='max-w-md'
-              onChange={(e: any) => setName(e.target.value)}
+              onChange={(e: any) => { setName(e.target.value); }}
               placeholder='Roman'
             />
           </div>
@@ -66,14 +65,14 @@ export default function Form({
       </div>
       <div className='flex items-center gap-4 pt-8 '>
         <Button 
-        variant={"black"}
-        text={"Save"}
-        onClick={() => update()} size={'sm'}
+        variant="black"
+        text="Save"
+        onClick={async () => { await update(); }} size="sm"
         />
         <Button 
-        variant={"black"}
-        text={"Logout"}
-        onClick={() => signOut(auth)} size={'sm'} 
+        variant="black"
+        text="Logout"
+        onClick={async () => { await signOut(auth); }} size="sm" 
         />
       </div>
     </>
