@@ -28,8 +28,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "components/Button.jsx", "components/LineChart.jsx", "commitlint.config.js"  ],
+    ".next/types/**/*.ts",
+    "commitlint.config.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,16 +1,18 @@
 import React from 'react';
 
-const FormField = ({
-  labelName,
-  type,
-  name,
-  placeholder,
-  value,
-  handleChange,
-  isSurpriseMe,
-  handleSurpriseMe,
-}) => (
-  <div>
+function FormField(props: any) {
+  const {
+    labelName,
+    type,
+    name,
+    placeholder,
+    value,
+    handleChange,
+    isSurpriseMe,
+    handleSurpriseMe,
+  } = props
+  
+  return <div>
     <div className="flex items-center gap-2 mb-2">
       <label
         htmlFor={name}
@@ -39,6 +41,6 @@ const FormField = ({
       required
     />
   </div>
-);
+}
 
 export default FormField;

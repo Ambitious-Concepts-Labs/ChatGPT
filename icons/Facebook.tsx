@@ -1,16 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-nocheck
-import linkedin from "../assets/linkedin.png";
+// @ts-nocheck
 import Image from "next/image";
+import facebook from "../assets/facebook.png";
 
-export default function Linkedin() {
+export default function Facebook() {
   return (
     <Image 
       className="h-full w-auto rounded-full"
-      src={linkedin}
+      src={facebook}
       width={180}
-      height={180}
-      alt="Linkedin To logo"
+      height={175}
+      alt="facebook To logo"
     />
   );
 }

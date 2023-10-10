@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Card = (props: any) => {
+function Card(props: any) {
   const {bgHover, textHover, heading, number, iconbg, icon} = props
   return (
-        <div className={`flex w-60 rounded bg-white px-6 py-3 text-slate-800 transition-colors duration-500`}>
+        <div className="flex w-60 rounded bg-white px-6 py-3 text-slate-800 transition-colors duration-500">
           <div  className='h-3/5 bg-slate-100 text-slate-500 p-2 flex items-center justify-center rounded-md '>
             <span className='flex items-center text-xl'> {icon} </span>
           </div> 
