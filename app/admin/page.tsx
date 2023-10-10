@@ -65,11 +65,9 @@ export default function Page() {
               >
                 <div className='flex flex-col'>
                   <p className='text-primary text-sm font-medium'>
-                    {/* @ts-expect-error */}
                     {item.customer.name ?? 'No name'}
                   </p>
                   <p className='text-accent-foreground text-xs'>
-                    {/* @ts-expect-error */}
                     {item.customer.email}
                   </p>
                 </div>

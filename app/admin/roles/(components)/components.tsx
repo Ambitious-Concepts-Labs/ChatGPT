@@ -18,7 +18,6 @@ export function RoleForm({ users }: { users: any[] }) {
 
   async function addItemToUser() {
     setLoading(true);
-    // @ts-expect-error
     await setRole(name, id);
     setLoading(false);
   }

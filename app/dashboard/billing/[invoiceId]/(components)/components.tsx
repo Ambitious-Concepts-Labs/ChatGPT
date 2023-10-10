@@ -1,6 +1,6 @@
 import styles from '../(styles)/InvoiceDetailsHeader.module.css';
 import centerStyles from '../(styles)/InvoiceCenter.module.css';
-import itemsStyles from '../styles/InvoiceItems.module.css';
+import itemsStyles from '../(styles)/InvoiceItems.module.css';
 
 export function InvoiceHeader(props: any) {
     const { id, description, senderAddress } = props

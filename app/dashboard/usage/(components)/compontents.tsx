@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
-import faker from "faker";
+// import faker from "faker";
 import { BiPlusCircle } from "react-icons/bi";
 import { FaRegChartBar } from "react-icons/fa";
 import { PiClockClockwise } from "react-icons/pi";
@@ -111,7 +112,8 @@ const data = {
     // },
     {
       label: "Dataset 2",
-      data: dates.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      // data: dates.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      data: [],
       borderColor: "rgb(53, 162, 235)",
       backgroundColor: "rgba(53, 162, 235, 0.5)",
     },
@@ -119,7 +121,7 @@ const data = {
 };
 
 function LineChart() {
-  const [numbers, setnumbers] = useState([]);
+  const [numbers, setnumbers] = useState<any>([]);
   const monthlyData = {
     labels,
     datasets: [
@@ -133,7 +135,7 @@ function LineChart() {
   };
 
   useEffect(() => {
-    let tokeninfo = localStorage.getItem("TokenInfo");
+    let tokeninfo: any = localStorage.getItem("TokenInfo");
     if (tokeninfo == null || tokeninfo == undefined) {
       let tokeninformation = {
         January: 0,
@@ -183,7 +185,7 @@ function LineChart() {
     <h1 className="font-bold">Monthly Token Usage</h1>
     <div className="flex w-full justify-center items-center">
       {/* <div className="w-[1200px] h-[1000px] bg-white shadow-lg p-[5rem] pt-[1.5rem]"> */}
-        <Line options={monthlyOptions} data={monthlyData} />
+      <Line options={monthlyOptions} data={monthlyData} />
       {/* </div> */}
     </div>
     </>

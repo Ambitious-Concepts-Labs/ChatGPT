@@ -1,4 +1,4 @@
-export default function FacebookIcon(props) {
+export default function FacebookIcon(props: any) {
   return (
     <svg width="auto" height="100%" viewBox="0 0 200 200" {...props}>
       <g>
