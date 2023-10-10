@@ -1,19 +1,21 @@
 // @ts-nocheck
 
 "use client";
+
 import { useContext, createContext, useState, useEffect } from "react";
 import { doc, getDoc, getDocs, collection, setDoc, serverTimestamp } from "firebase/firestore";
+import { type User, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { getProductsWithRecurringPrices } from "../utils/helperFunctions"
 import { getProducts, getAllSubscriptions, getPaymentMethods,
   generateCheckoutLink, generateCustomerPortalLink } from "../utils/stripeHelpers"
-import { User, onAuthStateChanged } from "firebase/auth";
 
 
 const AuthContext = createContext();
 
 
-export const AuthContextProvider = ({ children }) => {
+export function AuthContextProvider({ children }) {
+  const [myState, setMyState] = useState(0);
   const [user, setUser] = useState('')
   const [users, setUsers] = useState('')
   const [products, setProducts] = useState('')
@@ -34,9 +36,13 @@ export const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
 
+  const updateMyState = (newValue) => {
+    setMyState(newValue);
+  };
+
   const getSubscriptions = async () => {
     if (id) {
-      const dataArr:{}[] = []
+      const dataArr:Array<{}> = []
       const querySnapshot = await getDocs(collection(db, "users", id, "subscriptions"));
       querySnapshot.forEach((subscription) => {
           const obj = { ...subscription.data(), subscriptionId: subscription.id }
@@ -48,16 +54,16 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   const getCheckoutLinks = async () => {
-    let currCheckoutLinks = {};
+    const currCheckoutLinks = {};
 
-    for (var plan of subscriptions) {
-      let link = await generateCheckoutLink(
-        //@ts-ignore
-        '' + plan.default_price.id, process.env.NEXTAUTH_URL,
+    for (const plan of subscriptions) {
+      const link = await generateCheckoutLink(
+        // @ts-expect-error
+        ` ${plan.default_price.id}`, process.env.NEXTAUTH_URL,
         user.stripe_customer_id
         );
-        //@ts-ignore
-      currCheckoutLinks['' + plan.id] = link;
+        // @ts-expect-error
+      currCheckoutLinks[` ${plan.id}`] = link;
     }
     setCheckoutLinks(currCheckoutLinks)
     return currCheckoutLinks
@@ -66,8 +72,8 @@ export const AuthContextProvider = ({ children }) => {
   const getCheckoutLink = async () => {
     const link = await generateCustomerPortalLink(
     String(user?.stripe_customer_id),
-    process.env.NEXTAUTH_URL 
-    + '/dashboard/settings/billing');
+    `${process.env.NEXTAUTH_URL 
+     }/dashboard/settings/billing`);
     setCheckoutLink(link)
     return link
   }
@@ -81,7 +87,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const getPayments = async () => {
     if (id) {
-      const dataArr:{}[] = []
+      const dataArr:Array<{}> = []
       const querySnapshot = await getDocs(collection(db, "users", id, "payments"));
       querySnapshot.forEach((payment) => {
           const obj = { ...payment.data(), paymentId: payment.id }
@@ -108,7 +114,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   const getFolders = async (id) => {
-    const dataArr:{}[] = []
+    const dataArr:Array<{}> = []
     const querySnapshot = await getDocs(collection(db, "users", id, "folders"));
     querySnapshot.forEach((folder) => {
         const obj = { ...folder.data(), folderId: folder.id }
@@ -119,7 +125,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   const getDocuments = async (id) => {
-    const dataArr:{}[] = []
+    const dataArr:Array<{}> = []
     const querySnapshot = await getDocs(collection(db, "users", id, "documents"));
     querySnapshot.forEach((doc) => {
         const obj = { ...doc.data(), documentId: doc.id }
@@ -145,7 +151,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   const getUsers = async (id) => {
-    const dataArr:{}[] = []
+    const dataArr:Array<{}> = []
     if (id) {
       try {
         const querySnapshot = await getDocs(collection(db, "users"));
@@ -205,7 +211,7 @@ export const AuthContextProvider = ({ children }) => {
     
     if (docSnap.exists()) {
       return true;
-    } else {
+    }  else {
       await setDoc(doc(db, "users", currentUser.uid), {
         email: currentUser.email,
         name: currentUser.displayName || "",
@@ -237,9 +243,7 @@ useEffect(() => {
       if (firebaseUser === null) {
         if (!nonProtectedPaths.includes(location.pathname))
           window.location.assign("/sign-in");
-      } else {
-        if (nonProtectedPaths.includes(location.pathname)) window.location.assign("/dashboard");
-      }
+      } else if (nonProtectedPaths.includes(location.pathname)) window.location.assign("/dashboard");
     })();
   }
 }, [firebaseUser, loading]);
@@ -257,14 +261,13 @@ useEffect(() => {
         recurringProducts,
         subs, checkoutLinks,
         user, users, checkoutLink,
-        showModal, setShowModal , firebaseUser
+        showModal, setShowModal , firebaseUser,
+        myState, updateMyState 
       }}
     >
       {!loading && children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const UserAuth: any = () => {
-  return useContext(AuthContext);
-};
+export const UserAuth: any = () => useContext(AuthContext);
