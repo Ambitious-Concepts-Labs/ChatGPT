@@ -7,9 +7,12 @@ import { LuShieldAlert } from 'react-icons/lu';
 import { updateFirebaseUser } from "../../../../utils/firebaseHelpers";
 import Button from "../../../../components/Button";
 import Toggle from '../../../../components/Toggle';
+import { UserAuth } from "../../../authContext";
 
 export function ProfileCard(props: any) {
-  const { user, session } = props
+  const { user, firebaseUser } = UserAuth();
+  const session = firebaseUser
+
   // Update user info in db not auth or session
   const [displayName, setName ] = useState(user?.displayName || '')
   const [email, setEmail ] = useState(user?.email || '')
@@ -103,7 +106,6 @@ export function ChangePswdCard (props: any) {
     </div>
   )
 }
-
 
 export function DeleteCard (props: any) {
   const [canDelete, setCanDelete] = useState(false)
