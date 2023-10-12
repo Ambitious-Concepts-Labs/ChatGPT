@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function NavList(props: any) {
@@ -15,9 +16,8 @@ export default function NavList(props: any) {
         {items.map((item: any, i: any) => (
           <li key={i} className="flex items-center justify-between">
             {item.title === "Support" ? (
-              <a
+              <div
                 onClick={() => setAskQuestion(!askQuestion)}
-                href={item.src}
                 className={`flex items-center gap-3 ${
                   router !== item.src && "text-slate-400"
                 }`}
@@ -26,19 +26,16 @@ export default function NavList(props: any) {
                 <span className="font-medium text-xs tracking-wide">
                   {item.title}
                 </span>
-              </a>
+              </div>
             ) : (
-              <a
-                href={item.src}
-                className={`flex items-center gap-3 ${
-                  router !== item.src && "text-slate-400"
-                }`}
-              >
-                <span>{item.icon}</span>
-                <span className="font-medium text-xs tracking-wide">
-                  {item.title}
-                </span>
-              </a>
+               <Link prefetch={false} className={`flex items-center gap-3 
+                  ${router !== item.src && "text-slate-400"}
+                `} href={item.src}>
+                  <span>{item.icon}</span>
+                  <span className="font-medium text-xs tracking-wide">
+                    {item.title}
+                  </span>
+               </Link>
             )}
             {item.badge && (
               <div className="px-2 py-0.5 rounded-full bg-yellow-400 opacity-75 font-semibold text-2xs">
