@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
