@@ -226,8 +226,8 @@ export function AuthContextProvider({ children }) {
   
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser: any) => {
-    setFirebaseUser(currentUser);
     if (currentUser) {
+      setFirebaseUser(currentUser);
       await registerNewUser(currentUser)
     }
     setLoading(false);

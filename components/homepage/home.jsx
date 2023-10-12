@@ -7,8 +7,14 @@ import Header from './sections/Header'
 import Hero from './sections/Hero'
 import JoinUs from './sections/JoinUs'
 import Newsletter from './sections/Newsletter'
+import { useRouter } from "next/navigation";
+import { UserAuth } from "../../app/authContext";
 
 function Home () {
+  const { user } = UserAuth();
+  const router = useRouter();
+
+  if (user) router.push('/dashboard')
   return (
     <>
       <Banner />
@@ -17,7 +23,6 @@ function Home () {
         <Hero />
         <JoinUs />
         <Competition />
-        {/* eslint-disable-next-line react/jsx-pascal-case */}
         <FAQ />
         <Newsletter />
         <GetStarted />
