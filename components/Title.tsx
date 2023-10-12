@@ -1,13 +1,17 @@
+"use client";
+
 import { arrayUnion, doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbFilePlus } from "react-icons/tb";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { db } from "../firebase";
+import { UserAuth } from "../app/authContext";
 // import { setDocument } from "../utils/firebaseHelpers";
 
 export default function index(props: any) {
-  const { path, title, button, setShowModal, showModal, id } = props
+  const { setShowModal, showModal, id } = UserAuth();
+  const { path, title, button } = props;
   const router = useRouter();
 
   const handleOnClick = async () => {

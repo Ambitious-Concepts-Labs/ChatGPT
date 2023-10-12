@@ -1,20 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 
+"use client";
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { db } from "../../../firebase";
-import { delay } from "../../../utils/helperFunctions";
 import Link from "next/link";
 import { Menu, Transition } from "@headlessui/react";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "@heroicons/react/20/solid";
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { Fragment, type Dispatch, type SetStateAction } from "react";
 import { CgFileDocument } from "react-icons/cg";
 import { FaLocationArrow } from "react-icons/fa6";
@@ -22,12 +16,9 @@ import { LuStars } from "react-icons/lu";
 import { AiTwotoneAudio } from "react-icons/ai";
 import { RiVoiceprintLine } from "react-icons/ri";
 import { BiSearch } from 'react-icons/bi'
-import { BsInfoCircle } from 'react-icons/bs'
-import { IoClose } from 'react-icons/io5';
-import {
-  GrammarlyButton,
-  GrammarlyEditorPlugin,
-} from "@grammarly/editor-sdk-react";
+import { BsInfoCircle, BsPeopleFill } from 'react-icons/bs'
+import { IoClose, IoDocumentTextOutline } from 'react-icons/io5';
+import { GrammarlyButton, GrammarlyEditorPlugin } from "@grammarly/editor-sdk-react";
 import { formatPrompt, HTMLBreak, setFocus } from "../../../constants/parse";
 import { categories, prompts } from '../../../constants/data'
 import { AiTwotoneSetting } from "react-icons/ai";
@@ -36,7 +27,6 @@ import { BsFolder2, BsSuitHeart, BsTrophy } from "react-icons/bs";
 import { FaRegLifeRing } from "react-icons/fa6";
 import { HiArrowUpTray } from "react-icons/hi2";
 import { IoCardOutline, IoCloseOutline } from "react-icons/io5";
-// import { LuBook } from "react-icons/lu";
 import { PiSunBold } from "react-icons/pi";
 import { RiUploadCloud2Line } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -45,13 +35,13 @@ import { signOut } from "firebase/auth";
 import NavList from "../../../components/NavList";
 import Toggle from "../../../components/Toggle";
 import logo from "../../../assets/logo.svg";
-// import { LiaFileInvoiceSolid } from "react-icons/lia";
-// import { AiTwotoneSetting } from "react-icons/ai";
 import UseDarkMode from "../../../utils/use-dark-mode";
 import { auth } from "../../../firebase";
 import { type DocumentData } from "firebase/firestore";
 import { AiOutlineStar } from "react-icons/ai";
-import { GiArtificialHive } from "react-icons/gi";
+import { GiArtificialHive, GiCargoShip } from "react-icons/gi";
+import { UserAuth } from "../../authContext";
+import Card from "../../../components/Card";
 
 interface Props {
   document: DocumentData;
@@ -189,6 +179,7 @@ export function Sidebar(props: any) {
     {
       title: "Support",
       icon: <FaRegLifeRing />,
+      src: "/dashboard/settings"
     },
     // {
     //   title: 'Documentation',
@@ -396,12 +387,12 @@ export function PromptBar(props: any) {
 
   const addPrompt = (prompt: any) => {
     const formattedPrompt = formatPrompt(prompt);
-    const prev = ref.current.innerHTML;
-    if (prev.length < 1) {
-      ref.current.innerHTML = formattedPrompt;
-    } else {
-      ref.current.innerHTML = prev + HTMLBreak + formattedPrompt;
-    }
+    // const prev = ref.current.innerHTML;
+    // if (prev.length < 1) {
+    //   ref.current.innerHTML = formattedPrompt;
+    // } else {
+    //   ref.current.innerHTML = prev + HTMLBreak + formattedPrompt;
+    // }
 
     setFocus(ref.current);
   };
@@ -410,7 +401,7 @@ export function PromptBar(props: any) {
     setIsClient(true);
   }, []);
 
-  const handleText = (e) => {
+  const handleText = (e: any) => {
     console.log(e.target.value)
     setPost(e.target.value)
     setIsDisabled(false)
@@ -422,7 +413,7 @@ export function PromptBar(props: any) {
         <div className="flex items-end gap-4 py-2 px-4 ">
           <GrammarlyEditorPlugin
             clientId={process.env.NEXT_PUBLIC_GRAMMARLY_CLIENT_ID}
-            maxLength={2000}
+            // maxLength={2000}
             // onChange={(e) => console.log(e.target.value)}
             placeholder="Type or copy your post or idea here "
             className="grow max-h-20"
@@ -433,8 +424,8 @@ export function PromptBar(props: any) {
               <input
                 maxLength={2000}
                 onChange={(e) => { handleText(e); }}
-                 onFocus={(e) => { e.target.value.length < 1 ? setIsDisabled(true) : setIsDisabled(false); }}
-                  onKeyUp={(e) => { e.target.value.length < 1 ? setIsDisabled(true) : setIsDisabled(false); }}
+                onFocus={(e) => { e.target.value.length < 1 ? setIsDisabled(true) : setIsDisabled(false); }}
+                // onKeyUp={(e) => { e.target.value.length < 1 ? setIsDisabled(true) : setIsDisabled(false); }}
                 className='bg-inherit h-fit w-full p-2 outline-none max-h-20 overflow-y-auto'
                 placeholder="Type or copy your post or idea here "
               />
@@ -515,13 +506,12 @@ export function PromptBar(props: any) {
     </>
   );
 }
-
 interface CustomButtonProps {
   currentTab: string | number;
 }
 
-export function Documents(props: any) {
-  const { id, session, documents, setShowModal } = props
+export function Documents() {
+  const { id, session, documents, setShowModal } = UserAuth()
   const router = useRouter();
 
   const handleOnClick = async () => {
@@ -583,7 +573,6 @@ export function Documents(props: any) {
   );
 }
 
-
 export function CustomButton({ currentTab }: CustomButtonProps) {
   const buttons = [
     {
@@ -644,7 +633,6 @@ export function CustomButton({ currentTab }: CustomButtonProps) {
     </>
   );
 }
-
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -739,3 +727,97 @@ export function Header(props: any) {
   );
 }
 
+export function DashboardCards() {
+  const { firebaseUser, documents } = UserAuth();
+  const [draft, setDraft] = useState(0);
+  const docSize = documents.length || 0
+
+  useEffect(() => {
+    handleStatus();
+  }, [firebaseUser, documents]);
+
+  function handleStatus() {
+    let count = 0;
+    documents.map((document: { status: string; }) => {
+      if (document.status === "Draft") {
+        count++;
+      }
+    });
+    setDraft(count);
+  }
+
+  return (
+    <>
+      {
+        documents && 
+        <section className="flex justify-between flex-wrap mt-2 text-black">
+          <Card
+            bgHover="hover:bg-blue-600 dark:hover:bg-blue-800"
+            textHover="hover:text-white"
+            heading="Doucments"
+            number={documents ? documents.length : 0}
+            iconbg="bg-blue-600 dark:bg-blue-800"
+            icon={<IoDocumentTextOutline />}
+          />
+
+          <Card
+            bgHover="hover:bg-teal-500 dark:hover:bg-teal-700"
+            textHover="hover:text-white"
+            heading="Drafts"
+            number={documents.length > 0 ? `${(draft / docSize) * 100} %`: 0}
+            iconbg="bg-teal-500 dark:bg-teal-700"
+            icon={<BsPeopleFill />}
+          />
+
+          <Card
+            bgHover="hover:bg-pink-500 dark:hover:bg-pink-700"
+            textHover="hover:text-white"
+            heading="Published"
+            number={documents.length > 0 ? `${((docSize - draft) / docSize) * 100} %`: 0}
+            iconbg="bg-pink-500 dark:bg-pink-700"
+            icon={<GiCargoShip />}
+          />
+
+          <Card
+            bgHover="hover:bg-pink-500 dark:hover:bg-pink-700"
+            textHover="hover:text-white"
+            heading="Token Usage"
+            number="0%"
+            iconbg="bg-pink-500 dark:bg-pink-700"
+            icon={<GiCargoShip />}
+          />
+        </section> 
+      }
+    </>
+    
+  )
+}
+
+export function UpgradeCards() {
+  return (
+    <div className='grid grid-cols-2 gap-x-8 py-8'>
+      <div className='flex flex-col rounded-lg bg-gradient-to-tr from-zinc-800 to-black p-8'>
+        <p className='font-display text-2xl text-white'>
+          Upgrade to enchance your experience
+        </p>
+        <p className='py-4 text-base text-white/80'>
+          Checkout out our other billing plans.
+        </p>
+        <Link href='/dashboard/settings/billing'>
+          <button>Upgrade</button>
+        </Link>
+      </div>
+      <div className='flex flex-col rounded-lg bg-gradient-to-tr from-violet-800 to-violet-900 p-8'>
+        <p className='font-display text-2xl text-white'>
+          Join our developer community
+        </p>
+        <p className='py-4 text-base text-white/80'>
+          Join the discord for updates and support from other developers.
+        </p>
+        <Link href='https://discord.gg/sAcvuQACYQ'>
+          <button>Join</button>
+        </Link>
+      </div>
+    </div>
+  )
+}
