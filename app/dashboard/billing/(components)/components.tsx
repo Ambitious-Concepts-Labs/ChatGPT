@@ -1,10 +1,13 @@
+"use client";
+import React, { FC, useEffect, useState } from 'react';
 import styles from '../(styles)/InvoiceHeader.module.css';
 import listStyles from '../(styles)/InvoiceList.module.css';
 import invoiceStyles from '../(styles)/MainInvoice.module.css';
-
-import { FC } from 'react';
+import Image from "next/image";
 import Link from 'next/link';
 import { HiChevronRight } from 'react-icons/hi';
+import { UserAuth } from '../../../authContext';
+import billing from "../(assets)/billing.png";
 
 export function InvoiceHeader(props: any) {
     const { numInvoices } = props
@@ -89,4 +92,43 @@ function Invoice(props: any) {
     )
 }
 
+export function Subscriptions() {
+    const [isStarted, setIsStarted] = useState(false);
+    const { subscriptions } = UserAuth();
+    const [item, setItem] = useState<any>([])
 
+    useEffect(() => {
+        if (subscriptions) {
+        const subscriptionArray: any[] = []
+        subscriptions.forEach((element: { items: any; }) => {
+            console.log("Element", element.items )
+            subscriptionArray.push(element.items[0].plan)
+        });
+        setItem(subscriptionArray)
+        }
+    }, [subscriptions])
+
+    return (
+        <>
+        {!isStarted && subscriptions.length === 0 && item ? (
+          <>
+            <Image src={billing} alt="billing" width={500} />
+            <p className="mb-10 text-black/60">
+              You do not have any active plans
+            </p>
+            <Link
+              className=" mb-5 bg-yellow-400 rounded p-2 text-black/60"
+              href="/pricing"
+            >
+              Select a plan
+            </Link>
+          </>
+        ): 
+        <div>
+            <InvoiceHeader numInvoices={subscriptions.length} />
+            <InvoiceList invoices={item} /> 
+        </div>
+        }
+        </>
+    )
+}
