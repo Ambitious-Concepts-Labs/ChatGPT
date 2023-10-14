@@ -1,8 +1,9 @@
+"use client"
 import { redirect } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { surpriseMePrompts } from "../constants/prompts";
 import Stripe from 'stripe';
 import { UserAuth } from "../app/authContext";
-import { getAuth } from "firebase/auth";
 
 
 export function scrollToTop() {
@@ -62,6 +63,7 @@ export async function getProductsWithRecurringPrices(): Promise<Stripe.Product[]
     return productsWithRecurringPrices;
 
 }
+
 export function getRandomPrompt(prompt: string): any {
   const randomIndex = Math.floor(Math.random() * surpriseMePrompts.length);
   const randomPrompt = surpriseMePrompts[randomIndex];
@@ -233,26 +235,24 @@ Add space between each abstract.`;
   return prompt;
 };
 
-
 export async function requireUserLoggedIn() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
+    const { user } = UserAuth()
+    const router = useRouter()
     if (!user && location.pathname !== "/sign-in") {
-        console.log("no-user-logged-in")
-        window.location.assign("/sign-in")
+        router.push("/sign-in?logginRequired")
     }
 }
 
 export async function requireAdminRole() {
-    const { session } = UserAuth()
+    const { user } = UserAuth()
+    const router = useRouter()
 
-    if (!session) {
-        redirect('/sign-in')
+    if (!user) {
+      await router.push('/sign-in')
     }
 
-    if (session.user.role != "ADMIN") {
-        redirect('/sign-in?user_role_not_admin='+ session.user.role)
+    if (user.role != "admin" || user.role != "superAdmin" ) {
+      await router.push('/sign-in?user_role_not_admin='+ user.role)
     }
 }
 

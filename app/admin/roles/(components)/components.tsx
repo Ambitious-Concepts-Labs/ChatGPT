@@ -3,22 +3,24 @@
 import { useState } from 'react';
 import { setRole } from '../(actions)/actions';
 import Button from '../../../../components/Button';
+import { MdOutlineNotStarted } from 'react-icons/md';
 
 enum Role {
-  "ADMIN",
-  "USER"
+  "admin",
+  "user",
+  "superAdmin"
 }
 
 export function RoleForm({ users }: { users: any[] }) {
   
   const [loading, setLoading] = useState(false);
+  const [id, setId] = useState<Role | string>(Role.user);
+  const [role, setUserRole] = useState<Role | string>(Role.user);
 
-  const [name, setName] = useState('');
-  const [id, setId] = useState<Role | string>(Role.USER);
-
-  async function addItemToUser() {
+  function addItemToUser() {
+    console.log('pop')
     setLoading(true);
-    await setRole(name, id);
+    setRole(id, role);
     setLoading(false);
   }
 
@@ -29,18 +31,18 @@ export function RoleForm({ users }: { users: any[] }) {
         <Card title='Update role'>
           <div className='flex flex-col gap-4 p-4'>
             <select
-              onChange={(e) => { setName(e.target.value); }}
+              onChange={(e) => { setId(e.target.value); }}
               className="flex h-10  rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option disabled>Choose user</option>
               {users.length > 0 && users.map((item, index) => (
-                <option key={index} value={item.id}>
+                <option key={index} value={item.uid}>
                   {item.email}
                 </option>
               ))}
             </select>
             <select
-              onChange={(e) => { setId(e.target.value); }}
+              onChange={(e) => { setUserRole(e.target.value); }}
               className="flex h-10 rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option disabled>Choose role</option>
@@ -52,11 +54,10 @@ export function RoleForm({ users }: { users: any[] }) {
             </select>
             <Button
               disabled={loading}
-              size='sm'
-              onClick={() => void addItemToUser()}
-            >
-              Assign Role
-            </Button>
+              variant="black" text="Assign Role"
+              onClick={() => addItemToUser()}
+              icon={<MdOutlineNotStarted/>}
+            />
           </div>
         </Card>
       </div>

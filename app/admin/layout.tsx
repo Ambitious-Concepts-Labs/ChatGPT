@@ -1,18 +1,25 @@
 "use client"
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavbarItem } from './(components)/components';
 import { UserAuth } from '../authContext';
+import { delay, requireAdminRole, requireUserLoggedIn } from '../../utils/helperFunctions';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // await requireUserLoggedIn();
-  // await requireAdminRole();
-    const { user } = UserAuth();
+  useEffect(() => {
+    async function checkStatus() {
+      await delay(2000)
+      await requireUserLoggedIn();
+      await requireAdminRole();
+    }
+    checkStatus()
+  }, []);
+  const { user } = UserAuth();
 
   return (
     <div className='flex h-full w-full flex-row'>
@@ -25,6 +32,7 @@ export default function AdminLayout({
           <NavbarItem href='/admin/users' text='Users' />
           <NavbarItem href='/admin/subscriptions' text='Subscriptions' />
           <NavbarItem href='/admin/roles' text='Roles' />
+          <NavbarItem href='/admin/rewards' text='Rewards' />
         </div>
         <Link
           href='/dashboard/settings'

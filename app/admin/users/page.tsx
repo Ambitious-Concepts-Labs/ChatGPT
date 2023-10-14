@@ -60,9 +60,9 @@ export default function Page() {
                     <AiOutlineClose className='text-rose-500' size={18} />
                   )}
                 </TableCell>
-                <TableCell>{item.stripe_customer_id}</TableCell>
+                <TableCell>{item.documentId}</TableCell>
                 <TableCell className='flex items-center gap-1'>
-                  <div className='truncate'>{item.role}</div>
+                  <div>{item.role}</div>
                   <Link
                     href="/admin/roles"
                     className='text-neutral-600 duration-150 hover:text-neutral-800'

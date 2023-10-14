@@ -9,9 +9,9 @@ import { Stat, Card } from './(components)/components';
 import { UserAuth } from '../authContext';
 
 export default function Page() {
-  const { users, products, subs } = UserAuth();
+  const { users, products, subs, allRewards } = UserAuth();
 
-  console.log(users, products)
+  console.log({users, products, subs, allRewards})
   const count = users.length
 
 
@@ -54,6 +54,15 @@ export default function Page() {
           label='Products'
           value={products.length}
         />
+        <Stat
+          icon={
+            <div className='grid h-10 w-10 place-items-center rounded-md bg-emerald-300/10 text-emerald-500'>
+              <FiPackage size={20} />
+            </div>
+          }
+          label='Rewards'
+          value={allRewards.length}
+        />
       </div>
       <div className='grid grid-cols-2 items-start gap-8'>
         <Card title='Subscriptions'>
@@ -90,6 +99,33 @@ export default function Page() {
             )}
           </div>
         </Card>
+        <Card title='Products'>
+          <div className='flex flex-col divide-y divide-neutral-200'>
+            {products.length > 0 && products.map((item: any, index: any) => (
+              <div
+                key={index}
+                className='flex flex-col justify-start cursor-pointer items-center px-4 py-2.5'
+              >
+                <p className='justify-end text-primary text-sm font-medium'>{item.name}</p>
+                <br />
+                <p className='text-accent-foreground text-xs'>
+                 <b>Description</b>: {item.description ?? 'No description'}
+                </p>
+              </div>
+            ))}
+            {!products || products.length == 0 && (
+              <div className='flex items-center gap-2 px-4 py-3'>
+                <FiAlertTriangle
+                  size={18}
+                  className='text-accent-foreground shrink-0'
+                />
+                <p className='text-accent-foreground text-sm'>
+                  No products yet!
+                </p>
+              </div>
+            )}
+          </div>
+        </Card>
         <Card title='Users'>
           <div className='flex flex-col divide-y divide-neutral-200'>
             {users.length > 0 && users.map((item: any, index: any) => (
@@ -97,10 +133,20 @@ export default function Page() {
                 key={index}
                 className='flex cursor-pointer items-center justify-between px-4 py-2.5'
               >
-                <p className='text-primary text-sm font-medium'>{item.email}</p>
-                <p className='text-accent-foreground text-xs'>
-                  {item.name ?? 'No name'}
-                </p>
+                <div>
+                  <p 
+                  className='line-clamp-1 text-primary text-sm font-medium'>UID: {item.documentId.substring(0,5)}...</p>
+                  <img className='rounded-full h-16 w-16' src={item.photoUrl} alt={item.name} />
+                </div>
+                <div>
+                  <p className='text-primary text-sm font-medium'>Email: {item.email}</p>
+                  <p className='text-accent-foreground text-xs'>
+                    Name: {item.name ?? 'No name'}
+                  </p>
+                   <p className='text-accent-foreground text-xs'>
+                    Role: {item.role ?? 'No role'}
+                  </p>
+                </div>
               </div>
             ))}
             {users.length == 0 && (
@@ -114,29 +160,30 @@ export default function Page() {
             )}
           </div>
         </Card>
-
-        <Card title='Products'>
+        <Card title='Rewards'>
           <div className='flex flex-col divide-y divide-neutral-200'>
-            {products.length > 0 && products.map((item: any, index: any) => (
+            {allRewards.length > 0 && allRewards.map((item: any, index: any) => (
               <div
                 key={index}
                 className='flex cursor-pointer items-center justify-between px-4 py-2.5'
-              >
-                <p className='text-primary text-sm font-medium'>{item.name}</p>
-                <p className='text-accent-foreground text-xs'>
-                  {item.description ?? 'No description'}
-                </p>
+              > 
+                <div>
+                  <p className='line-clamp-1 text-primary text-sm font-medium'>UID: {item.userId.substring(0,5)}...</p>
+                  <p className='text-primary text-sm font-medium'>Email: {item.userEmail}</p>
+                </div>
+                <div>
+                  <p className='text-primary text-sm font-medium'>Status: {item.status}</p>
+                  <p className='text-primary text-sm font-medium'>Type: {item.type}</p>
+                </div>
               </div>
             ))}
-            {!products || products.length == 0 && (
+            {users.length == 0 && (
               <div className='flex items-center gap-2 px-4 py-3'>
                 <FiAlertTriangle
                   size={18}
                   className='text-accent-foreground shrink-0'
                 />
-                <p className='text-accent-foreground text-sm'>
-                  No products yet!
-                </p>
+                <p className='text-accent-foreground text-sm'>No users yet!</p>
               </div>
             )}
           </div>

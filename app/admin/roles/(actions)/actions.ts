@@ -1,19 +1,20 @@
-'use server'
+'use client'
 
 // import { revalidatePath } from "next/cache"
-import { doc, updateDoc } from "firebase/firestore";
-import { UserAuth } from "../../../authContext";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 
 
-export async function setRole(userId: string, role: any) {
-  const { user, id } = UserAuth();
+export async function setRole(userId: any, role: any) {
+  console.log({userId, role})
+  try {
+    let newdoc = await setDoc(doc(db, "users", userId)
+    , { role }, { merge: true });
 
-    if (user.role == "ADMIN") {
-        await updateDoc(doc(db, "users", id), {
-            role
-        });
-    }
+    console.log(newdoc)
+  } catch (error) {
+    console.log(error)
+  }
 
     // revalidatePath('/admin/permissions')
 }

@@ -30,7 +30,9 @@ export function AuthContextProvider({ children }) {
   const [subscriptions, setSubscriptions] = useState([])
   const [subs, setSubs] = useState([])
   const [folders, setFolders] = useState([])
+  const [rewards, setRewards] = useState([])
   const [showModal, setShowModal] = useState(false);
+  const [allRewards, setAllRewards] = useState([])
 
   const [firebaseUser, setFirebaseUser] = useState<null | User>(null)
   const [loading, setLoading] = useState(true)
@@ -130,6 +132,17 @@ export function AuthContextProvider({ children }) {
     return dataArr
   }
 
+  const getRewards = async (id) => {
+    const dataArr:Array<{}> = []
+    const querySnapshot = await getDocs(collection(db, "users", id, "rewards"));
+    querySnapshot.forEach((reward) => {
+        const obj = { ...reward.data(), rewardId: reward.id }
+        dataArr.push(obj)
+    });
+    setRewards(dataArr)
+    return dataArr
+  }
+
   const getDocuments = async (id) => {
     const dataArr:Array<{}> = []
     const querySnapshot = await getDocs(collection(db, "users", id, "documents"));
@@ -199,6 +212,7 @@ export function AuthContextProvider({ children }) {
       getUsers(firebaseUser.uid)
       getDocuments(firebaseUser.uid)
       getFolders(firebaseUser.uid)
+      getRewards(firebaseUser.uid)
       getPayments()
       getSubscriptions(firebaseUser.uid)
       getCurrProducts()
@@ -210,6 +224,26 @@ export function AuthContextProvider({ children }) {
       // requireUserLoggedIn();
   }
   }, [firebaseUser]);
+
+  useEffect(() => {
+    const getAllRewards = async () => {
+      const dataArr:Array<{}> = []
+      users.forEach(async user => {
+        const querySnapshot = await getDocs(collection(db, "users", user.uid, "rewards"));
+        // console.log(querySnapshot)
+        querySnapshot.forEach((reward) => {
+            console.log({reward: reward.data(), rewardId: reward.id, userId: user.uid})
+            const obj = { ...reward.data(), rewardId: reward.id, userId: user.uid, userEmail: user.email }
+            dataArr.push(obj)
+        });
+      });
+      console.log(dataArr)
+      setAllRewards(dataArr)
+      // return dataArr
+    }
+    getAllRewards()
+  }, [users]);
+
 
   const registerNewUser = async (currentUser) => {
     const docRef = doc(db, "users", currentUser.uid);
@@ -263,6 +297,8 @@ useEffect(() => {
         folders, getFolders, 
         payments, getPayments,
         subscriptions, getSubscriptions, 
+        rewards, getRewards,
+        allRewards,
         id, products, methods,
         recurringProducts,
         subs, checkoutLinks,
