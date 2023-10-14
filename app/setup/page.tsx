@@ -3,6 +3,9 @@
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai'
 import Form from './(components)/components';
 import { UserAuth } from '../authContext';
+import Link from 'next/link';
+import Button from '../../components/Button';
+import { BiChevronLeft } from 'react-icons/bi';
 
 export default function Page() {
   const { users, products } = UserAuth();
@@ -11,6 +14,13 @@ export default function Page() {
     <div className='grid min-h-screen grid-cols-2'>
       <div className='grid place-items-center px-4 py-10'>
         <div className='flex w-full max-w-md flex-col'>
+          <Link href="/" className='px-4 py-2'>
+            <Button 
+            variant="white"
+            icon={<BiChevronLeft size={18} />}
+            text="Home"
+            />
+          </Link>
           <div className='flex flex-col py-4'>
             <p className='text-primary text-2xl font-medium'>Project Setup</p>
           </div>
