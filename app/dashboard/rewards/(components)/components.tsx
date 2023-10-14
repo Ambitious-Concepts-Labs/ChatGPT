@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+"use client"
 import { BsTrophy } from "react-icons/bs";
 import Image from "next/image";
 import cardWoman from "../(assets)/card-woman.png";
@@ -14,11 +14,34 @@ import Instagram from "../../../../icons/Instagram";
 import Snapchat from "../../../../icons/Snapchat";
 import { MdPlaylistAddCheck } from "react-icons/md";
 import { TbClockCheck } from "react-icons/tb";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../../../components/Button";
-import { db } from "../../../../firebase";
+import { db, storage } from "../../../../firebase";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import { UserAuth } from "../../../authContext";
+import Title from "../../../../components/Title";
+import toast from "react-hot-toast";
+
+export function RewardsTitle() {
+    const { showModal, setShowModal } = UserAuth();
+  return (
+      <Title
+        showModal={showModal}
+        setShowModal={setShowModal}
+        button="Document"
+        title="Rewards"
+      />
+  )
+}
 
 export function StepOneCard() {
   const appsList = [
@@ -75,18 +98,32 @@ export function StepOneCard() {
   );
 }
 
-export function StepTwoCard(props: any) {
-  const { user } = props
-  const [selected, setSelected] = useState('')
+export function StepTwoCard() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const [selected, setSelected] = useState('tikTok')
   const [link, setLink] = useState('')
   const [image, setImage] = useState('')
+  const [imageUpload, setImageUpload] = useState(null);
 
-  const handleRewards = async () => {
-    console.log({link, selected, image})
-    const uid = uuidv4();
-    // const allRewards = await getDoc(doc(db, "users", session?.user?.email!, "rewards"));
-    
-    await setDoc(doc(db, "users", user.uid, "rewards", uid), {
+  const uploadFile = () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `images/${imageUpload.name + uuidv4()}`);
+    console.log('uploadFile')
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImage(url)
+      });
+    });
+  };
+
+
+  const handleRewards = async (e: any) => {
+    console.log('click')
+    const notification = toast.loading("Submitting rewards form...");
+    await uploadFile()
+    const uid = uuidv4();    
+    await setDoc(doc(db, "users", user!.uid, "rewards", uid), {
       type: selected,
       status: "Not Verified",
       link,
@@ -95,6 +132,9 @@ export function StepTwoCard(props: any) {
       lastModified: new Date(),
       id: uid,
     });
+    toast.success("Submitted rewards!", {
+      id: notification,
+    })
   }
 
   return (
@@ -104,13 +144,14 @@ export function StepTwoCard(props: any) {
         icon={<TbClockCheck />}
         subtitle="Once your review has been published by the platform, simply copy your post link followed by a screenshot of your review."
       />
-      <form onSubmit={handleRewards} className="flex flex-col gap-2 py-4">
+      <div className="flex flex-col gap-2 py-4">
         <select
+          defaultValue="none"
           onChange={(e) => { setSelected(e.target.value); }}
           id="input-select"
           className="text-xs py-2 px-1 border rounded-md text-slate-400"
         >
-          <option selected disabled>
+          <option value="none" disabled>
             Select a platform
           </option>
           <option value="tikTok">Tik Tok</option>
@@ -127,26 +168,37 @@ export function StepTwoCard(props: any) {
           placeholder="Paste your review link"
         />
         <div className="flex items-center gap-2">
-          <label
-            className="appearance-none grow text-xs p-2 border rounded-md text-slate-400 cursor-pointer"
-            htmlFor="input-file"
-          >
-            Upload your screenshot
-          </label>
-          <input
-            onChange={(event)=> { setImage(event.target.value); }} 
-            className="hidden"
-            type="file"
-            id="input-file"
-            placeholder="Upload your screenshot"
-          />
+          {
+            image ?
+              <img width={"20rem"} src={image} />
+            :
+            <>
+              <label
+                className="appearance-none grow text-xs p-2 border rounded-md text-slate-400 cursor-pointer"
+                htmlFor="input-file"
+              >
+                Upload your screenshot
+              </label>
+              <input
+                onChange={(event) => {
+                  setImageUpload(event.target.files[0]);
+                }}
+                className="hidden"
+                type="file"
+                id="input-file"
+                placeholder="Upload your screenshot"
+                />
+            </>
+
+          }
           <Button
+            onClick={() => handleRewards()}
             variant="white"
             icon={<MdPlaylistAddCheck className="h-full w-auto" />}
             text="Submit"
           />
         </div>
-      </form>
+      </div>
     </Card>
   );
 }
@@ -180,4 +232,26 @@ export function IncreaseCard() {
       </div>
     </Card>
   );
+}
+
+export function ViewAllImages() {
+  const imagesListRef = ref(storage, "images/");
+  const [imageUrls, setImageUrls] = useState([]);
+
+  useEffect(() => {
+    listAll(imagesListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          if (url == "https://firebasestorage.googleapis.com/v0/b/chatgpt-dfa57.appspot.com/o/images%2Fbilling.png42fa92b0-028b-4afb-9371-591fd6831db8?alt=media&token=efc5367f-5465-4fe0-8a67-1e7d8e55c3e1") setImageUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+  }, []);
+  return (
+    <>
+      {imageUrls.map((url) => {
+        return <img src={url} />;
+      })}
+    </>
+  )
 }

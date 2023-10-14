@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function Button(props: any) {
-  const { variant, type, href, text, icon, animation } = props
+  const { variant, type, href, text, icon, animation, onClick } = props
   const VARIANTS: any = {
     black: "bg-black text-white",
     white: "hover:bg-primary border",
@@ -21,7 +21,7 @@ export default function Button(props: any) {
           <div className="text-xs font-medium">{text}</div>
         </Link>
       ) : (
-        <button className={classes}>
+        <button onClick={onClick} className={classes}>
           <div className="h-4 w-4 relative">{icon}</div>
           {animation ? 
           <div className="text-xs font-medium text-white font-bold text-3xl animate-pulse">{text}</div>
