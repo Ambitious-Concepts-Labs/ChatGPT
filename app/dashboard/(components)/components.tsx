@@ -370,7 +370,7 @@ export function Modal (props: any) {
 }
 
 export function PromptBar(props: any) {
-  const { post, loading, handleButtonClick, setPost, optimizePost } = props
+  const { post, loading, handleButtonClick, setPost, optimizePost, SplitString } = props
   const [isClient, setIsClient] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const ref = useRef();
@@ -404,6 +404,7 @@ export function PromptBar(props: any) {
   const handleText = (e: any) => {
     console.log(e.target.value)
     setPost(e.target.value)
+    SplitString(e.target.value)
     setIsDisabled(false)
   }
 
