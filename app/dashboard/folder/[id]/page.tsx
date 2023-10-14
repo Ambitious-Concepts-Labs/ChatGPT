@@ -1,5 +1,5 @@
 "use client";
-
+// @ts-ignore
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { doc, DocumentReference, Firestore, getDoc } from "firebase/firestore";
@@ -90,11 +90,7 @@ function FolderPage({}: Props) {
                 </div>
                 <div>Filter</div>
                 <div>Pagination</div>
-                <Documents
-                  setShowModal={setShowModal}
-                  documents={documents}
-                  session={firebaseUser}
-                />
+                <Documents />
               </main>
             </div>
           </div>

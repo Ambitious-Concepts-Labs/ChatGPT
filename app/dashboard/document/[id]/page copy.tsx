@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+// @ts-ignore
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import { arrayUnion, doc, type DocumentData, getDoc, updateDoc } from "firebase/firestore";

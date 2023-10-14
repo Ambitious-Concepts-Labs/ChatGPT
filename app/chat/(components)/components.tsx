@@ -31,6 +31,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import Link from "next/link";
+// @ts-ignore
 import { usePathname } from "next/navigation";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";

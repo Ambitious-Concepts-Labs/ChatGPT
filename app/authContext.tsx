@@ -40,16 +40,22 @@ export function AuthContextProvider({ children }) {
     setMyState(newValue);
   };
 
-  const getSubscriptions = async () => {
-    if (id) {
-      const dataArr:Array<{}> = []
-      const querySnapshot = await getDocs(collection(db, "users", id, "subscriptions"));
-      querySnapshot.forEach((subscription) => {
-          const obj = { ...subscription.data(), subscriptionId: subscription.id }
-          dataArr.push(obj)
-      });
-      setSubscriptions(dataArr)
-      return dataArr
+  const getSubscriptions = async (uid) => {
+    try {
+      if (uid) {
+        const dataArr:Array<{}> = []
+        const querySnapshot = await getDocs(collection(db, "users", uid, "subscriptions"));
+        querySnapshot.forEach((subscription) => {
+          console.log("Subscription:", subscription.id, subscription.data())
+            const obj = { ...subscription.data(), subscriptionId: subscription.id }
+            dataArr.push(obj)
+        });
+        console.log({querySnapshot})
+        setSubscriptions(dataArr)
+        return dataArr
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -194,7 +200,7 @@ export function AuthContextProvider({ children }) {
       getDocuments(firebaseUser.uid)
       getFolders(firebaseUser.uid)
       getPayments()
-      getSubscriptions()
+      getSubscriptions(firebaseUser.uid)
       getCurrProducts()
       getRecurringProducts()
       getSubs()

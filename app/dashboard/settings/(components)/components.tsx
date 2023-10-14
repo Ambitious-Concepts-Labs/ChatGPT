@@ -1,5 +1,5 @@
 'use client';
-
+// @ts-ignore
 import { useRouter , usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Link from "next/link";

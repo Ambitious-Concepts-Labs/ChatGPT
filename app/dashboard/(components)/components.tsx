@@ -195,7 +195,7 @@ export function Sidebar(props: any) {
     <div
       className={`${
         isOpen ? "absolute z-10 flex" : "hidden"
-      } md:static overflow-y-auto w-screen md:flex bg-white md:w-1/2 lg:w-[20%] px-6 pt-6 flex-col md:max-h-screen`}
+      } md:static overflow-y-auto w-screen md:flex bg-white md:w-1/2 lg:w-[15%] px-6 pt-6 flex-col md:max-h-screen`}
     >
       <div className="grid items-center grid-cols-3 grid-rows-1">
         <div className="col-start-1 justify-self-center row-start-1 rounded-full overflow-hidden bg-black text-white w-8 h-8 flex items-center justify-center">

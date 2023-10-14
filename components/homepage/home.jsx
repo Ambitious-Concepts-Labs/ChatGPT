@@ -1,3 +1,4 @@
+"use client";
 import Banner from './sections/Banner'
 import Competition from './sections/Competition'
 import FAQ from './sections/FAQ'

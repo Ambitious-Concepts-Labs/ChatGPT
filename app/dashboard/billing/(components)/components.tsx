@@ -42,7 +42,7 @@ export function InvoiceList(props: any) {
     const { invoices } = props
     return (
         <div>
-            {invoices.map((invoice: { id: any; }) => <Invoice key={invoice.id} invoice={invoice} />)}
+            {invoices.map((invoice: { key: any; }) => <Invoice key={invoice.key} invoice={invoice} />)}
         </div>
     )
 }
@@ -72,16 +72,18 @@ function Invoice(props: any) {
     // color = getStatusColors(invoice.status)
     // const status = invoice.status[0].toUpperCase() + invoice.status.substring(1);
     const createdAt = new Date(invoice.created); 
+    console.log(invoice.created.toDate().toDateString())
     return (
         <Link href={`dashboard/billing/${invoice.id}`}>
             <section className={invoiceStyles.container}>
                 <h2 className={invoiceStyles.id}>
-                    <span>#</span> 1
+                    <span>#</span> {invoice.key}
                 </h2>
-                {/* <p className={invoiceStyles.dueDate}>Created {createdAt.toLocaleDateString()}</p> */}
-                {/* <p className={invoiceStyles.dueDate}>Due {invoice.interval}</p> */}
-                <p className={invoiceStyles.name}>{invoice.product}</p>
-                <h2 className={invoiceStyles.total}>£ {invoice.amount.toFixed(2)}</h2>
+                <p className={invoiceStyles.name}>{invoice.product == "prod_OEYXxwyzuF00Dn" ? "Basic Package" : "Premium Package"}</p>
+                <p className={invoiceStyles.dueDate}>Due {invoice.interval}</p>
+                <p>{invoice.created.toDate().toDateString()}</p>
+                <h2 className={invoiceStyles.total}>$ {(invoice.amount / 100).toFixed(2)}</h2>
+                &nbsp;&nbsp;
                 <div style={{ backgroundColor: `rgba(${[51, 214, 159]},0.06)` }} className={invoiceStyles.status}>
                     <span style={{ backgroundColor: `rgb(${[51, 214, 159]})` }} />
                     <h3 style={{ color: `rgb(${[51, 214, 159]})` }} className={invoiceStyles.label}>{invoice.active ? 'Paid' : 'Pending'}</h3>
@@ -94,15 +96,19 @@ function Invoice(props: any) {
 
 export function Subscriptions() {
     const [isStarted, setIsStarted] = useState(false);
-    const { subscriptions } = UserAuth();
+    const { subscriptions, firebaseUser } = UserAuth();
     const [item, setItem] = useState<any>([])
 
     useEffect(() => {
         if (subscriptions) {
         const subscriptionArray: any[] = []
-        subscriptions.forEach((element: { items: any; }) => {
-            console.log("Element", element.items )
-            subscriptionArray.push(element.items[0].plan)
+        let count = 1
+        subscriptions.forEach((element: any) => {
+            const plan = element.items[0].plan
+            plan.created = element.created
+            plan.key = count
+            count++
+            subscriptionArray.push(plan)
         });
         setItem(subscriptionArray)
         }

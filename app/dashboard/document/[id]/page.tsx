@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+// @ts-ignore
 import { usePathname } from "next/navigation";
 import { arrayUnion, doc, type DocumentData, getDoc, updateDoc } from "firebase/firestore";
 import { type VibeType } from "../../(components)/components";

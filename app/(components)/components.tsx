@@ -11,6 +11,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/24/solid";
+// @ts-ignore
 import { useRouter, usePathname } from "next/navigation";
 import { type Dispatch, type SetStateAction } from "react";
 import {

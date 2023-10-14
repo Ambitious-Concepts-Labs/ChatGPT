@@ -65,7 +65,7 @@ div.topDiv span.title {
     font-size: 1.1rem;
     line-height: 1.8rem;
     letter-spacing: -0.229167px;
-    color: #FFFFFF;
+    color: black;
 }
 
 .bottomDiv h3 {
@@ -73,7 +73,7 @@ div.topDiv span.title {
     line-height: 3.2rem;
     text-align: right;
     letter-spacing: -0.5px;
-    color: #FFFFFF;
+    color: black;
 }
 
 @media all and (max-width:550px) {

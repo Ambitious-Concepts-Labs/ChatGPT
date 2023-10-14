@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Inter } from "next/font/google";
 import { UserAuth } from "../../../authContext";
 import Link from 'next/link'
+// @ts-ignore
 import { usePathname } from 'next/navigation';
 import {HiOutlineRefresh} from "react-icons/hi"  //HiOutlineBarsArrowDown
 import {MdRefresh} from "react-icons/md"
