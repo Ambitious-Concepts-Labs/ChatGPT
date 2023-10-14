@@ -5,7 +5,6 @@ import Image from "next/image";
 import cardWoman from "../(assets)/card-woman.png";
 import { FaRegStar } from "react-icons/fa6";
 import TikTok from "../../../../icons/TikTok";
-import ProductHuntLogo from "../../../../icons/ProductHuntLogo";
 import Linkedin from "../../../../icons/Linkedin";
 import Card from "../../../../components/MainCard";
 import CardHeader from "../../../../components/CardHeader";
@@ -15,7 +14,7 @@ import Snapchat from "../../../../icons/Snapchat";
 import { MdPlaylistAddCheck } from "react-icons/md";
 import { TbClockCheck } from "react-icons/tb";
 import { useState, useEffect } from "react";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../../../components/Button";
 import { db, storage } from "../../../../firebase";
@@ -24,9 +23,7 @@ import {
   uploadBytes,
   getDownloadURL,
   listAll,
-  list,
 } from "firebase/storage";
-import { getAuth } from "firebase/auth";
 import { UserAuth } from "../../../authContext";
 import Title from "../../../../components/Title";
 import toast from "react-hot-toast";
@@ -99,8 +96,7 @@ export function StepOneCard() {
 }
 
 export function StepTwoCard() {
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { firebaseUser } = UserAuth()
   const [selected, setSelected] = useState('tikTok')
   const [link, setLink] = useState('')
   const [image, setImage] = useState('')
@@ -119,15 +115,14 @@ export function StepTwoCard() {
 
 
   const handleRewards = async (e: any) => {
-    console.log('click')
     const notification = toast.loading("Submitting rewards form...");
     await uploadFile()
     const uid = uuidv4();    
-    await setDoc(doc(db, "users", user!.uid, "rewards", uid), {
+    await setDoc(doc(db, "users", firebaseUser!.uid, "rewards", uid), {
       type: selected,
       status: "Not Verified",
       link,
-      imag: image,
+      image: image,
       createdAt: serverTimestamp(),
       lastModified: new Date(),
       id: uid,
