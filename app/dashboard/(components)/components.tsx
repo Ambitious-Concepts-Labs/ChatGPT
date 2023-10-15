@@ -42,6 +42,8 @@ import { AiOutlineStar } from "react-icons/ai";
 import { GiArtificialHive, GiCargoShip } from "react-icons/gi";
 import { UserAuth } from "../../authContext";
 import Card from "../../../components/Card";
+import Pagination from '../../../components/Pagination';
+import Filter from "../../../components/Filter";
 
 interface Props {
   document: DocumentData;
@@ -513,7 +515,23 @@ interface CustomButtonProps {
 
 export function Documents() {
   const { id, session, documents, setShowModal } = UserAuth()
+  const itemsPerPage = 5; 
   const router = useRouter();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleFilter = (filteredData: any) => {
+    setFilteredData(filteredData);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
+
+  const onPageChange = (pageNumber: any) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleOnClick = async () => {
     setShowModal(!true);
@@ -546,6 +564,9 @@ export function Documents() {
             <div>
               <h2 className="font-bold text-slate-800 "> Recent Documents </h2>
             </div>
+            {/* <div>
+              <Filter data={documents} onFilter={handleFilter}/>
+            </div> */}
           </div>
           <div className="grid grid-cols-6 grid-flow-row gap-4 my-4 bg-white dark:bg-night-blue p-5 h-full">
             <div className="col-span-2 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">
@@ -560,14 +581,19 @@ export function Documents() {
             <div className="col-start-6 uppercase font-medium text-xs text-slate-600 dark:text-slate-400">
               Modified
             </div>
-            {documents.map((document: { id: any; data: () => any; }) => (
-              <Document
-                key={document?.id}
-                session={session}
-                document={document}
-              />
+            {currentItems.map((item: any) => (
+                <Document
+                  key={item?.id}
+                  session={session}
+                  document={item}
+                />
             ))}
           </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(documents.length / itemsPerPage)}
+              onPageChange={onPageChange}
+            />
         </section>
       )}
     </>
