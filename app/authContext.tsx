@@ -252,13 +252,70 @@ export function AuthContextProvider({ children }) {
     if (docSnap.exists()) {
       return true;
     }  else {
-      await setDoc(doc(db, "users", currentUser.uid), {
-        email: currentUser.email,
-        name: currentUser.displayName || "",
-        // provider: account.provider,
-        photoUrl: currentUser.photoURL || "",
-        role: currentUser.email.includes('@ambitiousconcept') ? 'superAdmin' :  currentUser.email.includes('dhosea') ? 'admin' : 'user',
-        createdAt: serverTimestamp(),
+    await setDoc(doc(db, "users", currentUser.uid), {
+      email: currentUser.email,
+      name: currentUser.displayName || "",
+      photoUrl: currentUser.photoURL || "",
+      role: currentUser.email.includes('@ambitiousconcept') ? 'superAdmin' :  currentUser.email.includes('dhosea') ? 'admin' : 'user',
+      createdAt: serverTimestamp(),
+    });
+    await setDoc(doc(db, "users", firebaseUser!.uid, "rewards", uid), {
+      id: uid,
+      createdAt: serverTimestamp(),
+      lastModified: new Date(),
+      currentUsage: 0,
+      monthly: {
+        "January": {
+          total: 0,
+          daily: {}
+        },
+        "February": {
+          total: 0,
+          daily: {}
+        },
+        "March": {
+          total: 0,
+          daily: {}
+        },
+        "April": {
+          total: 0,
+          daily: {}
+        },
+        "May": {
+          total: 0,
+          daily: {}
+        },
+        "June": {
+          total: 0,
+          daily: {}
+        },
+        "July": {
+          total: 0,
+          daily: {}
+        },
+        "August": {
+          total: 0,
+          daily: {}
+        },
+        "September": {
+          total: 0,
+          daily: {}
+        },
+        "October": {
+          total: 0,
+          daily: {}
+        },
+        "November": {
+          total: 0,
+          daily: {}
+        },
+        "December": {
+          total: 0,
+          daily: {}
+        },
+      },
+      rollOver: 0,
+      available: 9000
     });
   }}
   
