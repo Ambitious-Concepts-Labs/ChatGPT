@@ -235,6 +235,15 @@ Add space between each abstract.`;
   return prompt;
 };
 
+export const handleTokenUsage = () => {
+  const { tokens } = UserAuth()
+  return tokens.length > 0 ? `${((
+              (tokens[0].available - tokens[0].currentUsage) 
+              + parseInt(tokens[0].rollOver)) 
+              / tokens[0].available)
+              / 100 } %`: 0
+}
+
 export async function requireUserLoggedIn() {
     const { user } = UserAuth()
     const router = useRouter()

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
-// import faker from "faker";
+import faker from "faker";
 import { BiPlusCircle } from "react-icons/bi";
 import { FaRegChartBar } from "react-icons/fa";
 import { PiClockClockwise } from "react-icons/pi";
@@ -20,6 +20,9 @@ import Button from "../../../../components/Button";
 import Card from "../../../../components/MainCard";
 import CardHeader from "../../../../components/CardHeader";
 import ProgressBar from "../../../../components/ProgressBar";
+import { UserAuth } from "../../../authContext";
+import { delay, handleTokenUsage } from "../../../../utils/helperFunctions";
+import { createCheckoutSession } from "../../../../stripe/createCheckoutSession";
 
 ChartJS.register(
   CategoryScale,
@@ -111,9 +114,9 @@ const data = {
     //   backgroundColor: 'rgba(255, 99, 132, 0.5)',
     // },
     {
-      label: "Dataset 2",
-      // data: dates.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      data: [],
+      label: "Token Usage",
+      data: dates.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+      // data: [],
       borderColor: "rgb(53, 162, 235)",
       backgroundColor: "rgba(53, 162, 235, 0.5)",
     },
@@ -122,11 +125,12 @@ const data = {
 
 function LineChart() {
   const [numbers, setnumbers] = useState<any>([]);
+  const [monthly, setMonthly] = useState(true)
   const monthlyData = {
     labels,
     datasets: [
       {
-        label: "Tokens Data",
+        label: "Token Usage",
         data: numbers,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -173,21 +177,29 @@ function LineChart() {
     }
   }, []);
 
+  if (monthly) {
+    return (
+      <>
+        <h1 className="font-bold">Monthly Token Usage</h1>
+        <button onClick={() => setMonthly(!monthly)}>Filter by: Daily</button>
+        <div className="flex w-full justify-center items-center">
+          {/* <div className="w-[1200px] h-[1000px] bg-white shadow-lg p-[5rem] pt-[1.5rem]"> */}
+          <Line options={monthlyOptions} data={monthlyData} />
+          {/* </div> */}
+        </div>
+      </>
+    )
+  }
   return (
     <>
+    <h1 className="font-bold">Daily Token Usage</h1>
+    <button onClick={() => setMonthly(!monthly)}>Filter by: Monthly</button>
     <Line
       className="w-full"
       style={{ width: "-webkit-fill-available", height: "auto" }}
       options={dailyOptions}
       data={data}
-      />
-      <br />
-    <h1 className="font-bold">Monthly Token Usage</h1>
-    <div className="flex w-full justify-center items-center">
-      {/* <div className="w-[1200px] h-[1000px] bg-white shadow-lg p-[5rem] pt-[1.5rem]"> */}
-      <Line options={monthlyOptions} data={monthlyData} />
-      {/* </div> */}
-    </div>
+      />    
     </>
   );
 }
@@ -195,7 +207,7 @@ function LineChart() {
 export function DailyCard() {
   return (
     <Card span>
-      <CardHeader title="Daily Token Usage" icon={<FaRegChartBar />} />
+      <CardHeader title="Token Usage" icon={<FaRegChartBar />} />
       <div>
         <LineChart />
       </div>
@@ -204,21 +216,48 @@ export function DailyCard() {
 }
 
 export function QuotaCard() {
+  const currentDate = new Date(); 
+  
+  const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  const daysRemaining = lastDayOfMonth.getDate() - currentDate.getDate() + 1;
+  
+  const totalDaysInMonth = lastDayOfMonth.getDate();
+  const percentageRemaining = (daysRemaining / totalDaysInMonth) * 100;
+
+  currentDate.setDate(1); 
+  const firstDayOfMonthString = currentDate.toDateString();
   return (
     <Card>
       <CardHeader title="Quota Reset" icon={<PiClockClockwise />} />
       <div>
         <div className="flex items-center justify-between text-2xs text-slate-400">
-          <div>August 9, 2023</div>
-          <div>26 Days left</div>
+          <div>{firstDayOfMonthString}</div>
+          <div>{daysRemaining} Days left</div>
         </div>
-        <ProgressBar percentage="quota" />
+        <ProgressBar percentage={percentageRemaining} />
       </div>
     </Card>
   );
 }
 
 export function TokenCard() {
+  const { tokens } = UserAuth()
+  
+  const tokenUsage = (((tokens[0].available - tokens[0].currentUsage) 
+              + parseInt(tokens[0].rollOver)) 
+              / tokens[0].available)
+              / 100 
+
+  const handlerUpgrade = async () => {
+    try {
+      await delay(1000)
+      const stripe = await createCheckoutSession(3);
+      console.log({stripe})
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   return (
     <Card>
       <CardHeader icon={<RiUploadCloud2Line />} title="Token Usage">
@@ -232,16 +271,16 @@ export function TokenCard() {
               </>
             }
             text="Upgrade"
-            href="#"
+            onClick={async () => { await handlerUpgrade(); }}
           />
         </div>
       </CardHeader>
       <div>
         <div className="flex items-center justify-between text-2xs text-slate-400">
-          <div>52 TK</div>
-          <div>10 000 TK</div>
+          <div>{tokens[0].currentUsage}</div>
+          <div>{tokens[0].available} K</div>
         </div>
-        <ProgressBar percentage="token" />
+        <ProgressBar percentage={tokenUsage} />
       </div>
     </Card>
   );

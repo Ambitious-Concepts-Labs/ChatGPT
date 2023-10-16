@@ -44,6 +44,7 @@ import { UserAuth } from "../../authContext";
 import Card from "../../../components/Card";
 import Pagination from '../../../components/Pagination';
 import Filter from "../../../components/Filter";
+import { handleTokenUsage } from "../../../utils/helperFunctions";
 
 interface Props {
   document: DocumentData;
@@ -104,6 +105,8 @@ export function Document(props: any) {
 export function Sidebar(props: any) {
   const {  askQuestion, isOpen, handleCloseSidebar, setAskQuestion } = props
 
+  const tokenUsage = handleTokenUsage()
+
   const home = [
     {
       title: "Dashboard",
@@ -143,7 +146,7 @@ export function Sidebar(props: any) {
     {
       title: "Usage",
       icon: <RiUploadCloud2Line />,
-      badge: "0%",
+      badge: tokenUsage,
       src: "/dashboard/usage",
     },
     {
@@ -514,7 +517,9 @@ interface CustomButtonProps {
 }
 
 export function Documents() {
-  const { id, session, documents, setShowModal } = UserAuth()
+  const { id, session, documents, setShowModal, tokens } = UserAuth()
+
+  console.log({tokens})
   const itemsPerPage = 5; 
   const router = useRouter();
 
@@ -755,7 +760,7 @@ export function Header(props: any) {
 }
 
 export function DashboardCards() {
-  const { firebaseUser, documents } = UserAuth();
+  const { firebaseUser, documents, tokens } = UserAuth();
   const [draft, setDraft] = useState(0);
   const docSize = documents.length || 0
 
@@ -772,6 +777,8 @@ export function DashboardCards() {
     });
     setDraft(count);
   }
+
+  const tokenUsage = handleTokenUsage()
 
   return (
     <>
@@ -809,7 +816,7 @@ export function DashboardCards() {
             bgHover="hover:bg-pink-500 dark:hover:bg-pink-700"
             textHover="hover:text-white"
             heading="Token Usage"
-            number="0%"
+            number={tokenUsage}
             iconbg="bg-pink-500 dark:bg-pink-700"
             icon={<GiCargoShip />}
           />

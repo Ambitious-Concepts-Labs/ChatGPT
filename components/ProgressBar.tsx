@@ -3,14 +3,12 @@
 
 export default function ProgressBar(props: any) {
   const { percentage } = props
-  const PERCENTAGES = {
-    quota: "w-[14%]",
-    token: "w-[2%]",
-  };
+  console.log({see: percentage, test: `w-[${percentage}%]`})
   return (
     <div className="bg-slate-100 rounded-xl h-2">
       <div
-        className={`bg-primary h-full rounded-s-xl ${PERCENTAGES[percentage]}`}
+        className={`h-full bg-indigo-500 rounded-s-xl`}
+        style={{width: `${percentage}%`}}
       />
     </div>
   );

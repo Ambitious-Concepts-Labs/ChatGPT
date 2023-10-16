@@ -9,6 +9,7 @@ import { auth, db } from "../firebase";
 import { getProductsWithRecurringPrices } from "../utils/helperFunctions"
 import { getProducts, getAllSubscriptions, getPaymentMethods,
   generateCheckoutLink, generateCustomerPortalLink } from "../utils/stripeHelpers"
+import { v4 as uuidv4 } from "uuid";
 
 
 const AuthContext = createContext();
@@ -33,6 +34,7 @@ export function AuthContextProvider({ children }) {
   const [rewards, setRewards] = useState([])
   const [showModal, setShowModal] = useState(false);
   const [allRewards, setAllRewards] = useState([])
+  const [tokens, setTokens] = useState([])
 
   const [firebaseUser, setFirebaseUser] = useState<null | User>(null)
   const [loading, setLoading] = useState(true)
@@ -102,6 +104,21 @@ export function AuthContextProvider({ children }) {
           dataArr.push(obj)
       });
       setPayments(dataArr)
+      return dataArr
+    }
+  }
+
+  const getTokens = async (uid) => {
+    if (uid) {
+      const dataArr:Array<{}> = []
+      const querySnapshot = await getDocs(collection(db, "users", uid, "tokens"));
+      console.log({querySnapshot})
+      querySnapshot.forEach((token) => {
+        console.log({tokens: token.data()})
+          const obj = { ...token.data(), tokenId: token.id }
+          dataArr.push(obj)
+      });
+      setTokens(dataArr)
       return dataArr
     }
   }
@@ -213,6 +230,7 @@ export function AuthContextProvider({ children }) {
       getDocuments(firebaseUser.uid)
       getFolders(firebaseUser.uid)
       getRewards(firebaseUser.uid)
+      getTokens(firebaseUser.uid)
       getPayments()
       getSubscriptions(firebaseUser.uid)
       getCurrProducts()
@@ -228,21 +246,23 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     const getAllRewards = async () => {
       const dataArr:Array<{}> = []
-      users.forEach(async user => {
-        const querySnapshot = await getDocs(collection(db, "users", user.uid, "rewards"));
-        // console.log(querySnapshot)
-        querySnapshot.forEach((reward) => {
-            console.log({reward: reward.data(), rewardId: reward.id, userId: user.uid})
-            const obj = { ...reward.data(), rewardId: reward.id, userId: user.uid, userEmail: user.email }
-            dataArr.push(obj)
+      if (users.length > 0) {
+        users.forEach(async user => {
+          const querySnapshot = await getDocs(collection(db, "users", user.uid, "rewards"));
+          // console.log(querySnapshot)
+          querySnapshot.forEach((reward) => {
+              console.log({reward: reward.data(), rewardId: reward.id, userId: user.uid})
+              const obj = { ...reward.data(), rewardId: reward.id, userId: user.uid, userEmail: user.email }
+              dataArr.push(obj)
+          });
         });
-      });
-      console.log(dataArr)
-      setAllRewards(dataArr)
-      // return dataArr
+        console.log(dataArr)
+        setAllRewards(dataArr)
+        // return dataArr
+      }
     }
     getAllRewards()
-  }, [users]);
+  }, [users.length > 0]);
 
 
   const registerNewUser = async (currentUser) => {
@@ -259,8 +279,9 @@ export function AuthContextProvider({ children }) {
       role: currentUser.email.includes('@ambitiousconcept') ? 'superAdmin' :  currentUser.email.includes('dhosea') ? 'admin' : 'user',
       createdAt: serverTimestamp(),
     });
-    await setDoc(doc(db, "users", firebaseUser!.uid, "rewards", uid), {
-      id: uid,
+    const tokenId = uuidv4();
+    await setDoc(doc(db, "users", currentUser.uid, "tokens", tokenId), {
+      id: tokenId,
       createdAt: serverTimestamp(),
       lastModified: new Date(),
       currentUsage: 0,
@@ -355,6 +376,7 @@ useEffect(() => {
         payments, getPayments,
         subscriptions, getSubscriptions, 
         rewards, getRewards,
+        tokens, getTokens, 
         allRewards,
         id, products, methods,
         recurringProducts,

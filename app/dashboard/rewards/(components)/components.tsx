@@ -45,22 +45,22 @@ export function StepOneCard() {
     {
       logo: <TikTok />,
       name: "Tik Tok",
-      tokens: "20,000",
+      tokens: "10,000",
     },
     {
       logo: <Linkedin />,
       name: "LinkedIn",
-      tokens: "15,000",
+      tokens: "8,000",
     },
     {
       logo: <Facebook />,
       name: "Facebook",
-      tokens: "10,000",
+      tokens: "5,000",
     },
     {
       logo: <Instagram />,
       name: "Instagram",
-      tokens: "5,000",
+      tokens: "3,000",
     },
     {
       logo: <Snapchat />,
@@ -72,7 +72,7 @@ export function StepOneCard() {
     <Card>
       <CardHeader
         title="Step 1"
-        subtitle="Pubblish an honest review about our app on one (or all) of the platforms below."
+        subtitle="Publish an honest review about our app on one (or all) of the platforms below."
         icon={<FaRegStar />}
       />
       <ul className="flex flex-col gap-4 py-4">
