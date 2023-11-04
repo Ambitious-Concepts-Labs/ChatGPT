@@ -8,23 +8,23 @@ import usePremiumStatus from "../../../stripe/usePremiumStatus";
 import { delay } from "../../../utils/helperFunctions";
 import { UserAuth } from "../../authContext";
 
-export default function PriceCard(props: any) {
+export default function PriceCard (props: any) {
   const { user } = UserAuth();
-  
+
   const userIsPremium = usePremiumStatus(user);
-  
+
   const { plan } = props
 
-  console.log({user, plan})
-  
+  console.log({ user, plan })
+
   const handlerPlan = async () => {
     try {
       await delay(1000)
       if (user) {
         props.setLoading(true);
         const stripe = await createCheckoutSession(plan.id);
-        console.log({stripe})
-      } 
+        console.log({ stripe })
+      }
     } catch (error) {
       console.log(error)
     }
@@ -33,7 +33,7 @@ export default function PriceCard(props: any) {
   return (
     <>
       {/* {user && !userLoading && ( */}
-      {user && (
+      {/* {user && (
         <div>
           <h1>Hello, {user.displayName}</h1>
           {!userIsPremium ? (
@@ -44,30 +44,26 @@ export default function PriceCard(props: any) {
             <h2>Have a cookie 🍪 Premium customer!</h2>
           )}
         </div>
-      )}
+      )} */}
       <li
-        className={`rounded-2xl overflow-hidden py-6 lg:py-10 px-10 lg:px-5 w-full text-black shadow-md lg:shadow-xl ${
-          plan.id < 3 ? "bg-[#E3E4EC]" : "bg-white sm:col-span-2 lg:col-auto"
-        } relative`}
+        className={`rounded-2xl overflow-hidden py-6 lg:py-10 px-10 lg:px-5 w-full text-black shadow-md lg:shadow-xl ${plan.id < 3 ? "bg-[#E3E4EC]" : "bg-white sm:col-span-2 lg:col-auto"
+          } relative`}
       >
         <h3
-          className={`text-2xl text-center font-bold ${
-            plan.id === 3 && "text-[#024c43]"
-          }`}
+          className={`text-2xl text-center font-bold ${plan.id === 3 && "text-[#024c43]"
+            }`}
         >
           {plan.title}
         </h3>
         <p
-          className={`text-center h-[88px] pt-4 leading-relaxed tracking-[0.2px] relative z-10 ${
-            plan.id === 3 && "text-[#019281]"
-          }`}
+          className={`text-center h-[88px] pt-4 leading-relaxed tracking-[0.2px] relative z-10 ${plan.id === 3 && "text-[#019281]"
+            }`}
         >
           {plan.subtitle}
         </p>
         <div
-          className={`pt-10 pb-14 lg:py-10 flex flex-col gap-4 relative z-10 ${
-            plan.id === 3 && "text-[#024c43]"
-          }`}
+          className={`pt-10 pb-14 lg:py-10 flex flex-col gap-4 relative z-10 ${plan.id === 3 && "text-[#024c43]"
+            }`}
         >
           <div className="flex items-end justify-center font-bold">
             <span className="text-4xl">${plan.price}</span>
