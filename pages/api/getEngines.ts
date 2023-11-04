@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import openai from "../../utils/chatgpt";
 
-type Options = {
+interface Options {
   value: string;
   label: string;
-};
+}
 
-type Data = {
+interface Data {
   modelOptions: Options[];
-};
+}
 
 export default async function handler(
   req: NextApiRequest,

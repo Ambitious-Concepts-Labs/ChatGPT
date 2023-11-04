@@ -1,13 +1,11 @@
-import Image from "../../../components/Image";
-import ImageInput from "../../../components/ImageInput";
-
-type Props = {
+import { ImageInput, Image } from "../(components)/components"
+interface Props {
   params: {
     id: string;
   };
-};
+}
 
-const Imagepage = ({ params: { id } }: Props) => {
+function Imagepage({ params: { id } }: Props) {
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       {/* Main Image section */}
@@ -17,6 +15,6 @@ const Imagepage = ({ params: { id } }: Props) => {
       <ImageInput imageId={id} />
     </div>
   );
-};
+}
 
 export default Imagepage;

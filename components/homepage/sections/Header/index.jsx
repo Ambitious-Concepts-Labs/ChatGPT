@@ -3,7 +3,7 @@ import { RxArrowTopRight } from 'react-icons/rx'
 export default function Header () {
   const innerLinks = ['Learn', 'Competition', 'Contribute', 'Newsletter', 'Blog']
   const socialLinks = {
-    'Discord': '', 
+    'Discord': '/pricing', 
     'GitHub': 'https://github.com/Ambitious-Concepts-Labs', 
     'Twitter': '', 
     'Contact': ''
